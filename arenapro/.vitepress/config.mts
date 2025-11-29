@@ -38,436 +38,73 @@ export default defineConfig({
   },
 
   locales: {
-    root: {
-      label: "English",
-      lang: "en",
-      link: "/en/",
+    "zh/vite": {
+      label: "简体中文",
+      lang: "zh-CN",
+      link: "/zh/vite",
       title: "ArenaPro Creator",
-      description:
-        "A Minecraft server plugin that supports VSCode and TypeScript for game development.",
+      description: "支持VSCode与TypeScript的神岛游戏制作插件",
 
       themeConfig: {
         nav: [
-          { text: "API Reference", link: "https://docs.box3lab.com/apapi/" },
-        ],
-        sidebar: [
           {
-            text: "Getting Started",
-            collapsed: false,
+            text: "脚手架版本",
             items: [
-              { text: "Introduction", link: "/index" },
               {
-                text: "Meet Your Creator's Toolbox",
-                link: "/en/guide/01-introduction/00-toolbox-introduction",
+                text: "Webpack（稳定版）",
+                link: "/zh/guide/01-introduction/00-toolbox-introduction",
               },
-              {
-                text: "Step 1: Installation and Configuration",
-                link: "/en/guide/02-getting-started/01-install",
-              },
-              {
-                text: "Step 2: Create Your First Project",
-                link: "/en/guide/02-getting-started/02-create-project",
-              },
-              {
-                text: "Step 3: Connect to the Cloud for Debugging",
-                link: "/en/guide/02-getting-started/03-connect-to-cloud",
-              },
+              { text: "Vite（预览版）", link: "/zh/vite/guide/" },
             ],
           },
+          { text: "API手册", link: "https://docs.box3lab.com/apapi/" },
           {
-            text: "Core Development Workflow",
-            collapsed: false,
-            items: [
-              {
-                text: "Code Debugging",
-                collapsed: true,
-                items: [
-                  {
-                    text: "Debug vs. Release Mode",
-                    link: "/en/guide/04-development-workflow/debug",
-                  },
-                  {
-                    text: "Hot Module Replacement with HMR",
-                    link: "/en/guide/04-development-workflow/hmr",
-                  },
-                  {
-                    text: "In-depth: Differences Between Build Modes",
-                    link: "/en/guide/04-development-workflow/compilationPrinciple",
-                  },
-                ],
-              },
-              {
-                text: "Client and Server Development",
-                collapsed: true,
-                items: [
-                  {
-                    text: "Shared Code (Single Source of Truth)",
-                    link: "/en/guide/05-best-practices/codeReuse",
-                  },
-                  {
-                    text: "Shared Data Structures (Type-Safe Events)",
-                    link: "/en/guide/05-best-practices/communicationAgreement",
-                  },
-                ],
-              },
-              {
-                text: "Git Getting Started Guide (External)",
-                link: "https://git-scm.com/book/en/v2",
-              },
-            ],
-          },
-          {
-            text: "Feature Guides",
-            collapsed: false,
-            items: [
-              {
-                text: "UI Index Usage",
-                link: "/en/guide/06-advanced-topics/uiIndex-usage",
-              },
-              {
-                text: "Configure Your 'Code Butler'",
-                link: "/en/guide/06-advanced-topics/code-linting-and-formatting",
-              },
-              {
-                text: "Manage Game Data with JSON",
-                link: "/en/guide/06-advanced-topics/json",
-              },
-              {
-                text: "Introduce Automated Testing",
-                link: "/en/guide/06-advanced-topics/automated-testing",
-              },
-              {
-                text: "Visualize Your Code with Dependency Graphs",
-                link: "/en/guide/06-advanced-topics/nodeGraph",
-              },
-              {
-                text: "Managing Resources",
-                link: "/en/guide/06-advanced-topics/resources",
-              },
-              {
-                text: "Client Asset Management",
-                link: "/en/guide/06-advanced-topics/uploadResources",
-              },
-              {
-                text: "Develop with VS Code Workspaces",
-                link: "/en/guide/06-advanced-topics/vscode-workspace",
-              },
-              {
-                text: "Type-Safe Asset Synchronization",
-                link: "/en/guide/06-advanced-topics/asset-synchronization",
-              },
-              {
-                text: "Internationalization Language",
-                link: "/en/guide/06-advanced-topics/i18n",
-              },
-            ],
-          },
-          {
-            text: "Project and Build",
-            collapsed: false,
-            items: [
-              {
-                text: "Managing Multiple Build Entries",
-                link: "/en/guide/06-advanced-topics/buildName",
-              },
-              {
-                text: "Advanced Workflow: Using a Monorepo",
-                link: "/en/guide/06-advanced-topics/monorepo-workflow",
-              },
-              {
-                text: "Managing Environment Variables",
-                link: "/en/guide/06-advanced-topics/env",
-              },
-              {
-                text: "Customizing the Build Process (Webpack)",
-                link: "/en/guide/06-advanced-topics/webpackPlugins",
-              },
-              {
-                text: "Using External NPM Packages Safely",
-                link: "/en/guide/06-advanced-topics/npmPackage",
-              },
-              {
-                text: "Using Local Private NPM Packages in Your Team",
-                link: "/en/guide/06-advanced-topics/local-npm-package",
-              },
-              {
-                text: "📦 Publishing Your First NPM Package",
-                link: "/en/guide/07-publishing/createNPMProject",
-              },
-              {
-                text: "Contributing to the Community (dao3fun)",
-                link: "/en/guide/06-advanced-topics/contributing-to-dao3fun",
-              },
-              {
-                text: "Exporting Code to Arena",
-                link: "/en/guide/06-advanced-topics/toArena",
-              },
-            ],
-          },
-          {
-            text: "Frameworks and API",
-            collapsed: false,
-            items: [
-              {
-                text: "ECS Component System",
-                collapsed: true,
-                items: [
-                  {
-                    text: "Component Introduction",
-                    link: "/en/package/component/componentGuide/index",
-                  },
-                  {
-                    text: "Development Guide",
-                    collapsed: true,
-                    items: [
-                      {
-                        text: "Creating Components",
-                        link: "/en/package/component/componentGuide/setup",
-                      },
-                      {
-                        text: "Component Execution",
-                        link: "/en/package/component/componentGuide/component",
-                      },
-                      {
-                        text: "Decorators",
-                        link: "/en/package/component/componentGuide/decorator",
-                      },
-                      {
-                        text: "Lifecycle",
-                        link: "/en/package/component/componentGuide/lifecycle",
-                      },
-                      {
-                        text: "Node Management",
-                        link: "/en/package/component/componentGuide/create-destroy",
-                      },
-                      {
-                        text: "Accessing Components",
-                        link: "/en/package/component/componentGuide/access-node-component",
-                      },
-                      {
-                        text: "Basic Node API",
-                        link: "/en/package/component/componentGuide/basic-node-api",
-                      },
-                      {
-                        text: "Event System",
-                        link: "/en/package/component/componentGuide/event-node",
-                      },
-                      {
-                        text: "World Events",
-                        link: "/en/package/component/componentGuide/event-world",
-                      },
-                      {
-                        text: "Node System",
-                        link: "/en/package/component/componentGuide/system",
-                      },
-                      {
-                        text: "Time Management",
-                        link: "/en/package/component/componentGuide/time",
-                      },
-                      {
-                        text: "Performance Optimization",
-                        link: "/en/package/component/componentGuide/performance",
-                      },
-                    ],
-                  },
-                  {
-                    text: "Time Rewind System",
-                    collapsed: true,
-                    items: [
-                      {
-                        text: "Time Rewind - Getting Started",
-                        link: "/en/package/component/timeRewindSystem/timeRewindComponent",
-                      },
-                      {
-                        text: "Time Rewind - Intermediate",
-                        link: "/en/package/component/timeRewindSystem/intermediateTopics",
-                      },
-                      {
-                        text: "Time Rewind - Advanced",
-                        link: "/en/package/component/timeRewindSystem/advancedTopics",
-                      },
-                      {
-                        text: "More Examples",
-                        link: "/en/package/component/example",
-                      },
-                    ],
-                  },
-                  {
-                    text: "API Reference",
-                    collapsed: true,
-                    items: [
-                      {
-                        text: "EventEmitter",
-                        link: "/en/package/component/api/EventEmitter",
-                      },
-                      {
-                        text: "EntityNode",
-                        link: "/en/package/component/api/EntityNode",
-                      },
-                      {
-                        text: "Component",
-                        link: "/en/package/component/api/Component",
-                      },
-                      {
-                        text: "NodeSystem",
-                        link: "/en/package/component/api/NodeSystem",
-                      },
-                      {
-                        text: "NodeTime",
-                        link: "/en/package/component/api/NodeTime",
-                      },
-                    ],
-                  },
-                ],
-              },
-              {
-                text: "React-driven UI",
-                collapsed: true,
-                items: [
-                  { text: "Framework Introduction", link: "/en/package/react" },
-                  {
-                    text: "Development Guide",
-                    collapsed: true,
-                    items: [
-                      {
-                        text: "Creating Scripts",
-                        link: "/en/package/react/reactGuide/setup",
-                      },
-                      {
-                        text: "XML Basics",
-                        link: "/en/package/react/reactGuide/xml",
-                      },
-                      {
-                        text: "DOM Tree",
-                        link: "/en/package/react/reactGuide/domTree",
-                      },
-                      {
-                        text: "Element References",
-                        link: "/en/package/react/reactGuide/refs",
-                      },
-                      {
-                        text: "Type Definitions",
-                        link: "/en/package/react/reactGuide/tsType",
-                      },
-                      {
-                        text: "Multiple Components",
-                        link: "/en/package/react/reactGuide/multiComponent",
-                      },
-                      {
-                        text: "Event Handling",
-                        link: "/en/package/react/reactGuide/eventHandlers",
-                      },
-                      {
-                        text: "Hooks",
-                        link: "/en/package/react/reactGuide/hooks",
-                      },
-                      {
-                        text: "API Reference",
-                        link: "/en/package/react/reactGuide/api",
-                      },
-                    ],
-                  },
-                  {
-                    text: "Practical Example",
-                    link: "/en/package/react/selectCode",
-                  },
-                  {
-                    text: "React Official Tutorial",
-                    link: "https://react.dev/learn",
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            text: "Configuration and Permissions",
-            collapsed: false,
-            items: [
-              {
-                text: "Differences with Arena",
-                collapsed: true,
-                items: [
-                  {
-                    text: "Resource Path",
-                    link: "/en/difference/resourcePath",
-                  },
-                  {
-                    text: "Custom Entity",
-                    link: "/en/difference/customizeEntity",
-                  },
-                  { text: "Dialog", link: "/en/difference/dialog" },
-                  {
-                    text: "Node Lookup",
-                    link: "/en/difference/findChildByName",
-                  },
-                  { text: "Data Storage", link: "/en/difference/storage" },
-                  {
-                    text: "Remote Channel",
-                    link: "/en/difference/remoteChannel",
-                  },
-                  { text: "Voxel Operations", link: "/en/difference/voxel" },
-                ],
-              },
-              {
-                text: "Project Configuration",
-                collapsed: true,
-                items: [
-                  {
-                    text: "Scaffolding Architecture",
-                    link: "/en/dao3Cfg/file",
-                  },
-                  {
-                    text: "Configuration Properties",
-                    link: "/en/dao3Cfg/attribute",
-                  },
-                ],
-              },
-              {
-                text: "Special Permissions",
-                collapsed: true,
-                items: [{ text: "Data Space", link: "/en/authority/storage" }],
-              },
-            ],
-          },
-          {
-            text: "MCP Tools",
-            collapsed: false,
-            items: [
-              { text: "MCP Introduction", link: "/en/mcp/" },
-              {
-                text: "Only Knowledge Base Mode",
-                link: "/en/mcp/chat-only-knowledgebase",
-              },
-            ],
-          },
-          {
-            text: "Community",
-            collapsed: false,
-            items: [
-              {
-                text: "Community Rewards",
-                link: "/en/community/community-rewards",
-              },
-
-              {
-                text: "⚠️ Code of Conduct",
-                link: "/en/community/CODE_OF_CONDUCT",
-              },
-              { text: "🎉 AP Event History", link: "/en/community/events" },
-              {
-                text: "🙏 Special Thanks",
-                link: "/en/community/special-thanks",
-              },
-              { text: "Release Notes", link: "/en/community/release-notes" },
-            ],
+            text: "创作者QQ群",
+            link: "https://qm.qq.com/cgi-bin/qm/qr?authKey=LteV6YzMX0xKmrQSp8%2BaNi6YUdonwyVMc44npCKlNymwnoWVZBmG5Y4S4N9RwxEP&k=JeZQYLLnherYW6pGlbODkErutSmbkzr-&noverify=0",
           },
         ],
         outline: {
-          label: "On This Page",
+          level: [2, 3],
+          label: "本页目录",
         },
+        sidebar: [
+          {
+            text: "快速上手",
+            collapsed: false,
+            items: [
+              {
+                text: "认识 Vite",
+                link: "/zh/vite/guide/",
+              },
+              {
+                text: "Vite 脚手架创建",
+                link: "/zh/vite/guide/quickstart",
+              },
+
+              {
+                text: "配置神岛信息",
+                link: "/zh/vite/guide/dao3-config",
+              },
+              {
+                text: "项目结构总览",
+                link: "/zh/vite/guide/structure",
+              },
+            ],
+          },
+          {
+            text: "Vite 基础",
+            collapsed: false,
+            items: [
+              {
+                text: "Vite 专属能力",
+                link: "/zh/vite/guide/vite-features",
+              },
+            ],
+          },
+        ],
         docFooter: {
-          prev: "Previous page",
-          next: "Next page",
+          prev: "上一页",
+          next: "下一页",
         },
       },
     },
@@ -480,6 +117,16 @@ export default defineConfig({
 
       themeConfig: {
         nav: [
+          {
+            text: "脚手架版本",
+            items: [
+              {
+                text: "Webpack（稳定版）",
+                link: "/zh/guide/01-introduction/00-toolbox-introduction",
+              },
+              { text: "Vite（预览版）", link: "/zh/vite/guide/" },
+            ],
+          },
           { text: "API手册", link: "https://docs.box3lab.com/apapi/" },
           {
             text: "创作者QQ群",
