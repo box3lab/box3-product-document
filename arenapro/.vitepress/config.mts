@@ -909,7 +909,6 @@ export default defineConfig({
               { text: "社区贡献激励", link: "/zh/community/community-rewards" },
 
               { text: "⚠️ 行为准则", link: "/zh/community/CODE_OF_CONDUCT" },
-              { text: "🎉 AP 活动历史", link: "/zh/community/events" },
               { text: "🙏 特别鸣谢", link: "/zh/community/special-thanks" },
               { text: "更新日志", link: "/zh/community/release-notes" },
             ],
