@@ -22,7 +22,8 @@ VITE_DAO3_AUTH=
 VITE_DAO3_UA=
 
 
-# 当前要构建 / 上传的 bundle 名，对应 dao3.config.ts -> bundles 的 key
+# 当前要构建 / 上传的 bundle 名，对应 dao3.config.ts -> bundles 的 key。
+# 留空表示构建并上传所有启用的 bundle（多入口）。
 VITE_CURRENT_FILE=bundle
 
 # 是否在构建后自动上传脚本，字符串形式的布尔值："true" | "false"
@@ -58,7 +59,7 @@ VITE_UPDATE_FILE=true
 ### 3. `VITE_CURRENT_FILE`：当前构建 / 上传的 bundle 名
 
 - **作用**：告诉构建脚本「这次要上传的是哪一个 bundle」。
-- **取值范围**：必须是 `dao3.config.json -> ArenaPro.bundles` 下的某个 key。
+- **取值范围**：必须是 `dao3.config.json -> ArenaPro.bundles` 下的某个 key 或留空。
 
 例如：
 
@@ -67,11 +68,7 @@ VITE_UPDATE_FILE=true
   "bundle": {
     "client": { "entry": "App.ts" },
     "server": { "entry": "App.ts" },
-    "map": {
-      "id": "",
-      "playHash": "",
-      "enable": false
-    }
+    "enable": true,
   }
 }
 ```
@@ -80,12 +77,11 @@ VITE_UPDATE_FILE=true
 
 ```env
 VITE_CURRENT_FILE=bundle
+# 或
+VITE_CURRENT_FILE=
 ```
 
-如果你以后新增其他 bundle（例如 `pve`, `pvp`），需要在：
-
-- `dao3.config.json` 中新增对应配置；
-- `.env` 中按需要切换 `VITE_CURRENT_FILE`。
+- 当 `VITE_CURRENT_FILE` 留空时，脚手架会对 `dao3.config.ts` 中所有已启用的 bundle 进行多入口打包和监听，适合需要同时调试多套入口的场景。
 
 ### 4. `VITE_UPDATE_FILE`：是否在构建后自动上传脚本
 
@@ -118,11 +114,7 @@ VITE_CURRENT_FILE=bundle
     "bundle": {
       "client": { "entry": "App.ts" },
       "server": { "entry": "App.ts" },
-      "map": {
-        "id": "",
-        "playHash": "",
-        "enable": false
-      }
+      "enable": true
     }
   },
   "uiIndexPrefix": "",
@@ -141,12 +133,6 @@ VITE_CURRENT_FILE=bundle
   - 必须与 `.env` 中的 `VITE_CURRENT_FILE` 一致；
 - **`client.entry` / `server.entry`**：
   - 分别指定客户端 / 服务端入口脚本文件名（相对于各自源码根目录）；
-- **bundle 级 `map` 字段**：
-  - `id`：希望这个 bundle 绑定的地图 ID；
-  - `playHash`：对应地图版本的哈希；
-  - `enable`：
-    - `true`：启用该 bundle 与此地图 ID 的自动绑定 / 上传流程；
-    - `false`：暂不启用该地图配置，采用全局配置。
 
 当你有多个玩法或多张地图时，可以新增多个 bundle，例如：
 
@@ -169,13 +155,6 @@ VITE_CURRENT_FILE=bundle
 ```
 
 - 通常用于配置**项目级默认地图**的信息；
-- 当 bundle 级别没有单独配置 `map` 时，可以回退到这里的默认值；
-- 具体优先级以脚手架实现为准，一般遵循「bundle.map 优先于全局 map」。
-
-在实际项目中，常见做法是：
-
-- 在全局 `map` 中配置主要地图的信息；
-- 只在需要「一个项目服务多张地图」时，对某些 bundle 单独配置 `map` + `enable=true`。
 
 ---
 

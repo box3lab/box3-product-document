@@ -16,11 +16,7 @@ export default {
     bundle: {
       client: { entry: "App.ts" },
       server: { entry: "App.ts" },
-      map: {
-        id: "",
-        playHash: "",
-        enable: false,
-      },
+      enable: true,
     },
   },
   uiIndexPrefix: "",
@@ -48,40 +44,20 @@ bundles: {
   bundle: {
     client: { entry: "App.ts" },
     server: { entry: "App.ts" },
-    map: {
-      id: "",
-      playHash: "",
-      enable: false,
-    },
+    enable: true,
   },
 },
 ```
 
 - **bundle 名（如 `"bundle"`）**
 
-  - 必须与 `.env` 中的 `VITE_CURRENT_FILE` 一致，才能正确选择要构建 / 上传哪一套脚本。
+  - 必须与 `.env` 中的 `VITE_CURRENT_FILE` 一致，才能正确选择要构建 / 上传哪一套脚本。除非 VITE_CURRENT_FILE 留空
 
 - **`client.entry` / `server.entry`**
 
   - 分别指定客户端 / 服务端入口脚本文件名；
   - 路径通常是相对于各自源码根目录的文件（例如 `client/src/App.ts` / `server/src/App.ts`）；
   - 如果你改用了其他入口（如 `Main.ts`），记得同步改这里。
-
-- **bundle 级 `map` 字段**
-
-  ```ts
-  map: {
-    id: "",
-    playHash: "",
-    enable: false,
-  },
-  ```
-
-  - `id`：希望这个 bundle 绑定的地图 ID；
-  - `playHash`：对应地图的哈希；
-  - `enable`：
-    - `true`：启用该 bundle 与此地图 ID 的自动绑定 / 上传流程；
-    - `false`：暂时不启用此 bundle 的地图配置，会回退到顶层 `map`。
 
 当你有多个玩法或多张地图时，可以新增多个 bundle，例如：
 
@@ -90,17 +66,17 @@ bundles: {
   pve: {
     client: { entry: "App.ts" },
     server: { entry: "App.ts" },
-    map: { id: "", playHash: "", enable: false },
+    enable: true,
   },
   pvp: {
     client: { entry: "App2.ts" },
     server: { entry: "App2.ts" },
-    map: { id: "", playHash: "", enable: false },
+    enable: true,
   },
 },
 ```
 
-然后在 `.env` 中通过切换 `VITE_CURRENT_FILE=pve` / `pvp`，选择本次构建 / 上传的目标 bundle。
+然后在 `.env` 中通过切换 `VITE_CURRENT_FILE=pve` / `pvp`，选择本次构建 / 上传的目标 bundle。留空除外
 
 ## 3. `uiIndexPrefix`：UI 索引前缀
 
@@ -123,24 +99,13 @@ map: {
 ```
 
 - 通常用于配置**项目级默认地图**的信息；
-- 当某个 bundle 没有单独启用自己的 `map.enable=true` 时，可以回退到这里的默认配置；
-- 实际优先级以脚手架实现为准，一般遵循「bundle.map 优先于全局 map」。
-
-常见用法：
-
-- 只有一张主要地图时：
-  - 在顶层 `map` 中填写这张地图的 `id` / `playHash`；
-  - 对各个 bundle 不再单独配置 `map`，或者保持 `enable=false`。
-- 一个项目服务多张地图时：
-  - 在不同 bundle 上配置各自的 `map`，并将 `enable` 设为 `true`；
-  - 顶层 `map` 作为兜底或备用配置。
 
 ## 5. 与 `.env` 和构建流程的关系
 
 `dao3.config.ts` 主要负责描述「项目内部结构与地图绑定」，而 `.env` 更偏向「当前这次构建要用哪一套配置」。例如：
 
 - `.env` 中：
-  - `VITE_CURRENT_FILE`：选择要构建 / 上传的 bundle 名（对应 `bundles` 的某个 key）；
+  - `VITE_CURRENT_FILE`：选择要构建 / 上传的 bundle 名（对应 `bundles` 的某个 key），留空为多入口；
   - `VITE_UPDATE_FILE`：控制构建完成后是否自动上传脚本；
 - `dao3.config.ts` 中：
   - 为每个 bundle 定义 client/server 入口和地图信息；
@@ -173,44 +138,7 @@ map: {
 
 下面给出两个简单示例，展示「把配置当代码用」的典型场景。
 
-### 6.1 基于常量表批量生成 bundles
-
-假设你的项目有多张地图，且这些地图的配置信息维护在某个常量表中：
-
-```ts
-import type { IDao3Config } from "vite-plugin-arenapro-script";
-const MAPS = {
-  pve: { id: "pve-map-id", playHash: "pve-hash" },
-  pvp: { id: "pvp-map-id", playHash: "pvp-hash" },
-} as const;
-
-const bundles: IDao3Config["bundles"] = {};
-
-for (const [name, info] of Object.entries(MAPS)) {
-  bundles[name] = {
-    client: { entry: "App.ts" },
-    server: { entry: name === "pvp" ? "App2.ts" : "App.ts" },
-    map: {
-      id: info.id,
-      playHash: info.playHash,
-      enable: true,
-    },
-  };
-}
-
-export default {
-  bundles,
-  uiIndexPrefix: "",
-  map: {
-    id: "",
-    playHash: "",
-  },
-} as IDao3Config;
-```
-
-这样，在你调整 `MAPS` 常量表时，`bundles` 会自动跟着更新，避免在多个地方重复手写 `id` / `playHash`。
-
-### 6.2 按环境切换部分配置
+### 6.1 按环境切换部分配置
 
 你也可以根据运行环境（例如 `NODE_ENV` 或自定义环境变量）来调整配置：
 
@@ -224,11 +152,12 @@ export default {
     bundle: {
       client: { entry: "App.ts" },
       server: { entry: "App.ts" },
-      map: {
-        id: isProd ? "prod-map-id" : "dev-map-id",
-        playHash: "",
-        enable: true,
-      },
+      enable: isProd,
+    },
+    bundle_dev: {
+      client: { entry: "App.test.ts" },
+      server: { entry: "App.test.ts" },
+      enable: !isProd,
     },
   },
   uiIndexPrefix: "",
@@ -250,26 +179,18 @@ export default {
 ```ts
 import type { IDao3Config } from "vite-plugin-arenapro-script";
 
-function createBundle(
-  entry: string,
-  mapId: string,
-  playHash = ""
-): IDao3Config["bundles"][string] {
+function createBundle(entry: string): IDao3Config["bundles"][string] {
   return {
     client: { entry },
     server: { entry },
-    map: {
-      id: mapId,
-      playHash,
-      enable: Boolean(mapId),
-    },
+    enable: true,
   };
 }
 
 export default {
   bundles: {
-    pve: createBundle("App.ts", "pve-map-id"),
-    pvp: createBundle("App2.ts", "pvp-map-id"),
+    pve: createBundle("App.ts"),
+    pvp: createBundle("App2.ts"),
   },
   uiIndexPrefix: "",
   map: {
@@ -279,7 +200,7 @@ export default {
 } as IDao3Config;
 ```
 
-当你需要调整 bundle 结构（例如给 `map` 增加额外字段）时，只需要改 `createBundle` 一处即可。
+当你需要调整 bundle 结构时，只需要改 `createBundle` 一处即可。
 
 ### 6.4 拆分配置模块，按玩法合并
 
@@ -292,11 +213,7 @@ import type { IDao3Config } from "vite-plugin-arenapro-script";
 export const pveBundle: IDao3Config["bundles"][string] = {
   client: { entry: "App.ts" },
   server: { entry: "App.ts" },
-  map: {
-    id: "pve-map-id",
-    playHash: "",
-    enable: true,
-  },
+  enable: true,
 };
 
 // pvp-config.ts
@@ -305,11 +222,7 @@ import type { IDao3Config } from "vite-plugin-arenapro-script";
 export const pvpBundle: IDao3Config["bundles"][string] = {
   client: { entry: "App2.ts" },
   server: { entry: "App2.ts" },
-  map: {
-    id: "pvp-map-id",
-    playHash: "",
-    enable: true,
-  },
+  enable: true,
 };
 
 // dao3.config.ts
