@@ -99,6 +99,14 @@ export default defineConfig({
                 text: "Vite 专属能力",
                 link: "/zh/vite/guide/vite-features",
               },
+              {
+                text: "使用脚手架开发 NPM 包",
+                link: "/zh/vite/guide/vite-npm-dev",
+              },
+              {
+                text: "神岛配置文件",
+                link: "/zh/vite/guide/dao3-config-ts",
+              },
             ],
           },
         ],

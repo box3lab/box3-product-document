@@ -22,7 +22,7 @@ VITE_DAO3_AUTH=
 VITE_DAO3_UA=
 
 
-# 当前要构建 / 上传的 bundle 名，对应 dao3.config.json -> bundles 的 key
+# 当前要构建 / 上传的 bundle 名，对应 dao3.config.ts -> bundles 的 key
 VITE_CURRENT_FILE=bundle
 
 # 是否在构建后自动上传脚本，字符串形式的布尔值："true" | "false"
@@ -102,9 +102,9 @@ VITE_CURRENT_FILE=bundle
 - 开发期 / 日常联调：设为 `true`，构建之后自动同步，减少手动步骤；
 - 特殊场景（只想看本地构建结果或调试 build pipeline）：临时改成 `false`。
 
-## 二、在 `dao3.config.json` 中配置地图与 bundle 信息
+## 二、在 `dao3.config.ts` 中配置地图与 bundle 信息
 
-`dao3.config.json` 决定了：
+`dao3.config.ts` 决定了：
 
 - 项目中有哪些 **bundle**；
 - 每个 bundle 对应的 **client/server 入口文件**；
@@ -114,34 +114,26 @@ VITE_CURRENT_FILE=bundle
 
 ```json
 {
-  "ArenaPro": {
-    "version": 2,
-    "bundles": {
-      "bundle": {
-        "client": { "entry": "App.ts" },
-        "server": { "entry": "App.ts" },
-        "map": {
-          "id": "",
-          "playHash": "",
-          "enable": false
-        }
+  "bundles": {
+    "bundle": {
+      "client": { "entry": "App.ts" },
+      "server": { "entry": "App.ts" },
+      "map": {
+        "id": "",
+        "playHash": "",
+        "enable": false
       }
-    },
-    "uiIndexPrefix": "",
-    "map": {
-      "id": "",
-      "playHash": ""
     }
+  },
+  "uiIndexPrefix": "",
+  "map": {
+    "id": "",
+    "playHash": ""
   }
 }
 ```
 
-### 1. `ArenaPro.version`
-
-- 标记当前配置使用的 ArenaPro 脚手架版本协议。示例中为 `2`。
-- 一般不需要手动修改，除非文档明确说明需要升级版本。
-
-### 2. `bundles`：多入口 / 多模式脚本配置
+### 1. `bundles`：多入口 / 多模式脚本配置
 
 `bundles` 是一个「名字 → 配置」的映射，每个 key 对应一个可独立构建和上传的 bundle。
 
@@ -167,7 +159,7 @@ VITE_CURRENT_FILE=bundle
 
 通过切换 `.env` 中的 `VITE_CURRENT_FILE`，可以在不同 bundle 之间切换构建 / 上传目标。
 
-### 3. 顶层 `map`：项目级默认地图信息
+### 2. 顶层 `map`：项目级默认地图信息
 
 ```json
 "map": {
@@ -187,7 +179,7 @@ VITE_CURRENT_FILE=bundle
 
 ---
 
-通过 `.env` + `dao3.config.json` 的组合，你可以清晰地表达：
+通过 `.env` + `dao3.config.ts` 的组合，你可以清晰地表达：
 
 - 「谁在部署」（账号 / UA）；
 - 「部署什么」（哪一个 bundle）；

@@ -94,6 +94,13 @@ npm run build
   - `npm run build:server`：只构建 server 侧脚本，产物用于部署到 Arena 的服务端环境。
   - `npm run build:client`：只构建 client 侧脚本，产物用于部署到 Arena 的客户端环境。
 
+- **资源同步相关**
+
+  - `npm run sync:resources`：
+    - 会同步当前地图内的各类资源（图片、UI、商品、音频、模型等）；
+    - 同时更新最新的游戏 API 类型声明（d.ts）；
+    - 除了游戏 API 声明外，其它资源同步前需要先完成登录，并在配置中填写目标地图的 ID，才能成功获取。
+
 - **调试模式（debug 构建）**
 
   - `npm run debug:server`：以 `debug` 模式构建 server，会保留源码映射，停止部署到 Arena。

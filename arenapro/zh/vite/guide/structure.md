@@ -6,11 +6,10 @@
 
 ```text
 vite
-├─ pnpm-lock.yaml
 ├─ tsconfig.base.json
 ├─ env.d.ts
 ├─ .prettierignore
-├─ dao3.config.json
+├─ dao3.config.ts
 ├─ README.md
 ├─ .lintstagedrc
 ├─ package.json
@@ -112,7 +111,7 @@ vite
 
 在项目根目录下，还有一批与你日常开发高度相关的配置文件：
 
-- `dao3.config.json`：
+- `dao3.config.ts`：
   - ArenaPro 的核心配置文件；
   - 定义 bundles、client/server 入口、地图 ID / playHash 等信息；
   - 配合 `.env` 一起控制脚本如何被部署到神岛 Arena。
@@ -141,7 +140,7 @@ vite
 
 `package.json` 中最重要的信息有三类：
 
-- `scripts`：定义了常用命令，例如 `dev`、`build`、`test` 等；
+- `scripts`：定义了常用命令，例如 `dev`、`build` 等；
 - `dependencies`：运行时依赖，例如 React、状态管理库等；
 - `devDependencies`：开发时依赖，例如 TypeScript、ESLint、Vite 本身等。
 
