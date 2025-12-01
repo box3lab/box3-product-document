@@ -115,7 +115,11 @@ npm run build
 
 - **类型检查 / 工程化工具**
 
-  - `npm run tsc:server`：仅对 `server` 侧代码执行 TypeScript 编译检查（不打包）。
-  - `npm run tsc:client`：仅对 `client` 侧代码执行 TypeScript 编译检查（不打包）。
+  - `npm run tsc`：并行执行 `tsc:*`，对 client / server 侧代码进行 TypeScript 编译，产出 JS + d.ts。
+  - `npm run tsc:server`：仅对 `server` 侧代码执行 TypeScript 编译（产出 JS + d.ts）。
+  - `npm run tsc:client`：仅对 `client` 侧代码执行 TypeScript 编译（产出 JS + d.ts）。
+  - `npm run tsc:check`：并行执行 `tsc:check:*`，只做类型检查（`noEmit`），不产出文件，适合 CI / 本地快速校验。
+  - `npm run tsc:check:server`：仅对 `server` 侧代码执行「不产物的类型检查」。
+  - `npm run tsc:check:client`：仅对 `client` 侧代码执行「不产物的类型检查」。
   - `npm run eslint:fix`：运行 ESLint 并尝试自动修复可以修复的问题。
   - `npm run prettier:write`：使用 Prettier 对整个项目进行代码格式化。
