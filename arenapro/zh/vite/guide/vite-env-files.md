@@ -54,7 +54,7 @@ VITE_FEATURE_ENABLE_DEV_PANEL=true
 VITE_API_BASE_URL=https://dev-api.dao3.fun
 ```
 
-**使用方式示例：**
+**使用方式示例：**（这里假设你已经了解 `import.meta.env.MODE` 的含义
 
 ```ts
 const mode = import.meta.env.MODE; // development / production
@@ -155,11 +155,7 @@ VITE_API_BASE_URL=
 
 ## 6. 和 `MODE` 结合使用
 
-前面已经说明了如何通过 `import.meta.env.MODE` 区分：
-
-- `development` / `production`
-
-你可以同时利用：
+当你已经在代码中通过 `import.meta.env.MODE` 区分 `development` / `production` 时，可以同时利用：
 
 - **不同文件**：`.env.development` / `.env.production` 调整「按环境」的默认值；
 - **代码判断**：`MODE` 在运行时进一步细分行为。
