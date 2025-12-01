@@ -85,6 +85,7 @@ export default defineConfig({
                 text: "配置神岛信息",
                 link: "/zh/vite/guide/dao3-config",
               },
+
               {
                 text: "项目结构总览",
                 link: "/zh/vite/guide/structure",
@@ -100,12 +101,30 @@ export default defineConfig({
                 link: "/zh/vite/guide/vite-features",
               },
               {
+                text: "根据 VITE_MODE 区分环境",
+                link: "/zh/vite/guide/vite-mode-env",
+              },
+              {
+                text: "环境变量的多种用法",
+                link: "/zh/vite/guide/vite-env-files",
+              },
+              {
                 text: "使用脚手架开发 NPM 包",
                 link: "/zh/vite/guide/vite-npm-dev",
               },
               {
                 text: "神岛配置文件",
                 link: "/zh/vite/guide/dao3-config-ts",
+              },
+            ],
+          },
+          {
+            text: "FAQ",
+            collapsed: false,
+            items: [
+              {
+                text: "脱离插件后同步资源与账号",
+                link: "/zh/vite/guide/faq-sync-standalone",
               },
             ],
           },

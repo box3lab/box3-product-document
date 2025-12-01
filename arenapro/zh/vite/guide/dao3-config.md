@@ -14,32 +14,37 @@
 
 ```env
 # 神岛账户 Token（Authorization 头）
-# 获取地址：https://code-api-pc.dao3.fun/auth/user
+# 一键授权方式：npm run sync:auth
+# 手动获取方式：https://code-api-pc.dao3.fun/auth/user -> data 的 token
 VITE_DAO3_AUTH=
 
 # 客户端 UA 标识，用于请求头 X-Dao-Ua / user-agent
+# 一键授权方式：npm run sync:auth
 # 获取地址：https://www.lzltool.com/UserAgent
 VITE_DAO3_UA=
 
 
 # 当前要构建 / 上传的 bundle 名，对应 dao3.config.ts -> bundles 的 key。
 # 留空表示构建并上传所有启用的 bundle（多入口）。
-VITE_CURRENT_FILE=bundle
+VITE_CURRENT_FILE=
 
-# 是否在构建后自动上传脚本，字符串形式的布尔值："true" | "false"
+# 是否在构建后自动上传脚本，布尔值：true | false
 VITE_UPDATE_FILE=true
 ```
 
 ### 1. `VITE_DAO3_AUTH`：神岛账户 Token
 
 - **作用**：用于向神岛代码接口发起请求时，填入 HTTP `Authorization` 头。
-- **获取方式**：在浏览器访问：
+- **推荐获取方式**：
 
-  ```text
-  https://code-api-pc.dao3.fun/auth/user
-  ```
+  - 一键授权：在项目根目录执行 `npm run sync:auth`，自动写入 `.env`；
+  - 手动方式：在浏览器访问：
 
-  根据页面提示获取你的 token，然后填入 `.env` 中的 `VITE_DAO3_AUTH`。
+    ```text
+    https://code-api-pc.dao3.fun/auth/user
+    ```
+
+    复制返回数据中 `data.token` 字段的值，填入 `.env` 中的 `VITE_DAO3_AUTH`。
 
 - **安全建议**：
   - 不要把包含真实 token 的 `.env` 提交到公共仓库；
@@ -48,18 +53,21 @@ VITE_UPDATE_FILE=true
 ### 2. `VITE_DAO3_UA`：客户端 UA 标识
 
 - **作用**：用于请求头里的 `X-Dao-Ua` / `User-Agent` 字段，帮助服务端识别调用来源。
-- **获取方式**：可以自定义一个 UA，或参考工具网站生成：
+- **推荐获取方式**：
 
-  ```text
-  https://www.lzltool.com/UserAgent
-  ```
+  - 一键授权：执行 `npm run sync:auth` 可一并写入 UA 信息；
+  - 手动方式：可以自定义一个 UA，或参考工具网站生成：
 
-  然后填入 `VITE_DAO3_UA`。
+    ```text
+    https://www.lzltool.com/UserAgent
+    ```
+
+    然后填入 `VITE_DAO3_UA`。
 
 ### 3. `VITE_CURRENT_FILE`：当前构建 / 上传的 bundle 名
 
 - **作用**：告诉构建脚本「这次要上传的是哪一个 bundle」。
-- **取值范围**：必须是 `dao3.config.json -> ArenaPro.bundles` 下的某个 key 或留空。
+- **取值范围**：必须是 `dao3.config.ts -> bundles` 下的某个 key 或留空。
 
 例如：
 
@@ -76,8 +84,6 @@ VITE_UPDATE_FILE=true
 此时应在 `.env` 中设置：
 
 ```env
-VITE_CURRENT_FILE=bundle
-# 或
 VITE_CURRENT_FILE=
 ```
 
@@ -86,7 +92,7 @@ VITE_CURRENT_FILE=
 ### 4. `VITE_UPDATE_FILE`：是否在构建后自动上传脚本
 
 - **作用**：控制构建完成后，脚手架是否**自动将构建结果上传到 Arena**。
-- **取值**（字符串）：
+- **取值**（布尔值）：
 
   ```env
   VITE_UPDATE_FILE=true   # 构建后自动上传

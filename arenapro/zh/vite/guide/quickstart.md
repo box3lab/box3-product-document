@@ -101,6 +101,13 @@ npm run build
     - 同时更新最新的游戏 API 类型声明（d.ts）；
     - 除了游戏 API 声明外，其它资源同步前需要先完成登录，并在配置中填写目标地图的 ID，才能成功获取。
 
+- **账号授权相关**
+
+  - `npm run sync:auth`：
+    - 一键完成当前账号在本机的授权流程；
+    - 自动获取并写入神岛账户 Token（`VITE_DAO3_AUTH`）和 UA（`VITE_DAO3_UA`）到 `.env`；
+    - 一般在**首次拉取项目后**或本地 Token / UA 过期、变更时执行一次即可。
+
 - **调试模式（debug 构建）**
 
   - `npm run debug:server`：以 `debug` 模式构建 server，会保留源码映射，停止部署到 Arena。
