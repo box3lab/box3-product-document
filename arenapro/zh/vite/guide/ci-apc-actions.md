@@ -114,7 +114,7 @@ jobs:
 
 在 GitHub Actions 里，**不要把这些值写死在仓库里**，而是：
 
-- 在仓库 Settings → Secrets and variables → Actions 中，新增：
+- 在仓库 Settings → Secrets and variables → Actions → Repository secrets 中，新增：
   - `VITE_DAO3_AUTH`
   - `VITE_DAO3_UA`
   - `VITE_DAO3_MAP_ID`
@@ -122,7 +122,7 @@ jobs:
 然后在 workflow 里这样写：
 
 ```yaml
-- name: Build and upload
+- name: 构建 ArenaPro Vite 项目并同步神岛
   env:
     VITE_UPDATE_FILE: "true"
     VITE_DAO3_AUTH: ${{ secrets.VITE_DAO3_AUTH }}
