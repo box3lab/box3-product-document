@@ -56,7 +56,7 @@ npm update -g @box3lab/arenapro-vite-cli
 # 1) 使用脚手架创建项目
 apc create my-arena-app
 # 或使用
-# npx create-arena-vite-project my-arena-app
+# create-arena-vite-project my-arena-app
 ```
 
 以上两种方式有如下区别：
@@ -142,7 +142,7 @@ CLI 会打开一个本地授权页面，引导你登录神岛并将 `VITE_DAO3_A
 配置好 `.env` 后，在项目根目录执行：
 
 ```bash
-apc res
+apc resource
 ```
 
 同步完成后，你会在 `client/`、`server/`、`types/` 等目录下看到对应的自动生成的地图资源文件。

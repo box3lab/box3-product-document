@@ -93,7 +93,7 @@ export default defineConfig({
             ],
           },
           {
-            text: "Vite 基础",
+            text: "使用基础",
             collapsed: false,
             items: [
               {
@@ -101,10 +101,6 @@ export default defineConfig({
                 link: "/zh/vite/guide/vite-features",
               },
 
-              {
-                text: "使用脚手架开发 NPM 包",
-                link: "/zh/vite/guide/vite-npm-dev",
-              },
               {
                 text: "根据 MODE 区分环境",
                 link: "/zh/vite/guide/vite-mode-env",
@@ -118,12 +114,31 @@ export default defineConfig({
                 link: "/zh/vite/guide/vite-env-files",
               },
               {
+                text: "使用脚手架开发 NPM 包",
+                link: "/zh/vite/guide/vite-npm-dev",
+              },
+              {
                 text: "CLI 命令一览",
                 link: "/zh/vite/guide/cli-commands",
               },
               {
-                text: "在 CI 中使用 apc",
+                text: "在 CI/CD 中使用",
                 link: "/zh/vite/guide/ci-apc-actions",
+              },
+            ],
+          },
+          {
+            text: "VSCode扩展程序",
+            collapsed: false,
+            items: [
+              {
+                text: "颜色可视化预览器",
+                link: "/zh/vite/guide/colorProviderPlugin",
+              },
+
+              {
+                text: "数据空间可视化预览器",
+                link: "/zh/vite/guide/dataSpacePlugin",
               },
             ],
           },

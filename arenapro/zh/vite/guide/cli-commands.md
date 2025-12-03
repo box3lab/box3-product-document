@@ -4,6 +4,8 @@
 
 ## `apc dev [target]`
 
+简写：`apc d`
+
 开发构建（development），以 **watch 模式** 持续编译：
 
 ```bash
@@ -22,6 +24,8 @@ apc dev server    # 只编译 server
 - 希望保存后几乎秒级看到效果。
 
 ## `apc build [target]`
+
+简写：`apc b`
 
 正式构建（production），用于 **发布前的严格构建**：
 
@@ -58,18 +62,20 @@ apc debug server  # 只构建 server
 
 - 需要结合 VSCode 等调试器做断点调试时使用。
 
-## `apc res [mode]`
+## `apc resource [mode]`
+
+简写：`apc r`
 
 从神岛地图内同步资源（共享资源）：
 
 ```bash
-apc res              # 使用 .env 同步全部资源
-apc res dev          # 使用 .env.dev 同步
-apc res prod         # 使用 .env.prod 同步
+apc resource              # 使用 .env 同步全部资源
+apc resource dev          # 使用 .env.dev 同步
+apc resource prod         # 使用 .env.prod 同步
 
-apc res -s assets    # 仅同步静态资源
-apc res -s ui        # 仅同步 UI 资源
-apc res -s api       # 仅同步 API 定义
+apc resource -s assets    # 仅同步静态资源
+apc resource -s ui        # 仅同步 UI 资源
+apc resource -s api       # 仅同步 API 定义
 ```
 
 参数说明：
@@ -86,6 +92,8 @@ apc res -s api       # 仅同步 API 定义
 缺少时会提示先执行 `apc login` 完成授权。
 
 ## `apc create <name>`
+
+简写：`apc c`
 
 创建 ArenaPro Vite 基础工程：
 
@@ -107,6 +115,8 @@ apc create my-project -p pnpm
 
 ## `apc login [mode]`
 
+简写：`apc l`
+
 从神岛授权账户信息，写入对应 `.env` 文件：
 
 ```bash
@@ -124,6 +134,8 @@ apc login prod   # 写入 .env.prod
 - 自动写入 `VITE_DAO3_AUTH`、`VITE_DAO3_UA` 等账号相关信息。
 
 ## `apc info [mode]`
+
+简写：`apc i`
 
 查看当前工程的 ArenaPro 配置与环境状态：
 
@@ -144,6 +156,8 @@ apc info prod  # 使用 .env.prod
 
 ## `apc tsc [target]`
 
+简写：`apc t`
+
 编译 TypeScript 并输出构建结果（JS + d.ts）：
 
 ```bash
@@ -162,6 +176,8 @@ apc tsc server   # 只编译 server（使用 server/tsconfig.json）
 - 或单独验证 TS 编译是否通过。
 
 ## `apc tsc-check [target]`
+
+简写：`apc tc`
 
 仅进行 TypeScript 类型检查（**不输出编译结果**）：
 
@@ -202,7 +218,7 @@ apc tsc-check server   # 只检查 server
 | `apc dev [target]`       | `VITE_CURRENT_FILE`、`VITE_UPDATE_FILE`                                      | 控制当前 bundle 以及是否在构建后自动上传               |
 | `apc build [target]`     | `VITE_CURRENT_FILE`、`VITE_UPDATE_FILE`                                      | 正式构建；`VITE_UPDATE_FILE=true` 时会尝试上传         |
 | `apc debug [target]`     | `VITE_CURRENT_FILE`                                                          | 调试构建；与自动上传无关                               |
-| `apc res [mode]`         | `VITE_DAO3_AUTH`、`VITE_DAO3_UA`、`VITE_DAO3_MAP_ID`                         | 同步地图资源 / API 类型定义                            |
+| `apc resource [mode]`    | `VITE_DAO3_AUTH`、`VITE_DAO3_UA`、`VITE_DAO3_MAP_ID`                         | 同步地图资源 / API 类型定义                            |
 | `apc login [mode]`       | （无前置依赖）                                                               | 浏览器中登录后，写入 `VITE_DAO3_AUTH` / `VITE_DAO3_UA` |
 | `apc info [mode]`        | `VITE_DAO3_AUTH`、`VITE_DAO3_UA`、`VITE_DAO3_MAP_ID`、`VITE_UI_INDEX_PREFIX` | 仅读取当前配置并展示，不会修改                         |
 | `apc tsc [target]`       | （通常仅依赖 TypeScript 配置，与 `.env` 关系较弱）                           | 产出 JS + d.ts，主要用于 NPM 包或离线构建              |
