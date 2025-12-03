@@ -113,11 +113,11 @@ vite
 
 - `dao3.config.ts`：
   - ArenaPro 的核心配置文件；
-  - 定义 bundles、client/server 入口、地图 ID / playHash 等信息；
+  - 定义 bundles、client/server 入口信息；
   - 配合 `.env` 一起控制脚本如何被部署到神岛 Arena。
-- `vite.config.ts`：Vite 配置入口（见下节）。
-- `.env` / `.env.example`：环境变量文件，配置神岛账户、UA、当前 bundle 等信息。
-- `package.json`：脚本命令与依赖列表（可配合「快速上手」一文查看）。
+- `vite.config.ts`：Vite 配置入口。
+- `.env` / `.env.example`：环境变量文件，配置神岛账户、UA、当前 bundle 以及地图相关变量等信息。
+- `package.json`：脚本命令与依赖列表。
 - `tsconfig.base.json`：基础 TypeScript 配置，被 client/server 各自的 tsconfig 继承。
 
 理解这些文件的职责，有助于你在需要自定义行为（例如切换 bundle、调整构建方式）时，知道应该改哪里。

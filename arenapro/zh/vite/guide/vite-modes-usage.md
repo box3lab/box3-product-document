@@ -1,7 +1,7 @@
 # dev / build / debug 三种命令的使用场景
 
 在 ArenaPro Vite 脚手架中，常见有三种运行 / 构建模式：`development`、`production`、`debug`。  
-它们分别对应你最常用的三个命令：`npm run dev` / `npm run build` / VSCode 调试（debug）。
+它们分别对应你最常用的三个命令：`apc dev` / `apc build` / VSCode 调试（debug）（也可以通过 `npm run dev` / `npm run build` 等脚本包装调用）。
 
 这篇文章只讲「**命令层面：什么时候用哪一个？**」。  
 如果你想在代码里按模式写分支逻辑，可以再看：
@@ -13,7 +13,9 @@
 **典型入口：**
 
 ```bash
-npm run dev
+apc dev
+# 或使用 package.json 中封装的脚本：
+# npm run dev
 ```
 
 **使用场景：**
@@ -33,7 +35,7 @@ npm run dev
 
 **适合的工作方式：**
 
-- 把 `npm run dev` 当成“持续跑着”的后台服务；
+- 把 `apc dev`（或 `npm run dev`）当成“持续跑着”的后台服务；
 - 频繁改代码 → 看效果 → 再改；
 - 不必每次改动都「先把所有 TS / ESLint 问题清零」。
 
@@ -42,7 +44,9 @@ npm run dev
 **典型入口：**
 
 ```bash
-npm run build
+apc build
+# 或使用 package.json 中封装的脚本：
+# npm run build
 ```
 
 **使用场景：**
@@ -66,11 +70,12 @@ npm run build
 
 **适合的工作方式：**
 
-- 日常开发靠 `npm run dev`，
+- 日常开发靠 `apc dev`（或对应的 `npm run dev` 脚本），
 - 在「准备提交版本 / 发布之前」跑一遍：
 
   ```bash
-  npm run build
+  apc build
+  # 或 npm run build
   ```
 
   - 如果通过，说明这一版在类型和规范上是可接受的；
@@ -123,8 +128,8 @@ npm run build
 
 推荐日常节奏：
 
-1. 写代码时：一直跑着 `npm run dev`；
-2. 功能基本完成、准备合并 / 发布时：跑 `npm run build`；
+1. 写代码时：一直跑着 `apc dev`（或项目提供的 `npm run dev`）；
+2. 功能基本完成、准备合并 / 发布时：跑 `apc build`（或 `npm run build`）；
 3. 中途遇到不好查的复杂 bug：
    - 启动 `debug` 调试（如 VSCode 调试配置），
    - 在本地断点跟代码逻辑。

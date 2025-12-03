@@ -87,19 +87,19 @@ interface ImportMeta {
 
 - 在不同模式下切换某些行为（例如只在开发环境允许某些调试入口）。
 
-## 3. 与 `.env` / `dao3.config.json` 的关系
+## 3. 与 `.env` / `dao3.config.ts` 的关系
 
 - `.env` 负责提供「账号 + 行为」类配置：
   - 谁在部署（`VITE_DAO3_AUTH`、`VITE_DAO3_UA`）；
   - 部署哪个 bundle（`VITE_CURRENT_FILE`）；
   - 构建后是否自动上传（`VITE_UPDATE_FILE`）。
-- `dao3.config.json` 负责声明「项目结构与地图绑定」：
-  - bundle 列表、client/server 入口；
-  - 地图 ID / playHash 等。
+- `dao3.config.ts` 负责声明「项目结构」：
+  - bundle 列表；
+  - 每个 bundle 的 client/server 入口等信息。
 
 在构建流程中：
 
-- 构建脚本会先读取 `.env` 和 `dao3.config.json`，组合出「这一次要构建和上传什么」；
+- 构建脚本会先读取 `.env` 和 `dao3.config.ts`，组合出「这一次要构建和上传什么」；
 - 在你的 TypeScript 代码里，可以通过 `import.meta.env` 感知部分环境（如当前 bundle 名），从而做一些轻量分支逻辑。
 
 ## 4. `import.meta.glob`：批量导入模块

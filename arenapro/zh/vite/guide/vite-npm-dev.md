@@ -60,10 +60,7 @@
 在构建之前，建议先清空 dist 目录，避免遗留无效文件。
 
 ```bash
-npm run tsc:server
-npm run tsc:client
-# 或者直接使用 tsc，同时打包两端
-npm run tsc
+apc tsc
 ```
 
 常见做法：

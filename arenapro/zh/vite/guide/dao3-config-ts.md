@@ -19,21 +19,10 @@ export default {
       enable: true,
     },
   },
-  uiIndexPrefix: "",
-  map: {
-    id: "",
-    playHash: "",
-  },
 } as IDao3Config;
 ```
 
-它大致可以拆成三块：
-
-- `bundles`：定义有哪些可构建 / 可上传的脚本 bundle。
-- `uiIndexPrefix`：与 UI 脚本索引路径相关的前缀。
-- 顶层 `map`：项目级默认地图信息。
-
-下面按字段展开说明。
+当前配置的核心是 `bundles` 字段，用来描述有哪些可构建 / 可上传的脚本 bundle。下面按字段展开说明。
 
 ## 2. `bundles`：多入口 / 多模式脚本配置
 
@@ -42,8 +31,8 @@ export default {
 ```ts
 bundles: {
   bundle: {
-    client: { entry: "App.ts" },
-    server: { entry: "App.ts" },
+    client: { entry: 'App.ts' },
+    server: { entry: 'App.ts' },
     enable: true,
   },
 },
@@ -64,43 +53,21 @@ bundles: {
 ```ts
 bundles: {
   pve: {
-    client: { entry: "App.ts" },
-    server: { entry: "App.ts" },
+    client: { entry: 'App.ts' },
+    server: { entry: 'App.ts' },
     enable: true,
   },
   pvp: {
-    client: { entry: "App2.ts" },
-    server: { entry: "App2.ts" },
+    client: { entry: 'App2.ts' },
+    server: { entry: 'App2.ts' },
     enable: true,
   },
 },
 ```
 
-然后在 `.env` 中通过切换 `VITE_CURRENT_FILE=pve` / `pvp`，选择本次构建 / 上传的目标 bundle。留空除外
+然后在 `.env` 中通过切换 `VITE_CURRENT_FILE=pve` / `pvp`，选择本次构建 / 上传的目标 bundle。留空除外。
 
-## 3. `uiIndexPrefix`：UI 索引前缀
-
-```ts
-uiIndexPrefix: "",
-```
-
-- 用于配置 UI 索引路径的统一前缀；
-- 对于不涉及复杂 UI 路径管理的项目，可以保持默认空字符串。
-
-如果你在项目中使用了 UI 索引（例如将多个 UI 脚本按某个前缀分类），可以在后续 UI 文档中按照团队约定来调整此字段。
-
-## 4. 顶层 `map`：项目级默认地图信息
-
-```ts
-map: {
-  id: "",
-  playHash: "",
-},
-```
-
-- 通常用于配置**项目级默认地图**的信息；
-
-## 5. 与 `.env` 和构建流程的关系
+## 3. 与 `.env` 和构建流程的关系
 
 `dao3.config.ts` 主要负责描述「项目内部结构与地图绑定」，而 `.env` 更偏向「当前这次构建要用哪一套配置」。例如：
 
@@ -108,16 +75,15 @@ map: {
   - `VITE_CURRENT_FILE`：选择要构建 / 上传的 bundle 名（对应 `bundles` 的某个 key），留空为多入口；
   - `VITE_UPDATE_FILE`：控制构建完成后是否自动上传脚本；
 - `dao3.config.ts` 中：
-  - 为每个 bundle 定义 client/server 入口和地图信息；
-  - 配置项目级的 `map` 默认值。
+  - 为每个 bundle 定义 client/server 入口等信息。
 
 在构建流程中：
 
 1. 构建脚本会读取 `.env`，确定本次要构建的 bundle 名以及是否自动上传；
-2. 再根据 `dao3.config.ts` 中对应 bundle 的配置，找到 client/server 入口和地图信息；
-3. 最终完成「打包 → 关联地图 →（按需）上传到 Arena」这一整条链路。
+2. 再根据 `dao3.config.ts` 中对应 bundle 的配置，找到 client/server 入口等信息；
+3. 最终完成「打包 →（按需）上传到 Arena」这一整条链路。
 
-如果你只是在调整入口文件名、bundle 名或地图 ID：
+如果你只是在调整入口文件名或 bundle 名：
 
 - **优先修改 `dao3.config.ts`** 中的对应字段；
 - 同时确认 `.env` 中的 `VITE_CURRENT_FILE` 是否仍然指向正确的 bundle；
@@ -140,12 +106,12 @@ map: {
 
 ### 6.1 按环境切换部分配置
 
-你也可以根据运行环境（例如 `NODE_ENV` 或自定义环境变量）来调整配置：
+你也可以根据运行环境（例如 `NODE` 或自定义环境变量）来调整配置：
 
 ```ts
 import type { IDao3Config } from "vite-plugin-arenapro-script";
 
-const isProd = process.env.NODE_ENV === "production";
+const isProd = import.meta.env.NODE === "production";
 
 export default {
   bundles: {
@@ -159,11 +125,6 @@ export default {
       server: { entry: "App.test.ts" },
       enable: !isProd,
     },
-  },
-  uiIndexPrefix: "",
-  map: {
-    id: "",
-    playHash: "",
   },
 } as IDao3Config;
 ```
@@ -191,11 +152,6 @@ export default {
   bundles: {
     pve: createBundle("App.ts"),
     pvp: createBundle("App2.ts"),
-  },
-  uiIndexPrefix: "",
-  map: {
-    id: "",
-    playHash: "",
   },
 } as IDao3Config;
 ```
@@ -234,11 +190,6 @@ export default {
   bundles: {
     pve: pveBundle,
     pvp: pvpBundle,
-  },
-  uiIndexPrefix: "",
-  map: {
-    id: "",
-    playHash: "",
   },
 } as IDao3Config;
 ```

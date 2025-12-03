@@ -28,8 +28,6 @@ const mode = import.meta.env.MODE;
 - `production`
 - `debug`
 
-> 注意：`MODE` 是通过脚手架在构建阶段注入的，并不是 Vite 官方内置变量；请以本脚手架文档说明为准。
-
 ## 2. 在代码中根据模式切换行为
 
 最常见的用法就是根据 `MODE` 做条件分支：

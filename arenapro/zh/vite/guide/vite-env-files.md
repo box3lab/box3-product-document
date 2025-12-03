@@ -18,11 +18,11 @@
 典型内容示例：
 
 ```env
-# 神岛账户 Token / UA（通常通过 npm run sync:auth 自动写入）
+# 神岛账户 Token / UA（通常通过 apc login 自动写入）
 VITE_DAO3_AUTH=
 VITE_DAO3_UA=
 
-# 当前构建/上传的 bundle 名
+# 当前构建/上传的 bundle 名（对应 dao3.config.ts → bundles 的 key）
 VITE_CURRENT_FILE=
 
 # 是否在构建后自动上传脚本
@@ -139,6 +139,10 @@ VITE_DAO3_UA=YOUR_UA_HERE
 VITE_CURRENT_FILE=
 VITE_UPDATE_FILE=true
 
+# 地图相关（示例，可根据项目需要调整）
+VITE_DAO3_MAP_ID=
+VITE_UI_INDEX_PREFIX=
+
 # 接口地址（可根据团队约定填写默认值或留空）
 VITE_API_BASE_URL=
 ```
@@ -151,7 +155,7 @@ VITE_API_BASE_URL=
 2. 每个开发者在本地：
    - 复制一份 `.env.example` 为 `.env`；
    - 根据需要再创建 `.env.development` / `.env.production`；
-   - 通过 `npm run sync:auth` 写入自己的账号 Token / UA。
+   - 通过 `apc login`（或项目脚本中封装的 `npm run dao3:login` 等命令）写入自己的账号 Token / UA。
 
 ## 6. 和 `MODE` 结合使用
 

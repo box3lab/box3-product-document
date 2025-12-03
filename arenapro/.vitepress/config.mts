@@ -100,6 +100,7 @@ export default defineConfig({
                 text: "Vite 专属能力",
                 link: "/zh/vite/guide/vite-features",
               },
+
               {
                 text: "使用脚手架开发 NPM 包",
                 link: "/zh/vite/guide/vite-npm-dev",
@@ -115,6 +116,14 @@ export default defineConfig({
               {
                 text: "环境变量的多种用法",
                 link: "/zh/vite/guide/vite-env-files",
+              },
+              {
+                text: "CLI 命令一览",
+                link: "/zh/vite/guide/cli-commands",
+              },
+              {
+                text: "在 CI 中使用 apc",
+                link: "/zh/vite/guide/ci-apc-actions",
               },
             ],
           },

@@ -1,125 +1,211 @@
-# ArenaPro Vite 脚手架快速创建
+# ArenaPro Vite 新手安装教程
 
-> 本文只讲「怎么跑起来」，不讲 Vite 原理。
+提示：本篇主要介绍 **ArenaPro Vite 脚手架的快速上手流程**，不会从零讲解 Node.js 或前端开发等基础知识。
 
-## 前置条件
+如果你是 **第一次接触 ArenaPro**，建议先阅读 [依赖插件的脚手架教程](/zh/guide/02-getting-started/01-install)，先了解整体概念，再回来看本篇效果会更好。
 
-- 已安装 Node.js（推荐使用 LTS 版本）。
+## 1. 环境准备
 
-## 1. 创建 ArenaPro Vite 脚手架项目
+### 1.1 安装 Node.js
 
-如果你还没有项目，可以先用官方脚手架命令在一个**干净目录**下创建：
+- 推荐版本：**Node.js 22+**
+- 打开官网下载安装：
+  - https://nodejs.org/
 
-```bash
-npx create-arena-vite-project my-app
-```
-
-- `my-app` 可以替换成你自己的项目名；
-- 脚手架会自动拉取模板并初始化基础配置。
-
-执行完成后，进入新项目目录：
+安装完成后，终端中执行：
 
 ```bash
-cd my-app
+node -v
+npm -v
 ```
 
-## 2. 安装依赖
+能正常输出版本号即可。
 
-在项目根目录执行（命令以团队约定为准）：
+## 2. 安装全局 CLI
+
+首次使用时，需要先全局安装脚手架包：
 
 ```bash
-npm install
-# 或 pnpm install / yarn install
+npm install -g @box3lab/arenapro-vite-cli
 ```
 
-安装完成后，项目的依赖会被下载到 `node_modules/`。
-
-## 3. 启动开发服务器
+安装成功后，终端中检查命令：
 
 ```bash
-npm run dev
+apc -h
 ```
 
-启动成功后，你可以：
+如果能看到帮助信息，说明 CLI 安装成功。
 
-- 修改 `server/src/` 或 `client/src/` 目录下的脚本；
-- 保存文件后，会自动局部热更新并同步至云端 Arena 编辑器；
-- 几乎可以「一边写代码一边看效果」。
+> 提示：
+>
+> - Windows：在 CMD / PowerShell / Git Bash 中都可以直接运行 `apc`
+> - macOS / Linux：在任意终端（zsh/bash 等）都可以直接运行 `apc`
 
-## 4. 构建生产包
-
-当你想把当前版本上传到 Arena 或用于正式发布时，执行：
+如需更新脚手架版本，请执行：
 
 ```bash
-npm run build
+npm update -g @box3lab/arenapro-vite-cli
 ```
 
-此步骤会启动 TypeScript 类型检查和 ESLint 检查并进行构建；如果检查或构建过程中发现错误，将输出错误信息并终止构建。
-构建完成后：
+## 3. 创建新项目
 
-- 产物会被输出到脚手架配置好的目录（例如 `dist/`）；
-- 构建结果自动同步到 Arena 编辑器 。
+在你希望存放项目的目录里执行：
 
-## 5. 脚手架内置命令一览
+```bash
+# 1) 使用脚手架创建项目
+apc create my-arena-app
+# 或使用
+# npx create-arena-vite-project my-arena-app
+```
 
-这一套脚手架已经在 `package.json` 里帮你预置了常用命令，大致分为：
+以上两种方式有如下区别：
 
-- **必须掌握的日常命令**
-- **可选 / 进阶命令（按需使用或扩展）**
+使用 `apc create` 时，脚本会自动完成：
 
-### 5.1 必须掌握的命令
+1. 生成项目目录 `my-arena-app`
+2. 根据你选择的包管理器安装依赖，默认为 npm
+3. 测试项目能否正常构建并上传
 
-- **`npm run dev`**  
-  并行启动开发环境（等价于同时跑 `dev:*`），包含 server / client 的开发构建和监听。
+使用 `create-arena-vite-project` 时，仅会生成项目目录 `my-arena-app`。
 
-- **`npm run build`**  
-  并行执行所有构建任务（等价于同时跑 `build:*`）：
-  - 在构建过程中会执行 **TypeScript 类型检查** 和 **ESLint 检查**；
-  - 如发现错误会输出错误信息并终止构建；
-  - 构建成功后，产物输出到预设目录，并同步到 Arena 编辑器。
+### 3.1 进入项目目录
 
-> 一般开发流程只需要记住：`npm run dev` 做日常开发，`npm run build` 做发布前检查和构建。
+```bash
+cd my-arena-app
+```
 
-### 5.2 可选 / 进阶命令（按需使用）
+项目结构大致如下：
 
-这些命令更细粒度地控制「只构建 server / client」或「仅做检查」，可以根据团队需要扩展或替换。
+```text
+my-arena-app/
+  client/        # 客户端脚本
+  server/        # 服务端脚本
+  shares/        # client/server 共享代码
+  dao3.config.ts # 项目打包配置（bundle 列表等）
+  .env           # 环境变量配置（神岛授权、构建参数等）
+  package.json
+  vite.config.ts
+  ...
+```
 
-- **开发相关**
+## 4. 配置环境变量（.env）
 
-  - `npm run dev:server`：仅以 **server** 为目标启动开发构建（持续 watch）。
-  - `npm run dev:client`：仅以 **client** 为目标启动开发构建（持续 watch）。
+项目根目录下有一个 `.env` 配置文件：
 
-- **构建相关**
+`.env` 中主要几个变量：
 
-  - `npm run build:server`：只构建 server 侧脚本，产物用于部署到 Arena 的服务端环境。
-  - `npm run build:client`：只构建 client 侧脚本，产物用于部署到 Arena 的客户端环境。
+```env
+# 神岛用户身份令牌（Authorization）
+VITE_DAO3_AUTH=
 
-- **资源同步相关**
+# 浏览器标识 User-Agent（需和上面的 AUTH 一致）
+VITE_DAO3_UA=
 
-  - `npm run sync:resources`：
-    - 会同步当前地图内的各类资源（图片、UI、商品、音频、模型等）；
-    - 同时更新最新的游戏 API 类型声明（d.ts）；
-    - 除了游戏 API 声明外，其它资源同步前需要先完成登录，并在配置中填写目标地图的 ID，才能成功获取。
+# 目标构建模块名，对应 dao3.config.ts → bundles 的 key
+VITE_CURRENT_FILE=
 
-- **账号授权相关**
+# 是否在构建后自动上传脚本：true | false
+VITE_UPDATE_FILE=true
 
-  - `npm run sync:auth`：
-    - 一键完成当前账号在本机的授权流程；
-    - 自动获取并写入神岛账户 Token（`VITE_DAO3_AUTH`）和 UA（`VITE_DAO3_UA`）到 `.env`；
-    - 一般在**首次拉取项目后**或本地 Token / UA 过期、变更时执行一次即可。
+# UI 节点过滤前缀（可选），留空表示全部
+VITE_UI_INDEX_PREFIX=
 
-- **调试模式（debug 构建）**
+# 目标地图ID，必须为「扩展地图」
+VITE_DAO3_MAP_ID=
+```
 
-  - `npm run debug:server`：以 `debug` 模式构建 server，会保留源码映射，停止部署到 Arena。
-  - `npm run debug:client`：以 `debug` 模式构建 client，会保留源码映射，停止部署到 Arena。
+### 4.1 快速获取授权信息（推荐）
 
-- **类型检查 / 工程化工具**
+在项目根目录执行：
 
-  - `npm run tsc`：并行执行 `tsc:*`，对 client / server 侧代码进行 TypeScript 编译，产出 JS + d.ts。
-  - `npm run tsc:server`：仅对 `server` 侧代码执行 TypeScript 编译（产出 JS + d.ts）。
-  - `npm run tsc:client`：仅对 `client` 侧代码执行 TypeScript 编译（产出 JS + d.ts）。
-  - `npm run tsc:check`：并行执行 `tsc:check:*`，只做类型检查（`noEmit`），不产出文件，适合 CI / 本地快速校验。
-  - `npm run tsc:check:server`：仅对 `server` 侧代码执行「不产物的类型检查」。
-  - `npm run tsc:check:client`：仅对 `client` 侧代码执行「不产物的类型检查」。
-  - `npm run eslint:fix`：运行 ESLint 并尝试自动修复可以修复的问题。
-  - `npm run prettier:write`：使用 Prettier 对整个项目进行代码格式化。
+```bash
+apc login
+# 或通过 npm script
+# npm run dao3:login
+```
+
+CLI 会打开一个本地授权页面，引导你登录神岛并将 `VITE_DAO3_AUTH` / `VITE_DAO3_UA` 写回 `.env`。
+
+### 4.2 手动填写（可选）
+
+如果你想手动填写：
+
+1. 登录：https://code-api-pc.dao3.fun/auth/user
+   - 复制返回的 `data.token` → 填到 `VITE_DAO3_AUTH`
+2. 访问：https://www.lzltool.com/UserAgent
+   - 复制一个浏览器 User-Agent → 填到 `VITE_DAO3_UA`
+3. 在神岛后台找到你的**扩展地图 ID** → 填到 `VITE_DAO3_MAP_ID`
+
+## 5. 同步神岛资源到本地
+
+配置好 `.env` 后，在项目根目录执行：
+
+```bash
+apc res
+```
+
+同步完成后，你会在 `client/`、`server/`、`types/` 等目录下看到对应的自动生成的地图资源文件。
+
+## 6. 启动开发 / 调试
+
+在项目根目录执行：
+
+### 6.1 启动开发构建（watch 模式）
+
+```bash
+# 同时 watch server + client
+apc dev
+
+# 仅 server
+apc dev server
+
+# 仅 client
+apc dev client
+```
+
+这会根据 `VITE_BUILD_TARGET` 和 `dao3.config.ts` 自动进行 Vite 打包（watch）。
+
+## 7. 正式构建与上传脚本
+
+### 7.1 正式构建
+
+```bash
+# 同时构建 server + client
+apc build
+
+# 单侧构建
+apc build server
+apc build client
+```
+
+### 7.2 自动上传脚本
+
+- `.env` 中：
+
+  ```env
+  VITE_UPDATE_FILE=true
+  ```
+
+- 并配置好 `VITE_DAO3_AUTH`、`VITE_DAO3_UA`、`VITE_DAO3_MAP_ID` 等
+
+构建完成后，`ArenaUpdateScript` 插件会自动将脚本上传到目标地图。
+
+如果你只想构建，不上传：
+
+```env
+VITE_UPDATE_FILE=false
+```
+
+## 9. 遇到问题怎么办？
+
+遇到以下情况时，可以尝试：
+
+- **`apc` 不是内部或外部命令**
+
+  - 检查是否已将 CLI 安装为全局包。
+  - 重开一个终端再试
+
+- **同步资源 / 上传脚本失败**
+  - 检查 `.env` 中的 `VITE_DAO3_AUTH`、`VITE_DAO3_UA`、`VITE_DAO3_MAP_ID`
+  - 确认目标地图是**扩展地图**
