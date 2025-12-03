@@ -149,4 +149,4 @@ jobs:
 4. 运行 `VITE_UPDATE_FILE=false npx apc build`；
 5. 如需上传，再补充 Token / UA / MapId 等环境变量。
 
-例如在 Gitee Go / GitLab CI 中，也可以按照上述 4 步翻译成对应的 YAML 格式即可。
+例如在 Gitee Go / GitLab CI 中，也可以按照上述 4 步翻译成对应的 YAML 格式。
