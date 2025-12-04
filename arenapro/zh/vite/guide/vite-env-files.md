@@ -18,10 +18,6 @@
 典型内容示例：
 
 ```env
-# 神岛账户 Token / UA（通常通过 apc login 自动写入）
-VITE_DAO3_AUTH=
-VITE_DAO3_UA=
-
 # 当前构建/上传的 bundle 名（对应 dao3.config.ts → bundles 的 key）
 VITE_CURRENT_FILE=
 

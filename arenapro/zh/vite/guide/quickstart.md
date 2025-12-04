@@ -25,8 +25,10 @@ npm -v
 
 首次使用时，需要先全局安装脚手架包：
 
+如果是团队协作开发，建议所有开发者都在自己的电脑上全局安装一次 CLI。
+
 ```bash
-npm install -g @box3lab/arenapro-vite-cli
+npm install -g @box3lab/arenapro-cli
 ```
 
 安装成功后，终端中检查命令：
@@ -45,7 +47,7 @@ apc -h
 如需更新脚手架版本，请执行：
 
 ```bash
-npm update -g @box3lab/arenapro-vite-cli
+npm update -g @box3lab/arenapro-cli
 ```
 
 ## 3. 创建新项目
@@ -96,12 +98,6 @@ my-arena-app/
 `.env` 中主要几个变量：
 
 ```env
-# 神岛用户身份令牌（Authorization）
-VITE_DAO3_AUTH=
-
-# 浏览器标识 User-Agent（需和上面的 AUTH 一致）
-VITE_DAO3_UA=
-
 # 目标构建模块名，对应 dao3.config.ts → bundles 的 key
 VITE_CURRENT_FILE=
 
@@ -115,31 +111,46 @@ VITE_UI_INDEX_PREFIX=
 VITE_DAO3_MAP_ID=
 ```
 
-### 4.1 快速获取授权信息（推荐）
+### 4.1 快速获取授权信息
 
 在项目根目录执行：
 
 ```bash
 apc login
-# 或通过 npm script
-# npm run dao3:login
 ```
 
-CLI 会打开一个本地授权页面，引导你登录神岛并将 `VITE_DAO3_AUTH` / `VITE_DAO3_UA` 写回 `.env`。
+CLI 会打开一个本地授权页面。
 
-### 4.2 手动填写（可选）
+### 4.2 链接一张扩展地图
 
-如果你想手动填写：
+登录完成后，需要先把当前工程和某一张「扩展地图」绑定起来，后续同步资源 / 上传脚本都会指向这张地图。
 
-1. 登录：https://code-api-pc.dao3.fun/auth/user
-   - 复制返回的 `data.token` → 填到 `VITE_DAO3_AUTH`
-2. 访问：https://www.lzltool.com/UserAgent
-   - 复制一个浏览器 User-Agent → 填到 `VITE_DAO3_UA`
-3. 在神岛后台找到你的**扩展地图 ID** → 填到 `VITE_DAO3_MAP_ID`
+1. 在终端中列出当前账号下的扩展地图列表并写入本地：
+
+   ```bash
+   apc list
+   ```
+
+   记下你要开发的那一张地图的 ID（例如 `100005475`）。
+
+2. 使用 `apc set` 将缓存地图信息写入当前项目的 `.env`：
+
+   ```bash
+   apc set 100005475
+   ```
+
+   这一步会在 `.env` 中写入 / 更新：
+
+   - `VITE_DAO3_MAP_ID`
+   - `VITE_DAO3_PLAY_HASH`
+   - `VITE_DAO3_EDIT_HASH`
+   - `VITE_DAO3_MAP_NAME`
+
+完成以上两步后，这个项目就和一张具体的扩展地图建立了关联。
 
 ## 5. 同步神岛资源到本地
 
-配置好 `.env` 后，在项目根目录执行：
+登录并链接好地图后，在项目根目录执行：
 
 ```bash
 apc resource
@@ -196,16 +207,3 @@ apc build client
 ```env
 VITE_UPDATE_FILE=false
 ```
-
-## 9. 遇到问题怎么办？
-
-遇到以下情况时，可以尝试：
-
-- **`apc` 不是内部或外部命令**
-
-  - 检查是否已将 CLI 安装为全局包。
-  - 重开一个终端再试
-
-- **同步资源 / 上传脚本失败**
-  - 检查 `.env` 中的 `VITE_DAO3_AUTH`、`VITE_DAO3_UA`、`VITE_DAO3_MAP_ID`
-  - 确认目标地图是**扩展地图**

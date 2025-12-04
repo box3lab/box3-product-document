@@ -57,7 +57,10 @@ jobs:
       # 第三步：安装当前项目所有依赖
       - name: 安装项目依赖
         run: npm ci
-      # 第四步：执行正式构建，但不上传至神岛地图中
+      # 第四步：安装arenapro-cli
+      - name: 安装ArenaPro CLI
+        run: npm install @box3lab/arenapro-cli
+      # 第五步：执行正式构建，但不上传至神岛地图中
       - name: 构建 ArenaPro Vite 项目
         env:
           # 显式关闭自动上传
@@ -80,7 +83,9 @@ jobs:
    - 保证和推荐的运行版本一致。
 3. **安装依赖**：
    - 使用 `npm ci`，基于 lockfile 做一次干净安装。
-4. **正式构建（不上传）**：
+4. **安装 ArenaPro CLI**：
+   - 执行 `npm install @box3lab/arenapro-cli`，保证 CI 中可以调用 `apc` 命令。
+5. **正式构建（不上传）**：
    - 设置 `VITE_UPDATE_FILE="false"`，
    - 运行 `npm run build`（脚本内部调用 `apc build`），验证构建是否能完整跑通。
 
@@ -145,8 +150,8 @@ jobs:
 
 1. 准备 Node.js 环境；
 2. 安装依赖：`npm ci`；
-3. 运行 `npx apc tsc-check`；
-4. 运行 `VITE_UPDATE_FILE=false npx apc build`；
+3. 安装依赖：`npm install @box3lab/arenapro-cli`；
+4. 运行 `npm run build`；
 5. 如需上传，再补充 Token / UA / MapId 等环境变量。
 
 例如在 Gitee Go / GitLab CI 中，也可以按照上述 4 步翻译成对应的 YAML 格式。

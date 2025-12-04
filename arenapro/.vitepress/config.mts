@@ -113,10 +113,7 @@ export default defineConfig({
                 text: "环境变量的多种用法",
                 link: "/zh/vite/guide/vite-env-files",
               },
-              {
-                text: "使用脚手架开发 NPM 包",
-                link: "/zh/vite/guide/vite-npm-dev",
-              },
+
               {
                 text: "CLI 命令一览",
                 link: "/zh/vite/guide/cli-commands",
@@ -128,16 +125,30 @@ export default defineConfig({
             ],
           },
           {
+            text: "NPM包使用",
+            collapsed: false,
+            items: [
+              {
+                text: "使用神岛社区 NPM 包",
+                link: "/zh/vite/guide/vite-npm-install",
+              },
+              {
+                text: "开发 NPM 包",
+                link: "/zh/vite/guide/vite-npm-dev",
+              },
+            ],
+          },
+          {
             text: "VSCode扩展程序",
             collapsed: false,
             items: [
               {
-                text: "颜色可视化预览器",
+                text: "颜色可视化拾色器",
                 link: "/zh/vite/guide/colorProviderPlugin",
               },
 
               {
-                text: "数据空间可视化预览器",
+                text: "数据空间可视化编辑器",
                 link: "/zh/vite/guide/dataSpacePlugin",
               },
             ],
@@ -149,11 +160,6 @@ export default defineConfig({
               {
                 text: "三种运行模式的使用场景",
                 link: "/zh/vite/guide/vite-modes-usage",
-              },
-
-              {
-                text: "脱离插件后同步资源与账号",
-                link: "/zh/vite/guide/faq-sync-standalone",
               },
             ],
           },
