@@ -14,26 +14,6 @@
 
 ```env
 # ========================
-# 神岛应用授权配置
-# ========================
-
-
-# 快捷获取并写入：在项目根目录执行 apc login
-
-
-# 【用户身份令牌】
-# 用于 API 请求的 Authorization 头认证，需和User-Agent匹配
-# 手动获取：登录 https://code-api-pc.dao3.fun/auth/user → 复制 data.token
-VITE_DAO3_AUTH=
-
-
-# 【浏览器标识】
-# 模拟真实浏览器的 User-Agent 字符串，需和Authorization匹配
-# 手动生成：访问 https://www.lzltool.com/UserAgent
-VITE_DAO3_UA=
-
-
-# ========================
 # 构建与上传配置
 # ========================
 
@@ -67,39 +47,7 @@ VITE_UI_INDEX_PREFIX=
 VITE_DAO3_MAP_ID=
 ```
 
-### 1. `VITE_DAO3_AUTH`：神岛账户 Token
-
-- **作用**：用于向神岛代码接口发起请求时，填入 HTTP `Authorization` 头。
-- **推荐获取方式**：
-
-  - 一键授权：在项目根目录执行 `apc login`，自动写入 `.env`（也可以根据项目脚本使用 `npm run dao3:login` 等封装命令）；
-  - 手动方式：在浏览器访问：
-
-    ```text
-    https://code-api-pc.dao3.fun/auth/user
-    ```
-
-    复制返回数据中 `data.token` 字段的值，填入 `.env` 中的 `VITE_DAO3_AUTH`。
-
-- **安全建议**：
-  - 不要把包含真实 token 的 `.env` 提交到公共仓库；
-  - 团队协作时，用 `.env.example` 提示变量名和注释，让每个人本地填值。
-
-### 2. `VITE_DAO3_UA`：客户端 UA 标识
-
-- **作用**：用于请求头里的 `X-Dao-Ua` / `User-Agent` 字段，帮助服务端识别调用来源。
-- **推荐获取方式**：
-
-  - 一键授权：执行 `apc login` 可一并写入 UA 信息；
-  - 手动方式：可以自定义一个 UA，或参考工具网站生成：
-
-    ```text
-    https://www.lzltool.com/UserAgent
-    ```
-
-    然后填入 `VITE_DAO3_UA`。
-
-### 3. `VITE_CURRENT_FILE`：当前构建 / 上传的 bundle 名
+### 1. `VITE_CURRENT_FILE`：当前构建 / 上传的 bundle 名
 
 - **作用**：告诉构建脚本「这次要上传的是哪一个 bundle」。
 - **取值范围**：必须是 `dao3.config.ts -> bundles` 下的某个 key 或留空。
@@ -112,7 +60,7 @@ VITE_CURRENT_FILE=bundle
 
 - 当 `VITE_CURRENT_FILE` 留空时，脚手架会对 `dao3.config.ts` 中所有已启用的 bundle 进行多入口打包和监听，适合需要同时调试多套入口的场景。
 
-### 4. `VITE_UPDATE_FILE`：是否在构建后自动上传脚本
+### 2. `VITE_UPDATE_FILE`：是否在构建后自动上传脚本
 
 - **作用**：控制构建完成后，脚手架是否**自动将构建结果上传到 Arena**。
 - **取值**（布尔值）：

@@ -158,8 +158,24 @@ export default defineConfig({
             collapsed: false,
             items: [
               {
+                text: "登录的不同方式",
+                link: "/zh/vite/guide/vite-login-faq",
+              },
+              {
+                text: "环境变量与地图绑定",
+                link: "/zh/vite/guide/vite-env-faq",
+              },
+              {
+                text: "资源同步",
+                link: "/zh/vite/guide/vite-resource-faq",
+              },
+              {
                 text: "三种运行模式的使用场景",
                 link: "/zh/vite/guide/vite-modes-usage",
+              },
+              {
+                text: "地图预览",
+                link: "/zh/vite/guide/vite-preview-faq",
               },
             ],
           },
