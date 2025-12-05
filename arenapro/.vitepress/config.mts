@@ -25,12 +25,7 @@ export default defineConfig({
     search: {
       provider: "local",
     },
-    socialLinks: [
-      {
-        icon: "github",
-        link: "https://github.com/Box3Lab/box3-editor-support-for-vscode",
-      },
-    ],
+    socialLinks: [],
     footer: {
       message: "神岛实验室",
       copyright: "Copyright © 2024-2025",
@@ -38,23 +33,23 @@ export default defineConfig({
   },
 
   locales: {
-    "zh/vite": {
+    "zh/cli": {
       label: "简体中文",
       lang: "zh-CN",
-      link: "/zh/vite",
-      title: "ArenaPro Creator",
-      description: "支持VSCode与TypeScript的神岛游戏制作插件",
+      link: "/zh/cli",
+      title: "ArenaPro CLI",
+      description: "面向神岛创作者的命令行工具，连接本地终端与 Arena 编辑器",
 
       themeConfig: {
         nav: [
           {
-            text: "脚手架版本",
+            text: "产品版本",
             items: [
               {
-                text: "Webpack（稳定版）",
+                text: "Creator（稳定版）",
                 link: "/zh/guide/01-introduction/00-toolbox-introduction",
               },
-              { text: "Vite（预览版）", link: "/zh/vite/guide/" },
+              { text: "CLI（预览版）", link: "/zh/cli/guide/" },
             ],
           },
           { text: "API手册", link: "https://docs.box3lab.com/apapi/" },
@@ -73,22 +68,22 @@ export default defineConfig({
             collapsed: false,
             items: [
               {
-                text: "认识 Vite",
-                link: "/zh/vite/guide/",
+                text: "欢迎来到 CLI",
+                link: "/zh/cli/guide/",
               },
               {
-                text: "Vite 脚手架创建",
-                link: "/zh/vite/guide/quickstart",
+                text: "第一个项目",
+                link: "/zh/cli/guide/quickstart",
               },
 
               {
-                text: "配置神岛信息",
-                link: "/zh/vite/guide/dao3-config",
+                text: "配置信息",
+                link: "/zh/cli/guide/dao3-config",
               },
 
               {
                 text: "项目结构总览",
-                link: "/zh/vite/guide/structure",
+                link: "/zh/cli/guide/structure",
               },
             ],
           },
@@ -97,30 +92,32 @@ export default defineConfig({
             collapsed: false,
             items: [
               {
-                text: "Vite 专属能力",
-                link: "/zh/vite/guide/vite-features",
+                text: "Vite 扩展能力",
+                link: "/zh/cli/guide/vite-features",
               },
 
               {
                 text: "根据 MODE 区分环境",
-                link: "/zh/vite/guide/vite-mode-env",
+                link: "/zh/cli/guide/vite-mode-env",
               },
-              {
-                text: "神岛配置文件",
-                link: "/zh/vite/guide/dao3-config-ts",
-              },
+
               {
                 text: "环境变量的多种用法",
-                link: "/zh/vite/guide/vite-env-files",
+                link: "/zh/cli/guide/vite-env-files",
+              },
+
+              {
+                text: "环境变量一览",
+                link: "/zh/cli/guide/cli-env-vars",
               },
 
               {
                 text: "CLI 命令一览",
-                link: "/zh/vite/guide/cli-commands",
+                link: "/zh/cli/guide/cli-commands",
               },
               {
-                text: "在 CI/CD 中使用",
-                link: "/zh/vite/guide/ci-apc-actions",
+                text: "仓库流水线",
+                link: "/zh/cli/guide/ci-apc-actions",
               },
             ],
           },
@@ -130,11 +127,11 @@ export default defineConfig({
             items: [
               {
                 text: "使用神岛社区 NPM 包",
-                link: "/zh/vite/guide/vite-npm-install",
+                link: "/zh/cli/guide/vite-npm-install",
               },
               {
                 text: "开发 NPM 包",
-                link: "/zh/vite/guide/vite-npm-dev",
+                link: "/zh/cli/guide/vite-npm-dev",
               },
             ],
           },
@@ -144,12 +141,12 @@ export default defineConfig({
             items: [
               {
                 text: "颜色可视化拾色器",
-                link: "/zh/vite/guide/colorProviderPlugin",
+                link: "/zh/cli/guide/colorProviderPlugin",
               },
 
               {
                 text: "数据空间可视化编辑器",
-                link: "/zh/vite/guide/dataSpacePlugin",
+                link: "/zh/cli/guide/dataSpacePlugin",
               },
             ],
           },
@@ -159,23 +156,20 @@ export default defineConfig({
             items: [
               {
                 text: "登录的不同方式",
-                link: "/zh/vite/guide/vite-login-faq",
+                link: "/zh/cli/guide/vite-login-faq",
               },
               {
                 text: "环境变量与地图绑定",
-                link: "/zh/vite/guide/vite-env-faq",
+                link: "/zh/cli/guide/vite-env-faq",
               },
               {
                 text: "资源同步",
-                link: "/zh/vite/guide/vite-resource-faq",
+                link: "/zh/cli/guide/vite-resource-faq",
               },
-              {
-                text: "三种运行模式的使用场景",
-                link: "/zh/vite/guide/vite-modes-usage",
-              },
+
               {
                 text: "地图预览",
-                link: "/zh/vite/guide/vite-preview-faq",
+                link: "/zh/cli/guide/vite-preview-faq",
               },
             ],
           },
@@ -196,13 +190,13 @@ export default defineConfig({
       themeConfig: {
         nav: [
           {
-            text: "脚手架版本",
+            text: "产品版本",
             items: [
               {
-                text: "Webpack（稳定版）",
+                text: "Creator（稳定版）",
                 link: "/zh/guide/01-introduction/00-toolbox-introduction",
               },
-              { text: "Vite（预览版）", link: "/zh/vite/guide/" },
+              { text: "CLI（预览版）", link: "/zh/cli/guide/" },
             ],
           },
           { text: "API手册", link: "https://docs.box3lab.com/apapi/" },

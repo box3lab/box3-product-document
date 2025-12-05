@@ -55,18 +55,18 @@
 
 ## 2. 如何产出 NPM 包需要的 dist 目录
 
-在这个脚手架下，你已经有完整的 TypeScript 配置，只需要执行 `tsc` 即可编译出 JS 与 d.ts：
+在这个脚手架下，你已经有完整的 TypeScript 配置，只需要执行 `tsc` 即可编译出 JS 与 d.ts。
 
-在构建之前，建议先清空 dist 目录，避免遗留无效文件。
+在构建之前，建议先清空 `dist` 目录，避免遗留无效文件，然后运行：
 
 ```bash
-apc tsc
+npx tsc
 ```
 
 常见做法：
 
 - 确认 `tsconfig` 的 `outDir` 指向 `dist/`（或与上面的 `exports` 配置一致的目录）；
-- 运行对应的 `tsc` 命令，把 TS 编译为 JS + d.ts；
+- 运行对应的 `tsc` 命令（例如上面的 `npx tsc`，或在 `package.json` 中封装的 `npm run build:types` 等脚本），把 TS 编译为 JS + d.ts；
 - 确认 `dist/` 目录中已经包含：
   - `dist/client/src/App.js` / `App.d.ts`
   - `dist/server/src/App.js` / `App.d.ts`

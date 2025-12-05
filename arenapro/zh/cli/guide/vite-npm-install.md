@@ -34,17 +34,9 @@ apc npmlist
 > - 开发前先跑一次 `apc npmlist`，了解当前生态里有哪些现成轮子；
 > - 选用官方 / 社区推荐的包，而不是自己手写一套重复逻辑。
 
-## 3. 用 `apc install` 安装社区包
-
-在当前工程中，推荐通过 CLI 来安装神岛相关依赖，而不是手写 `npm install @dao3fun/xxx`，这样可以少记一些前缀和参数。
+## 3. 用 `npm install` 安装社区包
 
 ### 3.1 基本安装
-
-```bash
-apc install react
-```
-
-等价于在当前项目中执行：
 
 ```bash
 npm install @dao3fun/react
@@ -52,46 +44,10 @@ npm install @dao3fun/react
 
 说明：
 
-- `apc install <pkg>` 会自动补全为 `@dao3fun/<pkg>`；
 - 默认安装到 `dependencies`。
 
-### 3.2 安装到 devDependencies
+## 4. 用 `npm uninstall` 卸载社区包
 
 ```bash
-apc install eslint-config -D
+npm uninstall @dao3fun/react
 ```
-
-说明：
-
-- `-D` / `--dev`：安装到 `devDependencies`；
-- 适用于只在构建 / 开发期使用的包（如 ESLint 配置、构建工具等）。
-
-### 3.3 指定包管理器
-
-如果你在项目中使用了 pnpm / yarn / bun，也可以通过 `-p` 显式指定：
-
-```bash
-apc install react -p pnpm
-apc install react -p yarn
-apc install react -p bun
-```
-
-CLI 会：
-
-- 根据 `-p` 选择对应的包管理器；
-- 打印实际执行的安装命令和最终安装的完整包名。
-
-## 4. 用 `apc uninstall` 卸载社区包
-
-不再需要某个包时，可以用 CLI 保持一致的体验：
-
-```bash
-apc uninstall react
-apc uninstall react -p pnpm
-```
-
-说明：
-
-- 同样会自动补全为 `@dao3fun/react`；
-- 同样支持通过 `-p` 指定包管理器；
-- 卸载过程会打印使用的包管理器和卸载的完整包名。
