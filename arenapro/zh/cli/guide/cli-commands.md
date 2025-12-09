@@ -41,30 +41,49 @@ apc list --order-by 3 --order-desc false  # 按创建时间正序
 - `--order-desc [flag]`：是否倒序，`true | false`，默认 `true`
 - `--ownership [owner]`：创作者身份过滤，`0` owner、`1` collaborator
 
-### `apc set [mapid]`
+### `apc set [keyword]`
 
-将指定地图信息写入当前工程的 env 文件：
+根据关键字搜索一张地图，并将其信息写入当前工程的 env 文件：
 
 ```bash
-apc set 100005475             # 写入 .env
-apc set 100005475 --env dev   # 写入 .env.dev
+apc set 100005475                # 按地图 ID 写入 .env
+apc set 100005475 --env dev      # 按地图 ID 写入 .env.dev
+apc set 超时空                # 按标题 / 名称关键字搜索
+apc set 9181e2f0fe4c31f7fc     # 按 playHash / editHash 搜索
+apc set 455          # 按作者 ID 搜索
+apc set 沙漠                     # 可命中子图名称，最终仍写入主地图
 ```
 
 **参数：**
 
-- `mapid`：地图 ID，来自 `apc list` 输出中的 `[ID: xxx]`
+- `keyword`：用于搜索的关键字，可以是：
+  - 地图 ID（主图 ID 或子图 ID）
+  - `playHash` / `editHash`（主图或子图）
+  - 地图标题 / 名称
+  - 地图简介 `describe`
+  - 作者 ID
 - `-e, --env [mode]`：目标 env 文件：
   - 不带参数：`.env`
   - 例如 `--env dev` → `.env.dev`
 
 **行为：**
 
-- 从全局地图缓存中查找对应 ID 的地图（由 `apc list` 写入）。
-- 找到后，在指定 env 中写入 / 更新：
-  - `VITE_DAO3_MAP_ID`（地图 ID）
-  - `VITE_DAO3_PLAY_HASH`
-  - `VITE_DAO3_EDIT_HASH`
-  - `VITE_DAO3_MAP_NAME`（地图名称，作为元数据参考）
+- 从本地全局地图缓存（由 `apc list` 写入）中搜索匹配的地图：
+  - 先按 **主图 ID / 子图 ID** 精确匹配；
+  - 再按 **主图 / 子图的 playHash / editHash** 精确匹配；
+  - 若仍未命中，则在 **主图 + 所有子图** 的多个字段上做模糊搜索：
+    - 主图：`id / mapId / contentId / playHash / editHash / name / title / describe / authorId`
+    - 子图：`id / playHash / editHash / name / authorId`
+- 若模糊搜索只命中 **一条主图**，则直接使用该主图；
+- 若模糊搜索命中 **多条主图**，会列出候选清单并提示你缩小关键字范围，此时不会写入 env；
+- 如果命中来源是 **subMaps（子地图）**，最终仍以其所属的 **主地图** 作为写入目标：
+  - `VITE_DAO3_MAP_ID` 始终为主地图 ID；
+  - `VITE_DAO3_PLAY_HASH` / `VITE_DAO3_EDIT_HASH` / `VITE_DAO3_MAP_NAME` 也都来自主地图。
+- 最终在指定 env 中写入 / 更新：
+  - `VITE_DAO3_MAP_ID`（主地图 ID）
+  - `VITE_DAO3_PLAY_HASH`（主地图游玩 Hash）
+  - `VITE_DAO3_EDIT_HASH`（主地图创作 Hash）
+  - `VITE_DAO3_MAP_NAME`（主地图名称，作为元数据参考）
 
 ### `apc preview [mode]`
 
