@@ -80,7 +80,10 @@ export default defineConfig({
                 text: "配置信息",
                 link: "/zh/cli/guide/dao3-config",
               },
-
+              {
+                text: "脚手架预装工具",
+                link: "/zh/cli/guide/scaffold-builtins",
+              },
               {
                 text: "项目结构总览",
                 link: "/zh/cli/guide/structure",
