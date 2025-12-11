@@ -11,6 +11,11 @@
   - 作为项目的前端构建工具，负责 `npm run dev` / `npm run build`。
   - 提供快速热更新（HMR）和生产构建能力，是整个脚手架的“发动机”。
 
+- **`vite-tsconfig-paths`**
+
+  - 一个让 Vite 识别 `tsconfig.json` 中 `paths` 路径别名的插件。
+  - 你可以在脚本里使用类似 `@/src/...` 这类别名导入，而不用再在 `vite.config.ts` 里手动重复配置一长串相对路径。
+
 - **`vite-plugin-arenapro-script`**
 
   - 专门为 ArenaPro 集成的 Vite 插件。
