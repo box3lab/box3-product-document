@@ -24,6 +24,7 @@
     "glob": "^11.0.3",
     "marked": "^15.0.0",
     "pagefind": "^1.1.1",
+    "vitepress-plugin-group-icons": "^1.6.5",
     "vitepress-plugin-pagefind": "^0.4.10"
   }
 }

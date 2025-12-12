@@ -1,11 +1,22 @@
 import { defineConfig } from "vitepress";
+import {
+  groupIconMdPlugin,
+  groupIconVitePlugin,
+} from "vitepress-plugin-group-icons";
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   base: "/arenapro/",
   outDir: "../dist/arenapro",
   head: [["link", { rel: "icon", href: "/icon.png" }]],
+  vite: {
+    plugins: [groupIconVitePlugin()],
+  },
   markdown: {
+    config(md) {
+      md.use(groupIconMdPlugin);
+    },
+
     lineNumbers: true,
     container: {
       tipLabel: "Tip",

@@ -8,7 +8,7 @@
 
 - **`vite`**
 
-  - 作为项目的前端构建工具，负责 `npm run dev` / `npm run build`。
+  - 作为项目的前端构建工具，负责 `dev` / `build`。
   - 提供快速热更新（HMR）和生产构建能力，是整个脚手架的“发动机”。
 
 - **`vite-tsconfig-paths`**

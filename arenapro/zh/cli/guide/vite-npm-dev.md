@@ -59,9 +59,29 @@
 
 在构建之前，建议先清空 `dist` 目录，避免遗留无效文件，然后运行：
 
-```bash
-npx tsc
+::: code-group
+
+```sh [npm]
+# 同时编译 server + client
+npm run tsc
 ```
+
+```sh [pnpm]
+# 同时编译 server + client
+pnpm tsc
+```
+
+```sh [yarn]
+# 同时编译 server + client
+yarn tsc
+```
+
+```sh [bun]
+# 同时编译 server + client
+bun run tsc
+```
+
+:::
 
 常见做法：
 

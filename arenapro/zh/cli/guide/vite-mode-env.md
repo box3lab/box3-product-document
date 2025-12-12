@@ -80,8 +80,8 @@ if (isProd) {
 
 当你使用 debug 构建命令时（在 `package.json` 里预设的）：
 
-- `npm run debug:server`
-- `npm run debug:client`
+- `debug:server`
+- `debug:client`
 
 脚手架会以 `MODE = "debug"` 的形式进行构建。此时：
 

@@ -34,20 +34,52 @@ apc npmlist
 > - 开发前先跑一次 `apc npmlist`，了解当前生态里有哪些现成轮子；
 > - 选用官方 / 社区推荐的包，而不是自己手写一套重复逻辑。
 
-## 3. 用 `npm install` 安装社区包
+## 3. 安装社区包
 
 ### 3.1 基本安装
 
-```bash
+::: code-group
+
+```sh [npm]
 npm install @dao3fun/react
 ```
+
+```sh [pnpm]
+pnpm install @dao3fun/react
+```
+
+```sh [yarn]
+yarn add @dao3fun/react
+```
+
+```sh [bun]
+bun add @dao3fun/react
+```
+
+:::
 
 说明：
 
 - 默认安装到 `dependencies`。
 
-## 4. 用 `npm uninstall` 卸载社区包
+## 4. 卸载社区包
 
-```bash
+::: code-group
+
+```sh [npm]
 npm uninstall @dao3fun/react
 ```
+
+```sh [pnpm]
+pnpm uninstall @dao3fun/react
+```
+
+```sh [yarn]
+yarn remove @dao3fun/react
+```
+
+```sh [bun]
+bun remove @dao3fun/react
+```
+
+:::

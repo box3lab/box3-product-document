@@ -2,7 +2,7 @@
 
 本篇会带你从零完成一件事：**用 ArenaPro CLI 创建并跑通第一个 ArenaPro 项目**。
 
-在开始之前，请先通过 `npm install -g @box3lab/arenapro-cli` **全局安装 CLI**，这样才能在终端里直接使用 `apc` 命令。
+在开始之前，请先通过 [**全局安装 CLI**](./index#快速安装)，这样才能在终端里直接使用 `apc` 命令。
 
 ## 1. 创建新项目
 
@@ -11,8 +11,8 @@
 ```bash
 # 1) 使用脚手架创建项目
 apc create my-arena-app
-# 或使用
-# create-arena-vite-project my-arena-app
+# 或使用简写
+# apc c my-arena-app
 ```
 
 会生成项目目录 `my-arena-app` 及文件。
@@ -43,6 +43,8 @@ my-arena-app/
 
 ```bash
 apc login
+# 或使用简写
+# apc l
 ```
 
 CLI 会打开一个本地授权页面。
@@ -54,6 +56,8 @@ CLI 会打开一个本地授权页面。
 ```bash
 apc login --env        # 仅写入当前项目 .env
 apc login --env dev    # 仅写入当前项目 .env.dev
+# 或使用简写
+# apc l -e dev
 ```
 
 CLI 在实际使用时会优先读取：
@@ -94,6 +98,8 @@ CLI 在实际使用时会优先读取：
 
 ```bash
 apc resource
+# 或使用简写
+# apc r
 ```
 
 同步完成后，你会在 `client/`、`server/`、`types/` 等目录下看到对应的自动生成的地图资源文件。
@@ -102,20 +108,58 @@ apc resource
 
 在项目根目录执行：
 
-```bash
+::: code-group
+
+```sh [npm]
 # 同时 watch server + client
 npm run dev
 ```
+
+```sh [pnpm]
+# 同时 watch server + client
+pnpm dev
+```
+
+```sh [yarn]
+# 同时 watch server + client
+yarn dev
+```
+
+```sh [bun]
+# 同时 watch server + client
+bun run dev
+```
+
+:::
 
 - 每次保存后快速重新编译，方便你马上看到效果。
 - 不强制跑完整的类型检查 / 代码检查，更关注「能不能跑起来」。
 
 ## 7. 正式构建与上传脚本
 
-```bash
+::: code-group
+
+```sh [npm]
 # 同时构建 server + client
 npm run build
 ```
+
+```sh [pnpm]
+# 同时构建 server + client
+pnpm build
+```
+
+```sh [yarn]
+# 同时构建 server + client
+yarn build
+```
+
+```sh [bun]
+# 同时构建 server + client
+bun run build
+```
+
+:::
 
 - 一次性打包所有目标脚本。
 - 会按照项目配置执行更严格的检查，用来确认这版代码是否可以上线。
@@ -127,6 +171,8 @@ npm run build
 ```bash
 # 打开创作端（编辑界面）
 apc preview
+# 或使用简写
+# apc p
 ```
 
 - 会根据 `.env` 中的 `VITE_DAO3_EDIT_HASH` 打开对应地图的创作页面；
