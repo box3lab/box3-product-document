@@ -15,7 +15,7 @@
 
 ## 快速安装
 
-在开始之前，请确认你的电脑已安装 [**Node.js 20 或更高版本**](https://nodejs.org/)。
+在开始之前，请确认你的电脑已安装 [**Node.js 22 或更高版本**](https://nodejs.org/)。
 
 在终端中执行以下命令，全局安装 ArenaPro CLI：
 
