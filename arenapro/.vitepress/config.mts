@@ -99,6 +99,10 @@ export default defineConfig({
                 text: "神岛钩子",
                 link: "/zh/react/guide/hooks",
               },
+              {
+                text: "react多语言",
+                link: "/zh/react/guide/react-i18next",
+              },
             ],
           },
         ],
