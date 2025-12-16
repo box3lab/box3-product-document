@@ -44,6 +44,70 @@ export default defineConfig({
   },
 
   locales: {
+    "zh/react": {
+      label: "简体中文",
+      lang: "zh-CN",
+      link: "/zh/react",
+      title: "ArenaPro React",
+      description:
+        "面向神岛创作者的 React UI 框架，基于 React 视图库与组件化模式构建界面",
+
+      themeConfig: {
+        nav: [
+          {
+            text: "产品版本",
+            items: [
+              {
+                text: "Creator",
+                link: "/zh/",
+              },
+              { text: "CLI", link: "/zh/cli/" },
+              { text: "React-UI", link: "/zh/react/" },
+            ],
+          },
+          { text: "React18 官方教程", link: "https://18.react.dev/learn" },
+          {
+            text: "创作者QQ群",
+            link: "https://qm.qq.com/cgi-bin/qm/qr?authKey=LteV6YzMX0xKmrQSp8%2BaNi6YUdonwyVMc44npCKlNymwnoWVZBmG5Y4S4N9RwxEP&k=JeZQYLLnherYW6pGlbODkErutSmbkzr-&noverify=0",
+          },
+        ],
+        outline: {
+          level: [2, 3],
+          label: "本页目录",
+        },
+        sidebar: [
+          {
+            text: "快速上手",
+            collapsed: false,
+            items: [
+              { text: "什么是React", link: "/zh/react/guide" },
+              {
+                text: "第一个项目",
+                link: "/zh/react/guide/quickstart",
+              },
+            ],
+          },
+          {
+            text: "开发指南",
+            collapsed: false,
+            items: [
+              {
+                text: "神岛UI组件",
+                link: "/zh/react/guide/components",
+              },
+              {
+                text: "神岛钩子",
+                link: "/zh/react/guide/hooks",
+              },
+            ],
+          },
+        ],
+        docFooter: {
+          prev: "上一页",
+          next: "下一页",
+        },
+      },
+    },
     "zh/cli": {
       label: "简体中文",
       lang: "zh-CN",
@@ -57,10 +121,11 @@ export default defineConfig({
             text: "产品版本",
             items: [
               {
-                text: "Creator（稳定版）",
-                link: "/zh/guide/01-introduction/00-toolbox-introduction",
+                text: "Creator",
+                link: "/zh/",
               },
-              { text: "CLI（预览版）", link: "/zh/cli/guide/" },
+              { text: "CLI", link: "/zh/cli/" },
+              { text: "React-UI", link: "/zh/react/" },
             ],
           },
           { text: "API手册", link: "https://docs.box3lab.com/apapi/" },
@@ -207,10 +272,11 @@ export default defineConfig({
             text: "产品版本",
             items: [
               {
-                text: "Creator（稳定版）",
-                link: "/zh/guide/01-introduction/00-toolbox-introduction",
+                text: "Creator",
+                link: "/zh/",
               },
-              { text: "CLI（预览版）", link: "/zh/cli/guide/" },
+              { text: "CLI", link: "/zh/cli/" },
+              { text: "React-UI", link: "/zh/react/" },
             ],
           },
           { text: "API手册", link: "https://docs.box3lab.com/apapi/" },
@@ -541,60 +607,6 @@ export default defineConfig({
                         link: "/zh/package/component/api/NodeTime",
                       },
                     ],
-                  },
-                ],
-              },
-              {
-                text: "React 驱动的 UI",
-                collapsed: true,
-                items: [
-                  { text: "框架简介", link: "/zh/package/react" },
-                  {
-                    text: "开发指南",
-                    collapsed: true,
-                    items: [
-                      {
-                        text: "创建脚本",
-                        link: "/zh/package/react/reactGuide/setup",
-                      },
-                      {
-                        text: "XML 基础",
-                        link: "/zh/package/react/reactGuide/xml",
-                      },
-                      {
-                        text: "DOM 树",
-                        link: "/zh/package/react/reactGuide/domTree",
-                      },
-                      {
-                        text: "元素引用",
-                        link: "/zh/package/react/reactGuide/refs",
-                      },
-                      {
-                        text: "类型定义",
-                        link: "/zh/package/react/reactGuide/tsType",
-                      },
-                      {
-                        text: "多组件",
-                        link: "/zh/package/react/reactGuide/multiComponent",
-                      },
-                      {
-                        text: "事件处理",
-                        link: "/zh/package/react/reactGuide/eventHandlers",
-                      },
-                      {
-                        text: "钩子函数",
-                        link: "/zh/package/react/reactGuide/hooks",
-                      },
-                      {
-                        text: "API 参考",
-                        link: "/zh/package/react/reactGuide/api",
-                      },
-                    ],
-                  },
-                  { text: "实战示例", link: "/zh/package/react/selectCode" },
-                  {
-                    text: "React 官方教程",
-                    link: "https://react.dev/learn",
                   },
                 ],
               },
