@@ -53,10 +53,10 @@ import { Box, Text, Image, Input, ScrollBox } from "@dao3fun/react-ui";
 | ------- | ---------------------------------- | ------------------------------------------------------ |
 | `Box`   | —                                  | 主要作为布局和交互容器，使用通用事件即可               |
 | `Text`  | `children` 文本内容                | 直接写在标签内部的文字，比如 `<Text>标题</Text>`       |
-| `Input` | `children` 文本内容                | 直接写在标签内部的文字，比如 `<Input>标题</Input>`     |
 | `Image` | `onLoad(event)`                    | 图片资源加载完成后触发，适合做 loading 状态切换等      |
-| `Image` | `value` / `placeholder`            | 受控输入值和占位提示文字                               |
 | `Image` | `src` / `mode`                     | 图片资源和展示方式                                     |
+| `Input` | `children` 文本内容                | 直接写在标签内部的文字，比如 `<Input>标题</Input>`     |
+| `Input` | `value` / `placeholder`            | 受控输入值和占位提示文字                               |
 | `Input` | `onFocus(event)` / `onBlur(event)` | 输入框获得/失去焦点时触发                              |
 | `Input` | `onChange(value, event)`           | 输入内容确认变更时触发（失去焦点时），返回当前文本内容 |
 
