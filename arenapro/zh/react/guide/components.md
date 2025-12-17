@@ -39,13 +39,16 @@ import { Box, Text, Image, Input, ScrollBox } from "@dao3fun/react-ui";
 
 ### 通用属性（所有组件都有）
 
-| 属性名        | 作用范围 | 用途说明                                                |
-| ------------- | -------- | ------------------------------------------------------- |
-| `style`       | 所有组件 | 配置尺寸、位置、图片、颜色等所有 UI 样式                |
-| `x` / `y`     | 所有组件 | 简写位置，等价于在 `style.position.offset` 里设置 x / y |
-| `onClick`     | 所有组件 | 点击组件时触发，例如点击按钮、卡片、面板                |
-| `onMouseDown` | 所有组件 | 鼠标按下（或手指按下）时触发                            |
-| `onMouseUp`   | 所有组件 | 鼠标抬起（或手指抬起）时触发                            |
+| 属性名                 | 作用范围 | 用途说明                                                |
+| ---------------------- | -------- | ------------------------------------------------------- |
+| `style`                | 所有组件 | 配置尺寸、位置、图片、颜色等所有 UI 样式                |
+| `name`                 | 所有组件 | 元素名称，等价于在 `style.name`                         |
+| `visible`              | 所有组件 | 元素可见性，等价于在 `style.visible`                    |
+| `pointerEventBehavior` | 所有组件 | 指针事件行为，等价于在 `style.pointerEventBehavior`     |
+| `x` / `y`              | 所有组件 | 简写位置，等价于在 `style.position.offset` 里设置 x / y |
+| `onClick`              | 所有组件 | 点击组件时触发，例如点击按钮、卡片、面板                |
+| `onMouseDown`          | 所有组件 | 鼠标按下（或手指按下）时触发                            |
+| `onMouseUp`            | 所有组件 | 鼠标抬起（或手指抬起）时触发                            |
 
 ### 各组件特有的事件 / 属性
 
@@ -63,14 +66,19 @@ import { Box, Text, Image, Input, ScrollBox } from "@dao3fun/react-ui";
 下面是一个综合使用样例：
 
 ```tsx
+import React from "react";
 import { Box, Text, Image, Input } from "@dao3fun/react-ui";
+import { createRoot } from "@dao3fun/react-ui/dom";
 function Panel() {
   return (
     <Box
-      x={100}
+      x={80}
       y={80}
       style={{
         backgroundOpacity: 0.6,
+        size: {
+          offset: Vec2.create({ x: 600, y: 500 }),
+        },
       }}
       onClick={(e) => {
         console.log("点击容器", e.target);
@@ -96,9 +104,14 @@ function Panel() {
     </Box>
   );
 }
+// ui 由神岛客户端提供，对应根 UI 节点
+const root = createRoot(ui);
+root.render(<Panel />);
 ```
 
 ## 组件树示例
+
+以上示例中，当使用 `<Text>登录面板</Text>`时，文字会默认显示在父节点区域的中间位置，无需额外设置对齐或位置属性；如果不期望这种默认行为，可以通过在 `style.size` 中设置位置（offset 和 scale）手动覆盖。
 
 ### 用 Box 包装
 

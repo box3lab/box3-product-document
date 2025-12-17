@@ -1,6 +1,6 @@
 # 欢迎来到 ArenaPro React
 
-![](https://assets.box3.fun/u226/aGQaLqKp7_Hf/n5d34_8AP1OoRgIqPNohabG0OwjL_Qrlj_VPSbF2e20.gif)
+![](https://assets.box3.fun/u226/1Jlf7TJjuX5k/Dxd5R5_KqkiTi7fwlh5rWRdCwr4ZL4ngkKNgzbxq-L0.gif)
 
 这是一个由 Claude 3.7 搭建的神岛 React 示例项目：[双向选择器-示例](https://dao3.fun/exp/experience/detail/100429428)
 （示例代码从设计到实现均由 AI 自动生成）

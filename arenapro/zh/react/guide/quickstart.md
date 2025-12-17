@@ -119,4 +119,4 @@ root.render(<App />);
 
 最终效果是：在神岛客户端中，会看到一块可点击的区域，显示一行文字「你好，React！你点我了 N 次」，每点一次，次数就会加一。
 
-![](https://assets.box3.fun/u226/aGQaLqKp7_Hf/Tm-mC5Qn2b5hxkaGbMl1BUk-q4_wyOI-OITP7AAUr2k.gif)
+![](https://assets.box3.fun/u226/w4Doxb3bmb_u/92UgoQGEDrPbKVCEj_XVpcoi9VEDLjV98laM7xy1f94.gif)
