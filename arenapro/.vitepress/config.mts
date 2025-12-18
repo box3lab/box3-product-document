@@ -44,6 +44,73 @@ export default defineConfig({
   },
 
   locales: {
+    "zh/react-motion": {
+      label: "简体中文",
+      lang: "zh-CN",
+      link: "/zh/react-motion",
+      title: "ArenaPro React Motion",
+      description:
+        "用关键帧与时间轴驱动 UI 动效多动画编排。为神岛 UI 场景做了轻量实现与性能取舍。",
+
+      themeConfig: {
+        nav: [
+          {
+            text: "产品版本",
+            items: [
+              {
+                text: "Creator",
+                link: "/zh/",
+              },
+              { text: "CLI", link: "/zh/cli/" },
+              { text: "React-UI", link: "/zh/react/" },
+              { text: "React-Motion", link: "/zh/react-motion" },
+            ],
+          },
+          { text: "React18 官方教程", link: "https://18.react.dev/learn" },
+          {
+            text: "创作者QQ群",
+            link: "https://qm.qq.com/cgi-bin/qm/qr?authKey=LteV6YzMX0xKmrQSp8%2BaNi6YUdonwyVMc44npCKlNymwnoWVZBmG5Y4S4N9RwxEP&k=JeZQYLLnherYW6pGlbODkErutSmbkzr-&noverify=0",
+          },
+        ],
+        outline: {
+          level: [2, 3],
+          label: "本页目录",
+        },
+        sidebar: [
+          {
+            text: "快速上手",
+            collapsed: false,
+            items: [
+              { text: "什么是React Motion", link: "/zh/react-motion/guide" },
+              {
+                text: "useMotion简述",
+                link: "/zh/react-motion/guide/useMotion-doc",
+              },
+              {
+                text: "useTimeline简述",
+                link: "/zh/react-motion/guide/useTimeline-doc",
+              },
+              {
+                text: "useMotionOrchestrator简述",
+                link: "/zh/react-motion/guide/useMotionOrchestrator-doc",
+              },
+            ],
+          },
+          {
+            text: "API参考",
+            collapsed: false,
+            items: [
+              { text: "Hooks", link: "/zh/react-motion/api/hooks" },
+              { text: "Easing", link: "/zh/react-motion/api/easing" },
+            ],
+          },
+        ],
+        docFooter: {
+          prev: "上一页",
+          next: "下一页",
+        },
+      },
+    },
     "zh/react": {
       label: "简体中文",
       lang: "zh-CN",
@@ -63,6 +130,7 @@ export default defineConfig({
               },
               { text: "CLI", link: "/zh/cli/" },
               { text: "React-UI", link: "/zh/react/" },
+              { text: "React-Motion", link: "/zh/react-motion" },
             ],
           },
           { text: "React18 官方教程", link: "https://18.react.dev/learn" },
@@ -130,6 +198,7 @@ export default defineConfig({
               },
               { text: "CLI", link: "/zh/cli/" },
               { text: "React-UI", link: "/zh/react/" },
+              { text: "React-Motion", link: "/zh/react-motion" },
             ],
           },
           { text: "API手册", link: "https://docs.box3lab.com/apapi/" },
@@ -281,6 +350,7 @@ export default defineConfig({
               },
               { text: "CLI", link: "/zh/cli/" },
               { text: "React-UI", link: "/zh/react/" },
+              { text: "React-Motion", link: "/zh/react-motion" },
             ],
           },
           { text: "API手册", link: "https://docs.box3lab.com/apapi/" },
