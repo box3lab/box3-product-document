@@ -50,7 +50,7 @@ createRoot(ui).render(<TimelineRotate />);
 - **`duration`**：总时长（ms）
 - **`delay`**：延迟启动（ms）
 - **`autoPlay`**：是否自动播放
-- **`loop`**：循环次数或 `"infinite"`
+- **`loop`**：`boolean | number | "infinite"`（是否循环 / 循环次数 / 无限循环）
 - **`yoyo`**：往返播放
 
 ## 常用组合：驱动 useMotion（drivenProgress）
@@ -76,3 +76,5 @@ export function DrivenByTimeline() {
   return <Box style={style} />;
 }
 ```
+
+提示：当 `useMotion` 使用 `drivenProgress` 时，你通常不需要对该 motion 调用 `play()`；它会随 `t` 的变化实时更新样式。

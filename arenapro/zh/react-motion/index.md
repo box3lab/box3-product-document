@@ -12,9 +12,9 @@ hero:
     - theme: brand
       text: 快速开始
       link: /zh/react-motion/guide
-    # - theme: alt
-    #   text: API 手册
-    #   link: https://docs.box3lab.com/arenapro/zh/react-motion
+    - theme: alt
+      text: API 手册
+      link: /zh/react-motion/api/hooks
 
 features:
   - title: "关键帧驱动的动效系统"

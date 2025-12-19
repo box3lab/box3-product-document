@@ -34,6 +34,14 @@ bun add @dao3fun/react-motion
 
 :::
 
+## 运行环境与前置依赖
+
+ArenaPro React Motion 面向 **神岛 Arena 客户端的 React UI** 场景：
+
+- **UI 渲染**：配合 `@dao3fun/react-ui` 使用（`Box/Text` 等 UI 组件）。
+- **运行时**：在神岛客户端环境中运行；示例里的 `ui` 为根节点，`createRoot(ui)` 后即可渲染。
+- **数学类型**：示例里用到的 `Vec2/Vec3` 等通常由神岛运行时提供；
+
 ## 示例：点击触发一个动效
 
 点击后让一个 `Box` 从红色淡出。

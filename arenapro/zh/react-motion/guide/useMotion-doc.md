@@ -32,6 +32,8 @@ export function FadeIn() {
 createRoot(ui).render(<FadeIn />);
 ```
 
+如果你需要“反向播放”，可以使用 `motion.reverse(1 | -1)` 设置方向，再调用 `play()`。
+
 ## 点击触发：用 motion.play()
 
 `useMotion` 的第二个返回值是控制器 `motion`。你可以把 `autoPlay` 关掉，然后在点击/悬停等交互里触发：
@@ -44,7 +46,7 @@ import { createRoot } from "@dao3fun/react-ui/dom";
 
 export function FadeIn() {
   const [style, motion] = useMotion<UiBox>({
-    autoPlay: true,
+    autoPlay: false,
     to: [
       { value: { backgroundOpacity: 1 }, duration: 0 },
       { value: { backgroundOpacity: 0 }, duration: 2000, ease: "quadOut" },
@@ -107,3 +109,13 @@ handle.cancel();
 // 等待完成
 await handle.finished;
 ```
+
+当 `handle.finished` resolve 时，会带上原因（`reason`）：
+
+- `finished`：自然播放结束且不再循环
+- `cancelled`：被 `cancel()` 中断
+- `reset`：被 `reset()` 终止并回到起始状态
+
+## 外部驱动进度：drivenProgress
+
+如果你传入了 `drivenProgress`，`useMotion` **不会再内部自动计时推进**，你需要自行更新进度值（通常来自 `useTimeline`）。

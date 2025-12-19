@@ -31,14 +31,20 @@ export function OrchestratorDemo() {
       {
         value: {
           backgroundOpacity: 0.2,
-          size: { scale: Vec2.create({ x: 0.3, y: 0.3 }) },
+          size: {
+            scale: Vec2.create({ x: 0.3, y: 0.3 }),
+            offset: Vec2.create({ x: 0, y: 0 }),
+          },
         },
         duration: 0,
       },
       {
         value: {
           backgroundOpacity: 1,
-          size: { scale: Vec2.create({ x: 0.7, y: 0.7 }) },
+          size: {
+            scale: Vec2.create({ x: 0.7, y: 0.7 }),
+            offset: Vec2.create({ x: 0, y: 0 }),
+          },
         },
         duration: 1000,
         ease: "quadOut",
@@ -137,3 +143,8 @@ createRoot(ui).render(<OrchestratorDemo />);
   - 错峰播放：每个 motion 延迟 `gapMs` 开始
 
 这些方法都会返回一个可取消的句柄，适合在“切换界面 / 组件卸载”时终止整个编排。
+
+补充说明：
+
+- `useMotionOrchestrator` 只依赖 `MotionController` 的最小接口（`play/pause/reset/setProgress`），因此你既可以直接传入 `useMotion` 返回的控制器，也可以传入你自己实现的兼容控制器。
+- `parallel()/sequence()/stagger()` 返回的句柄与 `useMotion` 的 `MotionPlayHandle` 一致：你可以 `cancel()`，也可以 `await finished` 等待整个编排结束（或被取消/重置）。

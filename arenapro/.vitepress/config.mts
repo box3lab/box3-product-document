@@ -83,16 +83,20 @@ export default defineConfig({
             items: [
               { text: "什么是React Motion", link: "/zh/react-motion/guide" },
               {
-                text: "useMotion简述",
+                text: "关键帧动画",
                 link: "/zh/react-motion/guide/useMotion-doc",
               },
               {
-                text: "useTimeline简述",
+                text: "时间轴动画",
                 link: "/zh/react-motion/guide/useTimeline-doc",
               },
               {
-                text: "useMotionOrchestrator简述",
+                text: "多动画编排",
                 link: "/zh/react-motion/guide/useMotionOrchestrator-doc",
+              },
+              {
+                text: "示例合集",
+                link: "/zh/react-motion/guide/examples",
               },
             ],
           },
