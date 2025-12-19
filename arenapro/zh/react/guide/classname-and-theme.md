@@ -1,11 +1,34 @@
 # className 与主题扩展
 
-本文介绍你在本地 UI 引擎里的几项能力：
+在 ArenaPro React 里，视觉与布局相关的配置主要有两条路径：
 
-- 按元素类型注册 className 样式
-- 使用 `RC.cx` 组合 className
-- 使用 `RC.define` 做语义分组（如 `card.base`）
-- 使用 `RC.theme` 管理 light/dark 等主题（如 `light:card.base`）
+- `className`：引用一份**预先注册**的样式（通过 `RC.Box` / `RC.Text` / `RC.define` / `RC.theme` 等注册）。
+- `style`：直接在组件上写入**具体的底层 UI 属性**（等价于操作神岛底层的 UiX 对象）。
+
+可以简单类比为：
+
+- `className` 类似于「设计规范里命名好的样式 Token / 组件变体」，是一层**语义化的别名**。
+- `style` 则是「直接改像素 / 颜色 / 尺寸」的**强覆盖通道**。
+
+## 为什么要有 className 体系？
+
+如果只用 `style`：
+
+- 每个页面、每个组件都可能写一堆重复的配置（颜色、圆角、间距……），样式难以统一收敛。
+- 想做“全局换主题”时，需要到处搜 `style`，很难一次性替换。
+
+引入 className/RC 体系之后：
+
+- 样式可以集中在一处注册，例如：
+  - `RC.Box({ 'card.base': {...}, 'card.active': {...} })`
+  - `RC.theme('dark', ...)`，一处改动即可影响所有使用该 class 的组件。
+- className 本身是**语义化的**（如 `card.base`、`card.title`），便于产品、设计和前端之间沟通，也便于在文档中按语义分组展示。
+- 配合 `RC.theme`，可以通过切换前缀（`light:card` / `dark:card`）实现主题切换，而不需要逐个组件改 `style`。
+
+同时保留 `style` 的好处是：
+
+- 在大部分场景使用 className 统一风格，需要**临时特殊处理**某个组件时，可以通过 `style` 做细粒度覆盖（例如临时把某个按钮变大一点）。
+- 优先级上 `style` 高于 className，不会被预设样式“锁死”，保持灵活性。
 
 ## 按元素类型注册 className 样式
 
