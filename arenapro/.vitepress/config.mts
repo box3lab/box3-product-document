@@ -87,7 +87,7 @@ export default defineConfig({
                 link: "/zh/react-motion/guide/useMotion-doc",
               },
               {
-                text: "时间轴动画",
+                text: "时间轴",
                 link: "/zh/react-motion/guide/useTimeline-doc",
               },
               {
@@ -170,6 +170,10 @@ export default defineConfig({
               {
                 text: "神岛钩子",
                 link: "/zh/react/guide/hooks",
+              },
+              {
+                text: "主题扩展",
+                link: "/zh/react/guide/classname-and-theme",
               },
               {
                 text: "react多语言",
