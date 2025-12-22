@@ -56,24 +56,15 @@ bun add @dao3fun/react-ui
 
 ## 配置入口
 
-1. 在项目根目录下打开 `dao3.config.ts` / `dao3.config.json`
+1. 在项目根目录下打开 `dao3.config.ts`
 2. 将脚本入口指向你的客户端入口文件，例如：
 
-::: code-group
-
-```json [dao3.config.json]
-{
-  "entry": "src/clientApp.tsx"
-}
-```
-
-```json [dao3.config.ts]
+```json
+// Client
 {
   "entry": "App.tsx"
 }
 ```
-
-:::
 
 ## 确认
 

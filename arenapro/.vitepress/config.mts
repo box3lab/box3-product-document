@@ -505,10 +505,7 @@ export default defineConfig({
                 text: "管理多套代码入口 (分包)",
                 link: "/zh/guide/06-advanced-topics/bulidName",
               },
-              // {
-              //   text: "高级工作流：使用 Monorepo",
-              //   link: "/zh/guide/06-advanced-topics/monorepo-workflow",
-              // },
+
               {
                 text: "管理环境变量",
                 link: "/zh/guide/06-advanced-topics/env",
@@ -558,140 +555,6 @@ export default defineConfig({
                 text: "用 jest 引入自动化测试",
                 link: "/zh/guide/06-advanced-topics/automated-testing",
               },
-              {
-                text: "使用 Remeda（类型友好的工具库）",
-                link: "/zh/guide/06-advanced-topics/remeda",
-              },
-              {
-                text: "gl-matrix 向量/矩阵/四元数实战",
-                link: "/zh/guide/06-advanced-topics/gl-matrix",
-              },
-              {
-                text: "simplex-noise 噪声在地形/资源生成中的实战",
-                link: "/zh/guide/06-advanced-topics/simplex-noise",
-              },
-              {
-                text: "pathfinding + rbush：寻路与空间加速",
-                link: "/zh/guide/06-advanced-topics/pathfinding-rbush",
-              },
-            ],
-          },
-          {
-            text: "框架与 API",
-            collapsed: false,
-            items: [
-              {
-                text: "ECS 组件系统",
-                collapsed: true,
-                items: [
-                  {
-                    text: "组件介绍",
-                    link: "/zh/package/component/componentGuide/index",
-                  },
-                  {
-                    text: "开发指南",
-                    collapsed: true,
-                    items: [
-                      {
-                        text: "创建组件",
-                        link: "/zh/package/component/componentGuide/setup",
-                      },
-                      {
-                        text: "组件执行",
-                        link: "/zh/package/component/componentGuide/component",
-                      },
-                      {
-                        text: "装饰器",
-                        link: "/zh/package/component/componentGuide/decorator",
-                      },
-                      {
-                        text: "生命周期",
-                        link: "/zh/package/component/componentGuide/lifecycle",
-                      },
-                      {
-                        text: "节点管理",
-                        link: "/zh/package/component/componentGuide/create-destroy",
-                      },
-                      {
-                        text: "访问组件",
-                        link: "/zh/package/component/componentGuide/access-node-component",
-                      },
-                      {
-                        text: "基础接口",
-                        link: "/zh/package/component/componentGuide/basic-node-api",
-                      },
-                      {
-                        text: "事件系统",
-                        link: "/zh/package/component/componentGuide/event-node",
-                      },
-                      {
-                        text: "世界事件",
-                        link: "/zh/package/component/componentGuide/event-world",
-                      },
-                      {
-                        text: "节点系统",
-                        link: "/zh/package/component/componentGuide/system",
-                      },
-                      {
-                        text: "时间管理",
-                        link: "/zh/package/component/componentGuide/time",
-                      },
-                      {
-                        text: "性能优化",
-                        link: "/zh/package/component/componentGuide/performance",
-                      },
-                    ],
-                  },
-                  {
-                    text: "时间回溯系统",
-                    collapsed: true,
-                    items: [
-                      {
-                        text: "时间回溯 - 入门",
-                        link: "/zh/package/component/timeRewindSystem/timeRewindComponent",
-                      },
-                      {
-                        text: "时间回溯 - 进阶",
-                        link: "/zh/package/component/timeRewindSystem/intermediateTopics",
-                      },
-                      {
-                        text: "时间回溯 - 高级",
-                        link: "/zh/package/component/timeRewindSystem/advancedTopics",
-                      },
-                      {
-                        text: "更多示例",
-                        link: "/zh/package/component/example",
-                      },
-                    ],
-                  },
-                  {
-                    text: "API 参考",
-                    collapsed: true,
-                    items: [
-                      {
-                        text: "EventEmitter",
-                        link: "/zh/package/component/api/EventEmitter",
-                      },
-                      {
-                        text: "EntityNode",
-                        link: "/zh/package/component/api/EntityNode",
-                      },
-                      {
-                        text: "Component",
-                        link: "/zh/package/component/api/Component",
-                      },
-                      {
-                        text: "NodeSystem",
-                        link: "/zh/package/component/api/NodeSystem",
-                      },
-                      {
-                        text: "NodeTime",
-                        link: "/zh/package/component/api/NodeTime",
-                      },
-                    ],
-                  },
-                ],
-              },
             ],
           },
           {
@@ -734,7 +597,6 @@ export default defineConfig({
             collapsed: false,
             items: [
               { text: "社区贡献激励", link: "/zh/community/community-rewards" },
-
               { text: "⚠️ 行为准则", link: "/zh/community/CODE_OF_CONDUCT" },
               { text: "🙏 特别鸣谢", link: "/zh/community/special-thanks" },
               { text: "更新日志", link: "/zh/community/release-notes" },
