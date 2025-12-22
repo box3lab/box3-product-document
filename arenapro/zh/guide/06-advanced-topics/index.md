@@ -24,9 +24,6 @@
 ### 生态与分发
 
 - [**安全地使用外部 NPM 包**](./npmPackage.md)
-- [**gl-matrix 向量/矩阵/四元数实战**](./gl-matrix.md)
-- [**simplex-noise 噪声在地形/资源生成中的实战**](./simplex-noise.md)
-- [**pathfinding + rbush：寻路与空间加速**](./pathfinding-rbush.md)
 - [**在项目中使用本地 NPM 包**](./local-npm-package.md)
 - [**创建本地共享包 (Monorepo)**](./monorepo-workflow.md)
 - [**投稿社区：发布 NPM 包**](./contributing-to-dao3fun.md)
