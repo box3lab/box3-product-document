@@ -179,6 +179,10 @@ export default defineConfig({
                 text: "react多语言",
                 link: "/zh/react/guide/react-i18next",
               },
+              {
+                text: "react规则插件",
+                link: "/zh/react/guide/react-eslint-hooks",
+              },
             ],
           },
         ],
