@@ -16,7 +16,9 @@
     "api:dev": "vitepress dev api",
     "api:build": "vitepress build api && tsx scripts/build-api-llms-txt.ts",
     "arenapro:dev": "vitepress dev arenapro",
-    "arenapro:build": "vitepress build arenapro"
+    "arenapro:build": "vitepress build arenapro",
+    "mc-mod:dev": "vitepress dev mc-mod",
+    "mc-mod:build": "vitepress build mc-mod"
   },
   "dependencies": {
     "axios": "^1.7.7",
