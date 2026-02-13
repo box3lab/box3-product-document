@@ -7,8 +7,6 @@
 - 按照上一页的说明，从神奇代码岛导出建筑并获得 `xxxx.gz` 文件；
 - 将该文件放置到 `minecraft/config/box3mod/` 目录下。
 
-![](https://cdn-community.bcmcdn.com/47/community/ohaendUwhlx1C0Dtpn8RxurfwPLtW6XqSVujL55smQT3.png?hash=linPFKR0M05RHsyj4zkDtWNPIQV4)
-
 ## 列出可导入的地形文件
 
 - **语法**：

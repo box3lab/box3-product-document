@@ -2,6 +2,8 @@
 
 模组支持将 **神奇代码岛** 中的建筑导入到 Minecraft 世界中。
 
+![](https://cdn-community.bcmcdn.com/47/community/ohaendUwhlx1C0Dtpn8RxurfwPLtW6XqSVujL55smQT3.png?hash=linPFKR0M05RHsyj4zkDtWNPIQV4)
+
 ## 获取神奇代码岛建筑文件
 
 要从神奇代码岛导出建筑，需要先通过指定网页，把建筑转换为模组可识别的压缩地形文件（`.gz`）。
