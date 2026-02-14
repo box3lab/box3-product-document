@@ -62,7 +62,10 @@ export default defineConfig({
       {
         text: "从神岛导入模型",
         collapsed: false,
-        items: [{ text: "模型转换", link: "/model" }],
+        items: [
+          { text: "模型转换", link: "/model" },
+          { text: "资源包内容", link: "/resource-pack" },
+        ],
       },
     ],
     editLink: {
