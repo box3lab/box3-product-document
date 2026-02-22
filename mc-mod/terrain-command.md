@@ -50,20 +50,15 @@
 - 导入 `park`，忽略屏障方块：
   - `/box3import park true`
 
-## 统一替换为原版水
+## 神岛流体
 
 - **语法**：
-  - `/box3import <fileName> <ignoreBarrier> <useVanillaWater>`
+  - `/box3import <fileName> <ignoreBarrier> <ignoreWater>`
 - **参数说明**：
-  - `useVanillaWater = true`：导入时将所有流体统一替换为 **Minecraft 原版水方块**；
-  - `useVanillaWater = false`：保留原始流体配置。
-
-**适用场景：**
-
-- 希望导入后的水体与原版世界完全一致；
-- 避免某些自定义流体在整合包 / 服务器环境中出现兼容问题。
+  - `ignoreWater = true`：所有神岛流体统一替换为空气。
+  - `ignoreWater = false`：所有神岛流体统一替换为 Minecraft 原版水方块。
 
 **示例：**
 
-- 导入 `park`，忽略屏障，并将所有流体替换为原版水：
+- 导入 `park`，忽略屏障，并忽略神岛流体：
   - `/box3import park true true`
