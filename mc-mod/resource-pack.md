@@ -8,7 +8,7 @@
 Box3 模型资源包
 ├─ pack.mcmeta
 └─ assets
-   └─ box3mod
+   └─ box3
       ├─ items
       │  └─ 物品映射文件 json（程序自动生成）
       ├─ lang
@@ -29,14 +29,14 @@ Box3 模型资源包
   - 资源包的格式版本（`pack_format`）；
   - 资源包名称与描述等信息。
 
-## `assets/box3mod` 命名空间
+## `assets/box3` 命名空间
 
-`assets/box3mod` 是本模组的资源命名空间，所有与 Box3 模型物品相关的资源都会放在这里。
+`assets/box3` 是本模组的资源命名空间，所有与 Box3 模型物品相关的资源都会放在这里。
 
 ### `items/` 目录
 
 ```text
-assets/box3mod/items/model.json
+assets/box3/items/model.json
 ```
 
 - 存放由程序自动生成的 **物品映射文件**，用于把「物品」关联到具体的模型：
@@ -46,19 +46,19 @@ assets/box3mod/items/model.json
 {
   "model": {
     "type": "minecraft:model",
-    "model": "box3mod:item/model"
+    "model": "box3:item/model"
   }
 }
 ```
 
-- 这里的 `box3mod:item/model` 会指向下文 `models/item/model.json` 中定义的物品模型。
+- 这里的 `box3:item/model` 会指向下文 `models/item/model.json` 中定义的物品模型。
 
 > 提示：这些映射文件由生成程序自动处理，**一般不需要你手动修改**。
 
 ### `lang/` 目录
 
 ```text
-assets/box3mod/lang/en_us.json
+assets/box3/lang/en_us.json
 ```
 
 - 存放 **语言与名称映射**，用于给物品、方块等添加显示名称。
@@ -70,14 +70,14 @@ assets/box3mod/lang/en_us.json
 
 ```json
 {
-  "item.box3mod.model": "Model"
+  "item.box3.model": "Model"
 }
 ```
 
 ### `models/item/` 目录
 
 ```text
-assets/box3mod/models/item/model.json
+assets/box3/models/item/model.json
 ```
 
 - 存放 **物品模型定义文件**，告诉 Minecraft：
@@ -90,18 +90,18 @@ assets/box3mod/models/item/model.json
 ```json
 {
   "textures": {
-    "0": "box3mod:item/model",
-    "particle": "box3mod:item/model"
+    "0": "box3:item/model",
+    "particle": "box3:item/model"
   }
 }
 ```
 
-- 这里的 `box3mod:item/model` 会最终对应到 `textures/item/model.png` 这张贴图。
+- 这里的 `box3:item/model` 会最终对应到 `textures/item/model.png` 这张贴图。
 
 ### `textures/item/` 目录
 
 ```text
-assets/box3mod/textures/item/model.png
+assets/box3/textures/item/model.png
 ```
 
 - 存放 **物品纹理图片**。

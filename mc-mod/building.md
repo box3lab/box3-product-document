@@ -28,10 +28,10 @@
 1. 找到你的 Minecraft 游戏目录。
 2. 在游戏目录下找到 `config` 文件夹：
    - 一般路径类似：`minecraft/config/`
-3. 在 `config` 下找到或创建 `box3mod` 目录：
-   - 最终路径应为：`minecraft/config/box3mod/`
+3. 在 `config` 下找到或创建 `box3` 目录：
+   - 最终路径应为：`minecraft/config/box3/`
 4. 将刚才下载的 `xxxx.gz` 建筑文件复制或移动到：
-   - `minecraft/config/box3mod/` 目录中。
+   - `minecraft/config/box3/` 目录中。
 
 完成以上步骤后，模组就可以在游戏中识别到这份建筑数据。
 
