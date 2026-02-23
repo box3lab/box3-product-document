@@ -10,16 +10,7 @@ Box3Blocks（神岛材质包） 是一款为 **Minecraft Java 版** 提供神奇
 
 ## 安装前准备
 
-在安装模组之前，请先确认下列组件的版本是否满足要求：
-
-| 组件                                                                 | 最低版本    | 推荐版本 |
-| -------------------------------------------------------------------- | ----------- | -------- |
-| <strong>Minecraft</strong>                                           | &gt;=1.21.8 | 1.21.11  |
-| <strong>[Fabric Loader](https://fabricmc.net/use/installer)</strong> | &gt;=0.18.4 | 0.18.4   |
-| <strong>[Fabric API](https://modrinth.com/mod/fabric-api)</strong>   | 任意版本    | 0.119.0+ |
-| <strong>Java</strong>                                                | &gt;=21     | Java 21  |
-
-当以上条件都满足时，就可以开始安装本模组了。
+Box3Blocks（神岛材质包） 基于 Fabric 框架的模组。
 
 如果你是通过启动器（包括第三方启动器）来游玩，一般都会内置 Fabric 与 Fabric API 的快捷安装入口，通常**不需要手动去各网站单独下载**，只要在启动器里选择对应版本并确认版本号满足上表要求即可。
 
