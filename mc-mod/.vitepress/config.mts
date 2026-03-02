@@ -67,6 +67,11 @@ export default defineConfig({
           { text: "资源包内容", link: "/resource-pack" },
         ],
       },
+      {
+        text: "从导出建筑到Unity",
+        collapsed: false,
+        items: [{ text: "地形命令", link: "/terrain-export-command" }],
+      },
     ],
     editLink: {
       pattern:
