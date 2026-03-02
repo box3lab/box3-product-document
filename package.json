@@ -18,7 +18,9 @@
     "arenapro:dev": "vitepress dev arenapro",
     "arenapro:build": "vitepress build arenapro",
     "mc-mod:dev": "vitepress dev mc-mod",
-    "mc-mod:build": "vitepress build mc-mod"
+    "mc-mod:build": "vitepress build mc-mod",
+    "unity-package:dev": "vitepress dev unity-package",
+    "unity-package:build": "vitepress build unity-package"
   },
   "dependencies": {
     "axios": "^1.7.7",

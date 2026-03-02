@@ -1,4 +1,4 @@
-# Box3Blocks（神岛材质包）
+# Box3Blocks（神岛材质包）for Minecraft
 
 Box3Blocks（神岛材质包） 是一款为 **Minecraft Java 版** 提供神奇代码岛建筑方块与模型支持的模组：
 
