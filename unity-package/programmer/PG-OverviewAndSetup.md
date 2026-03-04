@@ -1,38 +1,93 @@
 # API 总览与工程接入
 
+## 命名空间与入口
+
 - Editor API：`Box3Blocks.Editor.Box3Api`
 - Runtime API：`Box3Blocks.Box3Api`
 
-原则：
+使用原则：
 
-- 编辑器工具、批处理、导入流程：使用 Editor API
-- Play 模式与玩家行为：使用 Runtime API
+- 编辑器工具、批处理、离线构建：使用 Editor API。
+- Play 模式和正式运行时逻辑：使用 Runtime API。
+
+## 快速接入
+
+1. 安装包并确认 `Box3` 菜单可用。
+2. 打开 `Box3/方块库` 触发资源准备。
+3. 运行时调用前执行 `PrepareGeneratedAssets()` 检查资源。
+4. 项目中确保存在 `Assets/Box3/Runtime/Box3BlocksCatalog.asset`。
 
 ## 示例导入
 
-你可以通过 Unity Package Manager 导入示例，快速参考 API 用法：
+通过 Package Manager 导入示例：
 
 1. 打开 `Window > Package Manager`
 2. 选中 `Box3 Blocks`
 3. 切换到 `Samples`
-4. 导入示例：
+4. 导入：
 
-- `Editor Noise Terrain Demo` - 编辑器示例
-- `Runtime Place/Erase Demo` - 运行时示例
+- `Editor Noise Terrain Demo`
+- `Runtime Place/Erase Demo`
 
-每个示例导入后，目录中都会附带一个 `README` 或说明文档，建议**按照示例自带的说明步骤运行场景**，以便快速理解推荐的接入与调用方式。
+## 两套 API 的共同能力
 
-## 统一能力集合
+- 放置：`TryPlaceBlockAt`、`TryPlaceBlockOnTop`、`PlaceBlocksInBounds`
+- 删除：`EraseBlockAt`、`EraseBlocksInBounds`
+- 替换：`ReplaceBlockAt`、`ReplaceBlocksInBounds`
+- 旋转：`RotateBlockAt`、`RotateBlocksInBounds`
+- 查询：`TryGetBlockIdAt`、`ExistsAt`、`GetTopY`、`GetAvailableBlockIds`、`IsTransparent`
 
-两套 API 都提供：
+## 关键差异
 
-- 放置/删除/替换/旋转
-- 区域批量操作（Bounds）
-- 查询当前格子信息
+- Editor API 额外提供：`BuildChunkFromRoot(...)`
+- Runtime API 额外提供：
+  - `SetDefaultRuntimeCatalog` / `GetDefaultRuntimeCatalog`
+  - `SetDefaultColliderMode` / `GetDefaultColliderMode`
 
-## 必要资源
+## 默认值说明（与工具窗口对齐）
 
-运行时依赖：
+- `BuildChunkFromRoot(...)` 里 `realtimeLightMode` 的 API 默认值是 `None`。
+- Builder 里的“生成Chunk”窗口默认值是 `DataOnly`（UI 策略）。
+- 如果你在代码中想与窗口一致，请显式传入 `Box3RealtimeLightMode.DataOnly`。
 
-- `Assets/Box3` 生成资源
-- `Assets/Box3/Runtime/Box3BlocksCatalog.asset` UV映射表
+## 最小调用示例
+
+### Editor
+
+```csharp
+using Box3Blocks.Editor;
+using UnityEngine;
+
+public class EditorExample
+{
+    public static void PlaceOne(Transform root)
+    {
+        Box3Api.PrepareGeneratedAssets();
+        Box3Api.TryPlaceBlockAt(root, "blue_grass", new Vector3Int(0, 0, 0));
+    }
+}
+```
+
+### Runtime
+
+```csharp
+using Box3Blocks;
+using UnityEngine;
+
+public class RuntimeExample : MonoBehaviour
+{
+    [SerializeField] private Transform root;
+
+    private void Start()
+    {
+        if (!Box3Api.PrepareGeneratedAssets()) return;
+        Box3Api.TryPlaceBlockAt(root, "blue_grass", new Vector3Int(0, 0, 0));
+    }
+}
+```
+
+## 接入建议
+
+- 程序层封装一层项目侧 Facade，避免业务直接散落调用底层 API。
+- 大场景优先 Chunk 工作流，减少层级与渲染开销。
+- 将方块 ID 统一收口到配置文件，避免硬编码字符串分散。

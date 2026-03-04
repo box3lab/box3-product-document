@@ -1,4 +1,4 @@
-# Runtime API 详细文档
+# Runtime API 详细文档（中文）
 
 命名空间：
 
@@ -9,34 +9,28 @@ using UnityEngine;
 
 入口类型：`Box3Blocks.Box3Api`
 
-## 一、枚举说明
+## 枚举说明
 
 ### `Box3QuarterTurn`
 
-- `R0`：0°
-- `R90`：90°
-- `R180`：180°
-- `R270`：270°
+- `R0`
+- `R90`
+- `R180`
+- `R270`
 
 ### `Box3ColliderMode`
 
-- `None`：不生成碰撞体
-- `TopOnly`：仅顶面碰撞
-- `Full`：完整碰撞（MeshCollider）
+- `None`
+- `TopOnly`
+- `Full`
 
-## 二、运行时前置资源
+## 运行时前置说明
 
-运行时放置依赖：
+- 需要提供 `root`（方块根节点）。
+- API 会在 `root` 上自动获取或添加 `Box3BlocksRuntimeService`。
+- 运行前建议调用 `PrepareGeneratedAssets()`。
 
-- `Assets/Box3` 生成资源
-- `Box3BlocksRuntimeCatalog`（通常位于 `Assets/Box3/Runtime/Box3BlocksCatalog.asset`）
-
-建议启动时检查：
-
-- `PrepareGeneratedAssets()` 是否返回 `true`
-- Catalog 是否成功注入（可通过 `SetDefaultRuntimeCatalog` 显式指定）
-
-## 三、放置类 API
+## 放置类 API
 
 ### `TryPlaceBlockAt(...)`
 
@@ -51,40 +45,20 @@ bool TryPlaceBlockAt(
     Box3ColliderMode? colliderMode = null)
 ```
 
-功能说明：
-
-- 在给定 `x, z` 列上，从 `baseY` 开始向上搜索最高方块的位置，并在其**顶部**放置一个新方块。
-
 参数说明：
 
-- `root`：方块根节点；
-- `blockId`：要放置的方块 ID；
-- `x, z`：水平方向坐标；
-- `baseY`：起始搜索高度（通常为 0 或地面高度）；
-- 其余参数含义与 `TryPlaceBlockAt` 一致。
+- `root`：方块根节点。
+- `blockId`：方块 ID。
+- `position`：目标格子坐标。
+- `replaceExisting`：已有方块时是否替换。
+- `rotationQuarter`：放置朝向。
+- `spawnRealtimeLight`：是否生成实时点光；`null` 用默认策略。
+- `colliderMode`：碰撞模式；`null` 用服务默认模式。
 
 返回值：
 
-- `true`：成功在顶部放置了方块；
-- `false`：未找到合适位置或资源未准备好。
-
-参数说明：
-
-- 与 Editor 版本的 `TryPlaceBlockAt` 含义一致：
-  - `root`：方块根节点，新生成的方块对象会挂在该节点下；
-  - `blockId`：方块 ID，可通过 `GetAvailableBlockIds()` 或 `blocks-id.json` 查询；
-  - `position`：目标格子坐标；
-  - `replaceExisting`：目标位置已有方块时是否覆盖；
-  - `rotationQuarter`：放置旋转（90° 步进）；
-  - `spawnRealtimeLight`：是否生成实时点光源；`null` 表示使用当前全局默认策略；
-  - `colliderMode`：碰撞体模式；
-- **区别点**：
-  - `colliderMode = null`：使用 Runtime 层当前默认碰撞模式（由 `SetDefaultColliderMode` 控制）。
-
-返回值：
-
-- `true`：放置成功；
-- `false`：放置失败（如资源未准备好、位置非法等）。
+- `true`：放置成功。
+- `false`：放置失败。
 
 ### `TryPlaceBlockOnTop(...)`
 
@@ -101,6 +75,23 @@ bool TryPlaceBlockOnTop(
     Box3ColliderMode? colliderMode = null)
 ```
 
+参数说明：
+
+- `root`：方块根节点。
+- `blockId`：方块 ID。
+- `x`：列 X。
+- `z`：列 Z。
+- `baseY`：空列起始高度。
+- `replaceExisting`：落点已有方块时是否替换。
+- `rotationQuarter`：放置朝向。
+- `spawnRealtimeLight`：是否生成实时点光；`null` 用默认策略。
+- `colliderMode`：碰撞模式；`null` 用服务默认模式。
+
+返回值：
+
+- `true`：放置成功。
+- `false`：放置失败。
+
 ### `PlaceBlocksInBounds(...)`
 
 ```csharp
@@ -115,7 +106,22 @@ int PlaceBlocksInBounds(
     Box3ColliderMode? colliderMode = null)
 ```
 
-## 四、删除类 API
+参数说明：
+
+- `root`：方块根节点。
+- `blockId`：方块 ID。
+- `minInclusive`：包围盒最小角点（包含）。
+- `maxInclusive`：包围盒最大角点（包含）。
+- `replaceExisting`：范围内已有方块时是否替换。
+- `rotationQuarter`：放置朝向。
+- `spawnRealtimeLight`：是否生成实时点光；`null` 用默认策略。
+- `colliderMode`：碰撞模式；`null` 用服务默认模式。
+
+返回值：
+
+- 成功放置数量。
+
+## 删除类 API
 
 ### `EraseBlockAt(...)`
 
@@ -123,14 +129,15 @@ int PlaceBlocksInBounds(
 bool EraseBlockAt(Transform root, Vector3Int position)
 ```
 
-功能说明：
+参数说明：
 
-- 删除指定 `position` 处的方块。
+- `root`：方块根节点。
+- `position`：目标格子坐标。
 
 返回值：
 
-- `true`：确实删除了一个方块；
-- `false`：该位置本就没有方块或删除失败。
+- `true`：删除成功。
+- `false`：删除失败。
 
 ### `EraseBlocksInBounds(...)`
 
@@ -138,15 +145,17 @@ bool EraseBlockAt(Transform root, Vector3Int position)
 int EraseBlocksInBounds(Transform root, Vector3Int minInclusive, Vector3Int maxInclusive)
 ```
 
-功能说明：
+参数说明：
 
-- 删除给定边界盒内的所有方块。
+- `root`：方块根节点。
+- `minInclusive`：包围盒最小角点（包含）。
+- `maxInclusive`：包围盒最大角点（包含）。
 
 返回值：
 
-- 返回被删除的方块数量。
+- 成功删除数量。
 
-## 五、替换类 API
+## 替换类 API
 
 ### `ReplaceBlockAt(...)`
 
@@ -159,6 +168,20 @@ bool ReplaceBlockAt(
     bool? spawnRealtimeLight = null,
     Box3ColliderMode? colliderMode = null)
 ```
+
+参数说明：
+
+- `root`：方块根节点。
+- `blockId`：替换后的方块 ID。
+- `position`：目标格子坐标。
+- `rotationQuarter`：替换后朝向。
+- `spawnRealtimeLight`：是否生成实时点光；`null` 用默认策略。
+- `colliderMode`：碰撞模式；`null` 用服务默认模式。
+
+返回值：
+
+- `true`：替换成功。
+- `false`：替换失败。
 
 ### `ReplaceBlocksInBounds(...)`
 
@@ -173,7 +196,21 @@ int ReplaceBlocksInBounds(
     Box3ColliderMode? colliderMode = null)
 ```
 
-## 六、旋转类 API
+参数说明：
+
+- `root`：方块根节点。
+- `blockId`：替换后的方块 ID。
+- `minInclusive`：包围盒最小角点（包含）。
+- `maxInclusive`：包围盒最大角点（包含）。
+- `rotationQuarter`：替换后朝向。
+- `spawnRealtimeLight`：是否生成实时点光；`null` 用默认策略。
+- `colliderMode`：碰撞模式；`null` 用服务默认模式。
+
+返回值：
+
+- 成功替换数量。
+
+## 旋转类 API
 
 ### `RotateBlockAt(...)`
 
@@ -181,14 +218,16 @@ int ReplaceBlocksInBounds(
 bool RotateBlockAt(Transform root, Vector3Int position, Box3QuarterTurn stepQuarter = Box3QuarterTurn.R90)
 ```
 
-功能说明：
+参数说明：
 
-- 对目标位置的方块进行 90° 步进旋转（可多次调用累积旋转）。
+- `root`：方块根节点。
+- `position`：目标格子坐标。
+- `stepQuarter`：旋转步长。
 
 返回值：
 
-- `true`：该位置存在可旋转方块且旋转成功；
-- `false`：没有方块或该方块不支持旋转逻辑。
+- `true`：旋转成功。
+- `false`：旋转失败。
 
 ### `RotateBlocksInBounds(...)`
 
@@ -200,15 +239,18 @@ int RotateBlocksInBounds(
     Box3QuarterTurn stepQuarter = Box3QuarterTurn.R90)
 ```
 
-功能说明：
+参数说明：
 
-- 对给定边界盒中的所有方块进行统一 90° 步进旋转。
+- `root`：方块根节点。
+- `minInclusive`：包围盒最小角点（包含）。
+- `maxInclusive`：包围盒最大角点（包含）。
+- `stepQuarter`：旋转步长。
 
 返回值：
 
-- 返回本次成功旋转的方块数量。
+- 成功旋转数量。
 
-## 七、查询类 API
+## 查询类 API
 
 ### `TryGetBlockIdAt(...)`
 
@@ -216,14 +258,16 @@ int RotateBlocksInBounds(
 bool TryGetBlockIdAt(Transform root, Vector3Int position, out string blockId)
 ```
 
-功能说明：
+参数说明：
 
-- 尝试获取指定位置处的方块 ID。
+- `root`：方块根节点。
+- `position`：目标格子坐标。
+- `blockId`：输出方块 ID。
 
 返回值：
 
-- `true`：该位置存在方块，并在 `blockId` 中返回其 ID；
-- `false`：该位置没有方块。
+- `true`：成功获取。
+- `false`：该位置无方块或查询失败。
 
 ### `ExistsAt(...)`
 
@@ -231,9 +275,14 @@ bool TryGetBlockIdAt(Transform root, Vector3Int position, out string blockId)
 bool ExistsAt(Transform root, Vector3Int position)
 ```
 
-功能说明：
+参数说明：
 
-- 检查指定位置是否存在任意方块。
+- `root`：方块根节点。
+- `position`：目标格子坐标。
+
+返回值：
+
+- 是否存在方块。
 
 ### `GetTopY(...)`
 
@@ -241,10 +290,16 @@ bool ExistsAt(Transform root, Vector3Int position)
 int GetTopY(Transform root, int x, int z, int fallbackY = 0)
 ```
 
-功能说明：
+参数说明：
 
-- 在给定 `x,z` 坐标上，从上到下（或从指定规则）搜索最高的方块高度，并返回其 `y` 值；
-- 如果未找到方块，则返回 `fallbackY`。
+- `root`：方块根节点。
+- `x`：列 X。
+- `z`：列 Z。
+- `fallbackY`：空列时返回值。
+
+返回值：
+
+- 顶部 Y；空列返回 `fallbackY`。
 
 ### `GetAvailableBlockIds()`
 
@@ -252,9 +307,9 @@ int GetTopY(Transform root, int x, int z, int fallbackY = 0)
 IReadOnlyList<string> GetAvailableBlockIds()
 ```
 
-功能说明：
+返回值：
 
-- 返回当前运行时可用的全部方块 ID 列表（等价于查询 Catalog / `blocks-id.json`）。
+- 可用方块 ID 列表。
 
 ### `IsTransparent(...)`
 
@@ -262,11 +317,15 @@ IReadOnlyList<string> GetAvailableBlockIds()
 bool IsTransparent(string blockId)
 ```
 
-功能说明：
+参数说明：
 
-- 判断给定 `blockId` 所对应的方块在渲染上是否被视为“透明”（常用于视线、光照或交互判定）。
+- `blockId`：方块 ID。
 
-## 八、运行时 Catalog 与默认策略 API
+返回值：
+
+- 是否透明方块。
+
+## 资源与目录 API
 
 ### `PrepareGeneratedAssets()`
 
@@ -274,7 +333,14 @@ bool IsTransparent(string blockId)
 bool PrepareGeneratedAssets()
 ```
 
-- 检查运行时关键资源是否可用（纹理、材质、Catalog 等）。返回 `false` 时通常说明资源未生成或被清理。
+作用：
+
+- 预热并检查运行时资源可用性。
+
+返回值：
+
+- `true`：关键资源可用。
+- `false`：资源未准备好。
 
 ### `SetDefaultRuntimeCatalog(...)`
 
@@ -282,7 +348,9 @@ bool PrepareGeneratedAssets()
 void SetDefaultRuntimeCatalog(Box3BlocksRuntimeCatalog catalog)
 ```
 
-- 设置全局默认 Catalog。建议在游戏启动阶段调用一次。
+参数说明：
+
+- `catalog`：默认运行时目录资源。
 
 ### `GetDefaultRuntimeCatalog()`
 
@@ -290,9 +358,11 @@ void SetDefaultRuntimeCatalog(Box3BlocksRuntimeCatalog catalog)
 Box3BlocksRuntimeCatalog GetDefaultRuntimeCatalog()
 ```
 
-- 获取当前全局默认 Catalog。
+返回值：
 
-返回：当前设置的 `Box3BlocksRuntimeCatalog` 实例。
+- 当前默认目录资源（可能为 `null`）。
+
+## 默认策略 API
 
 ### `SetSpawnRealtimeLightForEmissive(...)`
 
@@ -300,11 +370,9 @@ Box3BlocksRuntimeCatalog GetDefaultRuntimeCatalog()
 void SetSpawnRealtimeLightForEmissive(bool enabled)
 ```
 
-- 设置对自发光方块（emissive）是否默认生成实时点光源。
-
 参数说明：
 
-- `enabled`：是否启用，`true` 为生成点光源，`false` 为不生成。
+- `enabled`：发光方块默认是否生成实时点光。
 
 ### `GetSpawnRealtimeLightForEmissive()`
 
@@ -312,7 +380,9 @@ void SetSpawnRealtimeLightForEmissive(bool enabled)
 bool GetSpawnRealtimeLightForEmissive()
 ```
 
-- 返回当前自发光方块是否会默认生成实时点光源的设置值。
+返回值：
+
+- 当前默认发光策略状态。
 
 ### `SetDefaultColliderMode(...)`
 
@@ -320,11 +390,9 @@ bool GetSpawnRealtimeLightForEmissive()
 void SetDefaultColliderMode(Box3ColliderMode mode)
 ```
 
-- 设置 Runtime 层默认的碰撞模式，用于 `colliderMode = null` 的情况。
-
 参数说明：
 
-- `mode`：碰撞模式，可选值为 `Box3ColliderMode.Full`、`Box3ColliderMode.TopOnly` 或 `Box3ColliderMode.None`。
+- `mode`：默认碰撞模式。
 
 ### `GetDefaultColliderMode()`
 
@@ -332,6 +400,10 @@ void SetDefaultColliderMode(Box3ColliderMode mode)
 Box3ColliderMode GetDefaultColliderMode()
 ```
 
-- 获取当前 Runtime 层默认的碰撞模式。
+返回值：
 
-返回：当前设置的 `Box3ColliderMode` 枚举值。
+- 当前默认碰撞模式。
+
+注意：
+
+- 默认碰撞模式仅影响未显式传 `colliderMode` 的放置/替换 API。

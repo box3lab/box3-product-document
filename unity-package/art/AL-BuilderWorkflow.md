@@ -1,85 +1,119 @@
-# 方块库的操作
+# 方块库工作流（与当前实现对齐）
 
-- 菜单入口：`Box3/方块库`
-- 窗口结构：
-  - `World Root`
-  - `Editor Tool`
-  - `Block Library`
+菜单入口：`Box3/方块库`
 
-## Root 管理（World Root）
+## 界面结构
 
-### Create Root
+窗口分为三个区块：
 
-- **作用**：快速创建一个用于当前关卡编辑的根节点。
+- `World Root`
+- `Editor Tool`
+- `Block Library`
 
-### Clear Root
+## World Root（根节点区）
 
-- **作用**：清空当前 Root 下的所有方块，务必谨慎使用。
+当前有 3 个按钮：
 
-**使用建议：**
+1. `创建根节点`
+2. `生成Chunk`
+3. `清空根节点`
 
-- 每个功能区使用一个独立 Root（例如：道路、建筑、装饰）；
-- 大地图不要把全部内容都挂在同一个 Root 下，便于分块管理与优化。
+字段：
 
-## 工具模式
+- `Root`：当前编辑根节点。
 
-### Place
+行为说明：
 
-- **操作**：
-  - 左键在命中面外侧放置方块；
-  - 支持体积画笔（`X/Z` 平面 + `Y` 高度）。
+- `创建根节点`：新建用于方块编辑的根对象。
+- `清空根节点`：删除 Root 下方块对象（谨慎操作）。
+- `生成Chunk`：打开 Chunk 构建窗口，默认读取当前 Builder Root。
 
-- **适用场景：**
-  - 结构搭建；
-  - 地表铺设；
-  - 大面积批量填充。
+## Editor Tool（工具区）
 
-### Erase
+### 工具标签
 
-- **操作**：左键删除命中的方块（或当前画笔范围内的方块）。
+- `Place`
+- `Erase`
+- `Replace`
+- `Rotate`
 
-- **适用场景：**
-  - 清理错误搭建区域；
-  - 在墙体上开洞、留门窗等。
+### 快捷键（当前实现）
 
-### Replace
+- `Shift + 1`：切到 Place
+- `Shift + 2`：切到 Erase
+- `Shift + 3`：切到 Replace
+- `Shift + 4`：切到 Rotate
 
-- **操作**：保持位置不变，将命中的方块替换为当前选中方块。
+### 画笔参数
 
-- **适用场景：**
-  - 统一某个区域的材质风格；
-  - 调整配色时，一键替换大面积方块。
+- `Horizontal (X/Z)`：横向范围（输入框 + 滑条）
+- `Height (Y)`：高度范围（输入框 + 滑条）
 
-### Rotate
+### 额外开关
 
-- **操作**：对目标方块做 90° 步进旋转（循环）。
+- `Hollow Build (Shell Only)`：空心搭建，仅外壳。
+- `Generate Collider`：放置时是否生成碰撞体。
+- `Collider Mode`（仅在开启 Generate Collider 后显示）：
+  - `Full`
+  - `Top Only`
+- `Spawn point light when placing emissive blocks`：发光方块放置时是否生成点光。
 
-- **适用场景：**
-  - 有方向性的纹理方块；
-  - 门窗、指示牌、装饰件的朝向调整。
+## Block Library（方块库区）
 
-## 画笔设置
+功能包含：
 
-- `Horizontal (X/Z)`：横向范围；
-- `Height (Y)`：高度范围。
+- 搜索框（`Search`）
+- 分类侧栏
+- 方块卡片网格（支持滚动）
 
-## 碰撞设置（Editor Tool）
+卡片信息：
 
-### 生成碰撞体
+- 标题：方块名称
+- 副标题：分类 + 特性（如动画、发光、透明）
+- 右上角旋转徽标（R0/R90/R180/R270）
 
-- **开启时可选模式：**
-  - `整体（Full）`：完整方块碰撞，精确但开销更大；
-  - `顶面（TopOnly）`：仅生成顶面碰撞，性能更优。
+交互：
 
-- **关闭：**
-  - `None`：不生成任何碰撞。
+- 左键点击卡片：选中方块。
+- 点击卡片右上旋转徽标：切换该方块默认放置朝向。
 
-**关卡配置建议：**
+## Scene 交互行为
 
-- 主游玩区域：以 `TopOnly` 为默认；
-- 确实需要侧向阻挡的区域：局部使用 `Full`；
-- 纯装饰区域：可以设置为 `None`，减轻性能压力。
+- Place：在命中面外侧放置（支持画笔体积）。
+- Erase：删除命中方块/范围。
+- Replace：将命中方块替换为当前选中方块。
+- Rotate：旋转命中方块。
 
-## 发光方块点光源
+当场景中未命中碰撞体时，系统会使用无碰撞拾取与回退逻辑继续定位目标位置。
 
-- 选项：`放置发光方块时生成点光源`
+## 生成 Chunk（从 Builder 入口）
+
+点击 `生成Chunk` 打开独立配置窗口，当前默认行为：
+
+- `Source Root`：默认当前 Builder Root
+- `Target Parent`：默认当前 Builder Root
+- `Realtime Light`：默认 `DataOnly`
+
+可配置参数：
+
+- `Ignore Barrier`
+- `Clear Previous`
+- `Delete Source Blocks After Build`
+- `Realtime Light`
+- `Collider Mode`
+- `Chunk Size`
+- `Chunks Per Tick`
+- `Voxels Per Tick`
+
+## 推荐流程
+
+1. 创建并指定 Root
+2. 选方块并搭建主体
+3. 用 Replace 统一材质风格
+4. 用 Rotate 调整方向块
+5. 大地图阶段使用“生成Chunk”做静态化
+
+## 注意事项
+
+- 大地图请按区域拆多个 Root，便于管理与性能调优。
+- 若编辑明显卡顿，优先缩小画笔范围，并降低批量操作规模。

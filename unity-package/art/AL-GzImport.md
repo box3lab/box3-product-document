@@ -1,73 +1,60 @@
-# 地形导入
+# 地形导入（与当前实现对齐）
 
-- 菜单入口：`Box3/地形导入`
+菜单入口：`Box3/地形导入`
 
-## 导入来源与基础字段
+## Source 区（导入来源）
 
-**导入来源（Source）：**
+当前支持两种来源：
 
-- 本地：选择本地的 `.gz` 文件；
-- URL：从远程地址拉取 `.gz` 文件。
+- `Local File`
+- `URL`
 
-**字段说明：**
+字段：
 
-- `Parent`：导入结果挂在哪个父节点下；
-- `Origin`：整体偏移（常用于对齐已有场景或原点）。
+- `GZ File`（本地模式）
+- `URL`（网络模式）
+- `Parent`
+- `Create Root`
+- `Origin`
 
-## 通用选项推荐
+## Options 区（选项）
 
-### Import Mode
+### General
 
-- `Chunk（推荐）`：按区块导入，大地图首选，导入速度更快；
-- `Single Block（可编辑）`：以单块形式导入，便于逐块精修与修改，**在超大地图上使用时可能明显增加编辑器卡顿**。
+- `Ignore Barrier`
+- `Replace previous __VoxelImportGz`
+- `Realtime Light Mode`
+  - `None`
+  - `All`
+  - `DataOnly`
 
-### Replace previous `__VoxelImportGz`
+### Chunk
 
-- **开启**：每次导入覆盖上次结果（保持场景干净）；
-- **关闭**：多次导入会叠加（适合分批拼接不同区域）。
+- `Collider Mode`
+  - `None`
+  - `Top`
+  - `Full`
+- `Chunk Size`
+- `Chunks Per Tick`
 
-### Realtime Lights
+### Performance
 
-- `None`：不生成任何灯光；
-- `All`：所有的**发光方块**都生成灯光；
-- `DataOnly`：仅对带有灯光数据的方块生成灯光。
+- `Voxels Per Tick`
 
-**关卡建议：**
+## Run 区
 
-- 大图预览：`None`（优先保证流畅预览）；
-- 灯光验证：`DataOnly` 或 `All`，根据需求选择更接近最终效果的配置。
+- `Import`
+- `Cancel`
 
-## Chunk 参数说明
+## 参数调优建议
 
-### Collision Mode
+- 先保证可导入，再逐步提速。
+- 卡顿先降 `Voxels Per Tick`，再降 `Chunks Per Tick`。
+- 大地图优先 Chunk 流程并分区导入。
 
-- `不生成`：不生成碰撞体；
-- `仅顶面`：只保留顶面碰撞；
-- `完整 MeshCollider`：生成完整的碰撞。
+## 导入后检查
 
-### Chunk Size
-
-- 常用值：`16`；
-- 更大值：整体对象数更少，但单个对象更重；
-- 更小值：对象数更多，但更新粒度更细，适合频繁修改的小区域。
-
-### Chunks per Tick
-
-- 数值越高：导入越快，但编辑器更容易卡顿；
-- 开发机建议区间：`4 ~ 8`，根据机器性能微调。
-
-### Alpha Clip / Alpha Cutoff
-
-- 主要用于处理 **透明伪影 / Z-Fighting** 等问题；
-- 推荐先启用 **Alpha Clip**，再根据实际效果微调 **Cutoff**。
-
-## 性能相关参数
-
-### Voxels per Tick
-
-- **低值**：导入过程更平滑，不易卡顿，但整体耗时更长；
-- **高值**：导入更快，但编辑器 UI 更容易出现卡顿。
-
-**调优建议：**
-
-- 如果导入过程中明显卡顿，可以优先调低该参数，再视情况调整 Chunk 相关配置。
+1. 导入根节点是否正确挂在 `Parent`
+2. 坐标偏移 `Origin` 是否符合预期
+3. 碰撞策略是否正确
+4. 灯光数量是否符合目标性能
