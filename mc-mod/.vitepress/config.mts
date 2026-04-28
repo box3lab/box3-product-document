@@ -44,34 +44,30 @@ export default defineConfig({
     sidebar: [
       { text: "模组简介", link: "/index" },
       {
-        text: "使用神岛方块",
+        text: "使用方块",
         collapsed: false,
         items: [
           { text: "使用方块", link: "/blocks" },
-          { text: "屏障命令", link: "/barrier-command" },
+          { text: "方块参考", link: "/blocks-reference" },
         ],
       },
       {
-        text: "从神岛导入建筑",
+        text: "建筑导入与导出",
         collapsed: false,
         items: [
-          { text: "地形数据", link: "/building" },
-          { text: "地形命令", link: "/terrain-command" },
+          { text: "导入建筑", link: "/import-terrain" },
+          { text: "导出建筑", link: "/export-terrain" },
         ],
       },
       {
-        text: "从神岛导入模型",
+        text: "模型导入",
         collapsed: false,
         items: [
-          { text: "模型转换", link: "/model" },
-          { text: "资源包内容", link: "/resource-pack" },
+          { text: "导入模型", link: "/model" },
+          { text: "资源包结构", link: "/resource-pack" },
         ],
       },
-      {
-        text: "从导出建筑到Unity",
-        collapsed: false,
-        items: [{ text: "地形命令", link: "/terrain-export-command" }],
-      },
+      { text: "命令与权限", link: "/commands" },
     ],
     editLink: {
       pattern:
