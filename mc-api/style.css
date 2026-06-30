@@ -1,0 +1,66 @@
+font[id='ReadOnly'] {
+  margin-right: 5px;
+  background: #F8CED3;
+  color: #70000D;
+  white-space: nowrap;
+  border-radius: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 12px;
+  line-height: 1.1;
+  padding: 0 .2em;
+  margin: 0 .5em 0 0;
+  border: 2px solid transparent;
+}
+
+font[id='Default'] {
+  background: #d6d6d6;
+  color: rgba(0, 0, 0, 0.875);
+  white-space: nowrap;
+  border-radius: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 12px;
+  line-height: 1.1;
+  padding: 0 .2em;
+  margin: 0 .5em 0 0;
+  border: 2px solid transparent;
+}
+
+font[id='Event'] {
+  background: #c0cafc;
+  color: #101e60;
+  white-space: nowrap;
+  border-radius: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 12px;
+  line-height: 1.1;
+  padding: 0 .2em;
+  margin: 0 .5em 0 0;
+  border: 2px solid transparent;
+}
+
+font[id='Class'] {
+  color: #117cee;
+}
+
+font[id='Name'] {
+  color: #fb8104;
+}
+
+font[id='Type'] {
+  padding: 3px 6px;
+  -webkit-user-select: none;
+  user-select: none;
+  font-size: 15px !important;
+  color: #707070;
+  background-color: unset !important;
+}
+font[id='API'] {
+  padding: 2px 2px;
+  border-radius: 2px;
+  font-size: 15px !important;
+  margin-right: 6px;
+  background-color: #ffdb00;
+}

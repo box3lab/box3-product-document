@@ -1,0 +1,55 @@
+{
+  "function": [
+    "function",
+    "#c2c262",
+    "",
+    "#a2a2a2"
+  ],
+  "variable": [
+    "variable",
+    "#00b0ff",
+    "#448aff",
+    "#8f8f8f",
+    "#999999"
+  ],
+  "class": [
+    "class",
+    "#00bfa5",
+    "",
+    "#767676",
+    ""
+  ],
+  "getter": [
+    "getter parent-class",
+    "#448aff",
+    "",
+    "#999999"
+  ],
+  "keyword": [
+    "no-icon",
+    "#508fe0"
+  ],
+  "error": [
+    "no-icon",
+    "#ff5252"
+  ],
+  "class>event": "event",
+  "class>interface": "interface",
+  "class>constructor": "constructor parent-class",
+  "class>type": "type",
+  "function>method": "method parent-class",
+  "method>staticMethod": "static method parent-class",
+  "variable>object": "object",
+  "variable>property": "property parent-class",
+  "variable>enum": "enum",
+  "variable>enumMember": "enum-member",
+  "variable>setter": "setter parent-class",
+  "variable>accessor": "accessor parent-class",
+  "function>callback": "callback",
+  "callback>callbackArg": "callable",
+  "variable>index": "index",
+  "arg": "variable",
+  "eventArg": "event",
+  "typeArg": "type",
+  "indexArg": "index"
+}

@@ -1,0 +1,64 @@
+/*文字发光效果 用于方块速查表*/
+.light {
+    text-shadow: 0px 0px 5px #ffff00;
+}
+.voxButton{
+    display: flex;
+    justify-content: center;
+    font-size: 1em;
+    color: var(--vp-c-text-1);
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-width: 4px;
+    border-style: solid;
+    border-image: linear-gradient(to right, #3232ce, darkorchid) 1;
+}
+/*文字加粗效果 用于方块速查表*/
+.bold {
+    font-weight: bold;
+}
+
+/*方块速查表中液体方块的显示*/
+.fluid *,
+.fluidText {
+    border-bottom: 3px solid #008cff;
+}
+
+/*方块速查表中动态方块的显示*/
+.animation *,
+.animationText {
+    border-left: 2px solid #00ff00;
+    border-right: 2px solid #ff0000;
+    background: linear-gradient(30deg, #00ff0010 0%, #ff000010 100%);
+}
+
+#voxelTable .new-voxel {
+    border-left: 3px solid #00ff00;
+}
+
+#voxelTable caption,
+#voxelTable tfoot {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+#voxelTable {
+    transition: max-height 2s;
+}
+
+/*解决方块速查表颜色太深看不见字问题*/
+.voxelTableData span,
+.coloredWord {
+  transition: background-color 300ms;
+  padding: 5px;
+  border-radius: 3px;
+}
+
+.voxelTableData span:hover,
+.coloredWord:hover {
+  background-color: unset !important;
+}
+
+.voxelTableData {
+    text-align: center;
+}

@@ -36,26 +36,48 @@ export default defineConfig({
     sidebar: [
       { text: "包简介", link: "/index" },
       {
-        text: "面向美术",
+        text: "快速入门",
         collapsed: false,
         items: [
-          { text: "方块库的操作", link: "/art/AL-BuilderWorkflow" },
-          { text: "导入地形", link: "/art/AL-GzImport" },
-          { text: "导出地形", link: "/art/AL-GzExport" },
+          { text: "快速上手", link: "/getting-started" },
+        ],
+      },
+      {
+        text: "编辑器操作",
+        collapsed: false,
+        items: [
+          { text: "方块库操作", link: "/art/AL-BuilderWorkflow" },
+          { text: "地形导入", link: "/art/AL-GzImport" },
+          { text: "地形导出", link: "/art/AL-GzExport" },
+          { text: "Chunk 构建系统", link: "/art/AL-ChunkSystem" },
+          { text: "资源管理", link: "/art/AL-AssetManagement" },
+        ],
+      },
+      {
+        text: "工作流实战",
+        collapsed: false,
+        items: [
           { text: "从 Minecraft 导入", link: "/art/AL-FromMinecraft" },
         ],
       },
       {
-        text: "面向程序",
+        text: "程序开发",
         collapsed: false,
         items: [
           {
-            text: "概览与环境配置",
+            text: "API 概览与工程接入",
             link: "/programmer/PG-OverviewAndSetup",
           },
-
-          { text: "Editor API", link: "/programmer/API-Editor" },
-          { text: "Runtime API", link: "/programmer/API-Runtime" },
+          { text: "Editor API 参考", link: "/programmer/API-Editor" },
+          { text: "Runtime API 参考", link: "/programmer/API-Runtime" },
+        ],
+      },
+      {
+        text: "附录",
+        collapsed: false,
+        items: [
+          { text: "菜单入口速查", link: "/appendix/menu-reference" },
+          { text: "常见问题", link: "/appendix/faq" },
         ],
       },
     ],
