@@ -57,10 +57,6 @@ export default defineConfig({
           {
             text: "产品版本",
             items: [
-              {
-                text: "Creator",
-                link: "/zh/",
-              },
               { text: "CLI", link: "/zh/cli/" },
               { text: "React-UI", link: "/zh/react/" },
               { text: "React-Motion", link: "/zh/react-motion" },
@@ -128,10 +124,6 @@ export default defineConfig({
           {
             text: "产品版本",
             items: [
-              {
-                text: "Creator",
-                link: "/zh/",
-              },
               { text: "CLI", link: "/zh/cli/" },
               { text: "React-UI", link: "/zh/react/" },
               { text: "React-Motion", link: "/zh/react-motion" },
@@ -204,10 +196,6 @@ export default defineConfig({
           {
             text: "产品版本",
             items: [
-              {
-                text: "Creator",
-                link: "/zh/",
-              },
               { text: "CLI", link: "/zh/cli/" },
               { text: "React-UI", link: "/zh/react/" },
               { text: "React-Motion", link: "/zh/react-motion" },
@@ -348,18 +336,14 @@ export default defineConfig({
       label: "简体中文",
       lang: "zh-CN",
       link: "/zh/",
-      title: "ArenaPro Creator",
-      description: "支持VSCode与TypeScript的神岛游戏制作插件",
+      title: "ArenaPro CLI",
+      description: "用于管理本地工程、地图资源、脚本与预览运行的命令行工具",
 
       themeConfig: {
         nav: [
           {
             text: "产品版本",
             items: [
-              {
-                text: "Creator",
-                link: "/zh/",
-              },
               { text: "CLI", link: "/zh/cli/" },
               { text: "React-UI", link: "/zh/react/" },
               { text: "React-Motion", link: "/zh/react-motion" },
