@@ -20,14 +20,12 @@ export default defineConfig({
     },
   },
   base: "/arena/",
+  srcExclude: ["SEL/**", "plugIns/**"],
   outDir: "../dist/arena",
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     logo: "/arena.svg",
-    nav: [
-      { text: "Voxa 用户手册", link: "https://docs.dao3.fun/voxa/" },
-      { text: "API手册", link: "https://docs.dao3.fun/api/" },
-    ],
+    nav: [{ text: "VOXA 用户手册", link: "https://docs.dao3.fun/voxa/" }],
     search: {
       provider: "local",
     },
@@ -44,7 +42,6 @@ export default defineConfig({
               { text: "创建第一个地图", link: "/getting-started/create" },
               { text: "地形搭建", link: "/getting-started/helloWorld-models" },
               { text: "代码编写", link: "/getting-started/helloWorld-code" },
-              { text: "邀请协助", link: "/getting-started/helloWorld-assist" },
               { text: "发布第一个地图", link: "/getting-started/publish" },
             ],
           },
@@ -415,46 +412,6 @@ export default defineConfig({
           {
             text: "客户端与服务器通信",
             link: "/javascriptDaoAPI/05-client-server-communication",
-          },
-        ],
-      },
-      {
-        text: "创作插件",
-        collapsed: false,
-        items: [
-          { text: "【下一代编辑器】ArenaNext", link: "/plugIns/arenanext" },
-          { text: "【建筑方块】建筑师工具箱", link: "/plugIns/building" },
-        ],
-      },
-      // {
-      //   text: "插件开发",
-      //   collapsed: false,
-      //   items: [
-      //     { text: "介绍", link: "/plugIns/code/introduction" },
-      //     { text: "开发基础", link: "/plugIns/code/basic" },
-      //     { text: "Core对象", link: "/plugIns/code/core" },
-      //     { text: "实战", link: "/plugIns/code/practice" },
-      //   ],
-      // },
-      {
-        text: "SEL联赛接入须知",
-        collapsed: false,
-        items: [
-          { text: "联赛介绍", link: "/SEL/map-Info" },
-          { text: "赛事地图接入", link: "/SEL/map-integration" },
-        ],
-      },
-      {
-        text: "进阶主题",
-        collapsed: false,
-        items: [
-          {
-            text: "TypeScript语言入门",
-            link: "https://typescript.p6p.net/typescript-tutorial/intro.html",
-          },
-          {
-            text: "使用VSCode开发游戏地图",
-            link: "https://docs.dao3.fun/arenapro",
           },
         ],
       },

@@ -12,8 +12,8 @@
 let message = "Hello, World!";
 console.log(message); // 输出: Hello, World!
 
-message = "Hello, 神岛!";
-console.log(message); // 输出: Hello, 神岛!
+message = "Hello, BOX3!";
+console.log(message); // 输出: Hello, BOX3!
 ```
 
 ### `const`
@@ -21,8 +21,8 @@ console.log(message); // 输出: Hello, 神岛!
 `const` 声明一个块级作用域的只读常量。常量在声明时必须被赋值，且不能被重新赋值。
 
 ```javascript
-const name = "神岛";
-console.log(name); // 输出: 神岛
+const name = "BOX3";
+console.log(name); // 输出: BOX3
 
 // 下面的代码会报错，因为常量不能被重新赋值
 // name = "Box3";

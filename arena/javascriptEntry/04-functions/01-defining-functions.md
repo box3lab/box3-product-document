@@ -8,7 +8,7 @@
 
 ```javascript
 function greet() {
-  console.log("你好，欢迎来到神岛！");
+  console.log("你好，欢迎来到地图！");
 }
 ```
 
@@ -17,7 +17,7 @@ function greet() {
 要执行函数，你需要“调用”它。通过使用函数名后跟括号 `()` 来调用函数。
 
 ```javascript
-greet(); // 输出: 你好，欢迎来到神岛！
+greet(); // 输出: 你好，欢迎来到地图！
 ```
 
 ## 函数表达式

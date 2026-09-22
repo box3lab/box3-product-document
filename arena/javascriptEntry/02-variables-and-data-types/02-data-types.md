@@ -10,7 +10,7 @@
 
 ```javascript
 let greeting = "Hello, World!";
-let name = "神岛";
+let name = "BOX3";
 ```
 
 ### 数字（Number）

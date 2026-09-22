@@ -14,7 +14,7 @@ Promise 是处理异步操作的一种现代方式。一个 Promise 对象代表
 
 ### 使用 Promise
 
-在神岛的 API 中，许多函数会返回 Promise。你可以使用 `.then()` 方法来处理 Promise 成功（Fulfilled）的情况，并使用 `.catch()` 方法来处理失败（Rejected）的情况。
+在游戏 API 中，许多函数会返回 Promise。你可以使用 `.then()` 方法来处理 Promise 成功（Fulfilled）的情况，并使用 `.catch()` 方法来处理失败（Rejected）的情况。
 
 ```javascript
 // 这是一个返回 Promise 的示例函数（模拟 API 调用）
@@ -68,4 +68,4 @@ async function processData() {
 processData();
 ```
 
-理解异步编程对于在神岛中创建响应迅速且功能强大的脚本至关重要。
+理解异步编程对于创建响应迅速且功能完整的地图脚本至关重要。

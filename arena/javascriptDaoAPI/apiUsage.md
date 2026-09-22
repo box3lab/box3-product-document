@@ -2,11 +2,11 @@
 
 API（Application Programming Interface，应用程序编程接口）是不同软件应用程序之间的通信桥梁。
 
-在本章节中，将会把学到的 JavaScript 语言，并结合神岛 API，共同踏上创作游戏的旅程。
+在本章节中，将会把学到的 JavaScript 语言与游戏 API 结合起来，完成地图功能开发。
 
 在正式启程之前，掌握如何有效阅读并理解 API 手册将是不可或缺的一课，它将为你的游戏开发之路奠定坚实的基础。
 
-神岛 API 手册：[https://docs.dao3.fun/api/](https://docs.dao3.fun/api/)
+API 类型说明可在 Creator 工程生成的类型定义文件中查看。
 
 :::info
 手册运用了关于`TypeScript`语言的知识，我们将在下一章节介绍它，这属于进阶章节。
@@ -20,7 +20,7 @@ API（Application Programming Interface，应用程序编程接口）是不同�
 
 ## 🌏 游戏世界
 
-从[`🌏游戏世界`](https://docs.dao3.fun/api/GameWorld/)界面，我们可以得到以下信息：
+从“游戏世界”类型说明中，我们可以得到以下信息：
 
 ```typescript
 declare const world: GameWorld;
@@ -40,7 +40,7 @@ declare class GameWorld {
 
 ## 属性
 
-从[`projectName`](https://docs.dao3.fun/api/GameWorld/mapInfo.html#projectName)界面，我们可以得到以下信息：
+从 `projectName` 属性说明中，我们可以得到以下信息：
 
 ![](/QQ20240925-143355.png)
 
@@ -58,7 +58,7 @@ console.log(world.projectName);
 
 ## 方法
 
-从[`onPlayerJoin`](https://docs.dao3.fun/api/GameWorld/playerJL.html#onPlayerJoin)界面，我们可以得到以下信息：
+从 `onPlayerJoin` 事件说明中，我们可以得到以下信息：
 
 ![](/QQ20240925-172033.png)
 
@@ -83,7 +83,7 @@ console.log(world.projectName);
 
 2. **tick**（类型：`number`）：这个属性表示事件发生的时间。在游戏开发中，`tick`通常指的是游戏循环中的某一时刻或帧数，它允许创作者知道事件是在游戏的哪个阶段发生的。这个信息对于调试、动画同步、时间管理等方面都非常有用。
 
-关于`GameEntity`类具体内容可以查看：[`👤游戏玩家`](https://docs.dao3.fun/api/GamePlayerEntity/)
+`GameEntity` 与玩家实体的具体成员可在工程类型定义中查看。
 
 所以，我们通过`world.onPlayerJoin`设置当玩家加入时，执行的操作。
 
@@ -97,7 +97,7 @@ world.onPlayerJoin(({ entity }) => {
 
 ## 枚举
 
-在从[`👤游戏玩家`](https://docs.dao3.fun/api/GamePlayerEntity/)中，有一个[`cameraMode`](https://docs.dao3.fun/api/GamePlayerEntity/camera.html#cameraMode)界面，我们可以得到以下信息：
+在玩家实体的类型说明中，`cameraMode` 属性包含以下信息：
 
 ![](/QQ20240925-183504.png)
 
