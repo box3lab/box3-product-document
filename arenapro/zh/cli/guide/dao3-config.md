@@ -1,20 +1,21 @@
 # 配置信息
 
-在「用 ArenaPro CLI 创建你的第一个项目」中，你已经完成了基础准备工作：
+在「用 APC 创建第一个 Creator 工程」中，你已经完成了基础准备工作：
 
-- 全局安装 CLI，并用 `apc create` 创建了项目；
-- 通过 `apc login` / `apc list` / `apc set` 绑定了一张扩展地图；
-- 在 `.env` 中写入了必要的账号与地图信息。
+- 全局安装 CLI，并用 `apc project create` 创建了项目；
+- 通过 `apc profile add`、`apc map list`、`apc project bind` 绑定了一张 Creator 地图；
+- 在 `.env` 中写入了 Profile 名称和永久地图 ID。
 
 本篇不再重复这些步骤，而是重点说明两件事：
 
-- `.env` 里这些字段**分别控制什么行为**；
+- `.env` 中的工程绑定和构建字段**分别控制什么行为**；
 - `dao3.config.ts` 中的 **bundle 配置** 如何决定「构建哪些脚本、上传到哪里」。
 
 ## 一、在 `.env` 中配置
 
-脚手架通过环境变量把「账号信息」和「部署行为」注入到构建流程中。  
-本脚手架的 `.env` 中会包含以下这些变量（下面是一份示例注释版模板）：
+脚手架通过环境变量保存工程绑定和构建行为。CLI Token 不写入 `.env`，而是通过 `BOX_CREATOR_TOKEN` 或 Profile 的本地凭据提供。
+
+本脚手架的 `.env` 可包含以下变量：
 
 ```env
 # ========================
@@ -30,9 +31,13 @@ VITE_CURRENT_FILE=
 
 
 # 【自动上传开关】
-# 构建脚本完成后是否上传到神岛地图
-# 可选值：true | false
+# 构建脚本完成后是否上传到 Creator
+# 仅严格为 true 时上传；其他值不上传
 VITE_UPDATE_FILE=true
+
+# 【版本化上传】
+# 严格为 true 时，在远程脚本文件名中追加根 package.json 的 version
+VITE_BOX_CREATOR_VERSION=false
 
 
 # ========================
@@ -46,9 +51,10 @@ VITE_UPDATE_FILE=true
 VITE_UI_INDEX_PREFIX=
 
 
-# 【目标地图ID】
-# 脚本要上传的目标地图ID，必须为「扩展地图」类型
-VITE_DAO3_MAP_ID=
+# 【Creator Profile 与目标地图】
+# 由 apc project bind <permanentMapId> 自动写入
+VITE_BOX_CREATOR_PROFILE=local
+VITE_BOX_CREATOR_PROJECT_ID=
 ```
 
 ### 1. `VITE_CURRENT_FILE`：当前构建 / 上传的 bundle 名
@@ -66,7 +72,7 @@ VITE_CURRENT_FILE=bundle
 
 ### 2. `VITE_UPDATE_FILE`：是否在构建后自动上传脚本
 
-- **作用**：控制构建完成后，脚手架是否**自动将构建结果上传到 Arena**。
+- **作用**：控制构建完成后，脚手架是否**自动将构建结果上传到 Creator**。
 - **取值**（布尔值）：
 
   ```env
@@ -79,6 +85,12 @@ VITE_CURRENT_FILE=bundle
 - 开发期 / 日常联调：设为 `true`，构建之后自动同步，减少手动步骤；
 - 特殊场景（只想看本地构建结果或调试 build pipeline）：临时改成 `false`。
 
+### 3. `VITE_BOX_CREATOR_VERSION`：是否使用版本化脚本文件名
+
+- 设为 `true` 时，远程脚本文件名会追加根 `package.json` 的 `version`；
+- 开发调试通常设为 `false`，以便持续覆盖固定脚本名；
+- 此字段不改变地图 ID、Profile 或脚本权限。
+
 ## 二、在 `dao3.config.ts` 中配置 bundle 信息
 
 `dao3.config.ts` 决定了：
@@ -89,24 +101,24 @@ VITE_CURRENT_FILE=bundle
 示例配置（TypeScript 版本）：
 
 ```ts
-import type { IDao3Config } from "vite-plugin-arenapro-script";
+import type { IBoxCreatorConfig } from "vite-plugin-arenapro-script";
 
 export default {
   bundles: {
-    bundle: {
+    main: {
       client: { entry: "App.ts" },
       server: { entry: "App.ts" },
       enable: true,
     },
   },
-} as IDao3Config;
+} satisfies IBoxCreatorConfig;
 ```
 
 ### 1. `bundles`：多入口 / 多模式脚本配置
 
 `bundles` 是一个「名字 → 配置」的映射，每个 key 对应一个可独立构建和上传的 bundle。
 
-- **bundle 名（如 `"bundle"`）**：
+- **bundle 名（如 `"main"`）**：
   - 必须与 `.env` 中的 `VITE_CURRENT_FILE` 一致；
 - **`client.entry` / `server.entry`**：
   - 分别指定客户端 / 服务端入口脚本文件名（相对于各自源码根目录）；
@@ -127,7 +139,7 @@ export default {
       enable: true,
     },
   },
-} as IDao3Config;
+} satisfies IBoxCreatorConfig;
 ```
 
 通过切换 `.env` 中的 `VITE_CURRENT_FILE`，可以在不同 bundle 之间切换构建 / 上传目标。

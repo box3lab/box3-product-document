@@ -1,120 +1,42 @@
-# 地图预览 Q&A：使用 `apc preview`
+# 预览运行 Q&A
 
-> 本文补充说明 `apc preview` 的行为：默认打开哪个页面、`play` 与创作页的区别、多环境下如何选择 `.env`、以及预览失败时的排查思路。
-
-## 1. `apc preview` 默认打开哪里？
-
-**问：直接执行 `apc preview`，会打开地图的哪个页面？**
-
-**答：默认打开「创作页」。**
-
-- 在不带参数的情况下：
-
-  ```bash
-  apc preview
-  ```
-
-  会从当前项目的 `.env[.mode]` 中读取：
-
-  - `VITE_DAO3_EDIT_HASH`
-
-  并在浏览器中打开：
-
-  - `https://dao3.fun/edit/<VITE_DAO3_EDIT_HASH>`
-
-适用场景：
-
-- 想快速跳转到神岛的创作编辑界面，调整地图配置 / 资源等。
-
-## 2. `apc preview play` 和默认预览有什么区别？
-
-**问：`apc preview play` 和直接 `apc preview` 有什么不同？**
-
-**答：`play` 会打开游玩页，默认则是创作页。**
-
-- 打开创作页：
-
-  ```bash
-  apc preview
-  ```
-
-  - 使用 `VITE_DAO3_EDIT_HASH`；
-  - 打开的链接形如：`https://dao3.fun/edit/<Hash>`。
-
-- 打开游玩页：
-
-  ```bash
-  apc preview play
-  ```
-
-  - 使用 `VITE_DAO3_PLAY_HASH`；
-  - 打开的链接形如：`https://dao3.fun/play/<Hash>`。
-
-适用建议：
-
-- 调整配置 / 资源：用 `apc preview`（创作页）；
-- 体验玩法效果：用 `apc preview play`（游玩页）。
-
-## 3. 多环境 / 多 `.env` 文件时怎么预览？
-
-**问：有 `.env` / `.env.dev` / `.env.prod` 等多套配置时，`apc preview` 会用哪一个？可以指定吗？**
-
-**答：可以通过 `--env` 参数指定要使用的 env 文件。**
-
-示例：
+地图预览使用 `apc runtime` 管理 Creator 编辑器中已有的 Preview Run：
 
 ```bash
-# 使用 .env 中的 Hash 打开创作页
-apc preview
-
-# 使用 .env.dev 中的 Hash 打开创作页
-apc preview --env dev
-
-# 使用 .env.prod 中的 Hash 打开游玩页
-apc preview play --env prod
+apc runtime status
+apc runtime start
+apc runtime restart
+apc runtime stop
+apc runtime logs --follow
 ```
 
-行为说明：
+它不会打开浏览器、发布游玩端、创建新的容器或上传脚本。需要先在 Creator 中打开目标地图，并确保工程已绑定正确的 Profile 和永久地图 ID。
 
-- `--env dev` 会让 CLI 从 `.env.dev` 中读取：
-  - `VITE_DAO3_MAP_ID`
-  - `VITE_DAO3_MAP_NAME`
-  - `VITE_DAO3_PLAY_HASH`
-  - `VITE_DAO3_EDIT_HASH`
-- 不带 `--env` 时，默认读取 `.env`。
+## 1. 常用操作
 
-## 4. 预览失败时，优先检查哪些问题？
+```bash
+# 查看 Preview Run 是否正在运行
+apc runtime status
 
-**问：执行 `apc preview` 时，如果浏览器没打开或打开后报错，我应该先看什么？**
+# 启动、重启、停止当前 Creator 编辑器的预览运行
+apc runtime start
+apc runtime restart
+apc runtime stop
 
-可以按下面的顺序排查：
+# 跟随全部控制台日志
+apc runtime logs --follow
 
-### 4.1 `.env` 中是否已经绑定过地图？
+# 只查看服务端错误
+apc runtime logs --follow --side server --level error
+```
 
-- 当前使用的 `.env[.mode]` 中，是否已经有：
-  - `VITE_DAO3_MAP_ID`
-  - `VITE_DAO3_PLAY_HASH`
-  - `VITE_DAO3_EDIT_HASH`
-- 如果为空，建议按照推荐流程先绑定地图：
+`runtime logs` 可以使用 `--side client|server`、`--level error|warn|info|debug` 和 `--grep <文本>` 过滤日志。开发构建会保留 sourcemap，CLI 可将部分堆栈定位回 TypeScript 源文件。
 
-  ```bash
-  apc list
-  apc set <地图ID>
-  ```
+## 2. 预览命令失败如何排查？
 
-### 4.2 Hash 是否与地图不匹配？
+1. 运行 `apc project info`，确认 Profile、永久地图 ID 和 Creator 连通性；
+2. 在 Creator 中打开同一张地图，确认当前账号有运行控制权限；
+3. 用 `apc runtime status` 查看当前状态；
+4. 若日志无法连接，先运行 `apc profile test <profile>`，再检查 Token 是否具备运行控制权限。
 
-- 如果你手动修改过 `.env` 里的 Hash，有可能导致链接与真实地图不匹配；
-- 此时可以重新执行：
-
-  ```bash
-  apc list
-  apc set <地图ID>
-  ```
-
-  让 CLI 从最新的全局缓存中重新写入 Hash。
-
-### 4.3 浏览器 / 默认打开方式问题
-
-- `apc preview` 底层是调用本机的默认浏览器打开链接；
-- 如果本机对 http 链接没有正确关联浏览器，或默认浏览器启动异常，也可能导致看起来「没有任何反应」。
+可以使用 `--profile <名称>` 和 `--project <永久地图ID>` 临时指定目标，不会改写 `.env`。

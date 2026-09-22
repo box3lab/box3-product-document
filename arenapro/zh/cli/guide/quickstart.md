@@ -1,195 +1,72 @@
-# 用 ArenaPro CLI 创建你的第一个项目
+# 用 APC 创建第一个 Creator 工程
 
-本篇会带你从零完成一件事：**用 ArenaPro CLI 创建并跑通第一个 ArenaPro 项目**。
+本页使用当前 APC 命令。需要 Node.js 22 或更高版本。
 
-在开始之前，请先通过 [**全局安装 CLI**](./index#快速安装)，这样才能在终端里直接使用 `apc` 命令。
+> 开始前请向服主申请 CLI Token，并确认 Token 已授予所需 Creator 权限。没有有效 Token 时，无法通过 CLI 读取地图、同步资源、上传脚本、操作数据空间或控制预览运行。
 
-## 1. 创建新项目
-
-在你希望存放项目的目录里执行：
+## 1. 安装 CLI
 
 ```bash
-# 1) 使用脚手架创建项目
-apc create my-arena-app
-# 或使用简写
-# apc c my-arena-app
+npm install -g @box3lab/arenapro-cli
+apc --help
 ```
 
-会生成项目目录 `my-arena-app` 及文件。
+也可使用 pnpm、yarn 或 bun 全局安装同一包。
 
-### 2. 进入项目目录
+## 2. 添加 Creator Profile
+
+一个 Profile 对应一台 Creator 服务。先向服主获取 Creator 地址与 CLI Token，再将 Token 放进当前终端或 CI Secret：
 
 ```bash
-cd my-arena-app
+export BOX_CREATOR_TOKEN='bxc_...'
+apc profile add local --endpoint 127.0.0.1:3127 --token "$BOX_CREATOR_TOKEN"
+apc profile test local
 ```
 
-项目结构大致如下：
+`profile test` 会检查服务连接并保存服务实例身份。公网 Creator 地址必须以 `https://` 开头；不要添加 `/api/creator/v1` 路径。
 
-```text
-my-arena-app/
-  client/        # 客户端脚本
-  server/        # 服务端脚本
-  shares/        # client/server 共享代码
-  dao3.config.ts # 项目打包配置（bundle 列表等）
-  .env           # 环境变量配置（神岛授权、构建参数等）
-  package.json
-  vite.config.ts
-  ...
-```
-
-### 3. 快速获取授权信息
-
-在项目根目录执行：
+## 3. 创建工程并绑定地图
 
 ```bash
-apc login
-# 或使用简写
-# apc l
+apc project create my-map
+cd my-map
+apc map list --profile local
+apc project bind <permanentMapId> --profile local
 ```
 
-CLI 会打开一个本地授权页面。
+`project bind` 会验证地图属于当前 Creator，并将 Profile 名和永久地图 ID 写入工程 `.env`：
 
-默认情况下，`apc login` 会将登录信息写入**全局配置**，后续即使你切换到**其他项目**，也可以直接使用同一套登录态来上传脚本、拉取资源。
+```env
+VITE_BOX_CREATOR_PROFILE=local
+VITE_BOX_CREATOR_PROJECT_ID=<permanentMapId>
+```
 
-如果你只希望在当前项目内生效，可以使用：
+## 4. 同步类型和资源
 
 ```bash
-apc login --env        # 仅写入当前项目 .env
-apc login --env dev    # 仅写入当前项目 .env.dev
-# 或使用简写
-# apc l -e dev
+apc map resource --type all
 ```
 
-CLI 在实际使用时会优先读取：
+此命令同步 TypeScript 类型定义，以及模型、图片、音频和 UI 资源索引。Creator 中修改资源或 UI 后，再运行一次同步。
 
-1. 当前项目的 `.env[.mode]` 中的 Token / UA（局部配置）；
-2. 如果本地没有配置，再回退到全局登录信息。
-
-### 4. 链接一张扩展地图
-
-登录完成后，需要先把当前工程和某一张「扩展地图」绑定起来，后续同步资源 / 上传脚本都会指向这张地图。
-
-1. 在终端中列出当前账号下的扩展地图列表并写入本地：
-
-   ```bash
-   apc list
-   ```
-
-   记下你要开发的那一张地图的 ID（例如 `100005475`）。
-
-2. 使用 `apc set` 将缓存地图信息写入当前项目的 `.env`：
-
-   ```bash
-   apc set 100005475
-   ```
-
-   这一步会在 `.env` 中写入 / 更新：
-
-   - `VITE_DAO3_MAP_ID`
-   - `VITE_DAO3_PLAY_HASH`
-   - `VITE_DAO3_EDIT_HASH`
-   - `VITE_DAO3_MAP_NAME`
-
-完成以上两步后，这个项目就和一张具体的扩展地图建立了关联。
-
-## 5. 同步神岛资源到本地
-
-登录并链接好地图后，在项目根目录执行：
+## 5. 开发、上传与预览
 
 ```bash
-apc resource
-# 或使用简写
-# apc r
-```
-
-同步完成后，你会在 `client/`、`server/`、`types/` 等目录下看到对应的自动生成的地图资源文件。
-
-## 6. 启动开发 / 调试
-
-在项目根目录执行：
-
-::: code-group
-
-```sh [npm]
-# 同时 watch server + client
 npm run dev
+apc runtime start
+apc runtime logs --follow
 ```
 
-```sh [pnpm]
-# 同时 watch server + client
-pnpm dev
-```
+`npm run dev` 监听 client/server 构建。仅当 `.env` 中 `VITE_UPDATE_FILE=true` 时，构建完成后会上传脚本；设为 `false` 时只做本地构建。
 
-```sh [yarn]
-# 同时 watch server + client
-yarn dev
-```
+预览通过 Creator 的运行时控制：使用 `runtime start`、`status`、`restart`、`stop` 和 `logs`。它不再通过 CLI 打开旧版创作或游玩页面。
 
-```sh [bun]
-# 同时 watch server + client
-bun run dev
-```
-
-:::
-
-- 每次保存后快速重新编译，方便你马上看到效果。
-- 不强制跑完整的类型检查 / 代码检查，更关注「能不能跑起来」。
-
-## 7. 正式构建与上传脚本
-
-::: code-group
-
-```sh [npm]
-# 同时构建 server + client
-npm run build
-```
-
-```sh [pnpm]
-# 同时构建 server + client
-pnpm build
-```
-
-```sh [yarn]
-# 同时构建 server + client
-yarn build
-```
-
-```sh [bun]
-# 同时构建 server + client
-bun run build
-```
-
-:::
-
-- 一次性打包所有目标脚本。
-- 会按照项目配置执行更严格的检查，用来确认这版代码是否可以上线。
-
-## 8. 运行你的脚本
-
-构建完成后，你可以通过 CLI 打开当前工程绑定的地图，在神岛里完成脚本引入并运行：
+## 6. 发布前检查
 
 ```bash
-# 打开创作端（编辑界面）
-apc preview
-# 或使用简写
-# apc p
+npm run build
+apc project info --json
+apc runtime status --json
 ```
 
-- 会根据 `.env` 中的 `VITE_DAO3_EDIT_HASH` 打开对应地图的创作页面；
-- 在创作端中，把刚才构建好的脚本文件引入到地图配置里并保存。
-
-在服务端的 `index.js` 中，引入刚才上传的 `bundle.server.js`：
-
-```js
-// Arena Server 使用 CJS 引入方式
-require("./bundle.server.js");
-```
-
-在客户端的 `clientIndex.js` 中，引入构建上传后的 `bundle.client.js`：
-
-```js
-// Arena Client 使用 ESM 引入方式
-import "./bundle.client.js";
-```
-
-运行地图，即可看到这次脚本改动的效果。
+确认 Profile、永久地图 ID、Creator 健康状态和预览运行状态均正确。生产自动化使用独立 Token，并仅授予所需权限。

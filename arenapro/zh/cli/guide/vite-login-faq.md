@@ -1,108 +1,62 @@
-# 登录与授权 Q&A：一次登录，多项目复用
+# Creator Profile 与 CLI Token Q&A
 
-> 本文补充说明 `apc login` 的行为：全局配置 vs 局部 `.env`，多项目复用、优先级和团队协作时的推荐用法。
+Creator 访问由 Profile 和 CLI Token 组成。Profile 保存服务器地址，Token 保存在 APC 的本机私密凭据中；工程 `.env` 只保存 Profile 名称和永久地图 ID。
 
-## 1. `apc login` 写全局好，还是只写当前项目好？
+## 1. 如何配置 Creator 连接？
 
-**问：`apc login` 默认把登录信息写到哪？我该怎么选？**
+先从服主获取 Creator 地址和 CLI Token，再在终端中执行：
 
-**答：默认写「全局配置」，也可以选择只写当前项目的 `.env`。推荐做法是：**
-
-- **个人开发 / 多项目场景：优先用全局配置**
-
-  - 直接执行：
-
-    ```bash
-    apc login
-    ```
-
-  - 登录信息会写到全局配置文件中，一次登录，可以在多份 ArenaPro Vite 项目里复用。
-
-- **对当前项目有额外要求的项目：可以只写当前项目的 `.env`**
-
-  - 使用 `--env` 参数：
-
-    ```bash
-    apc login --env        # 仅写入当前项目 .env
-    apc login --env dev    # 仅写入当前项目 .env.dev
-    ```
-
-  - 这种方式不会改动全局配置，只影响当前工程。
-
-## 2. 在 A 项目登录过，B 项目还要再登录吗？
-
-**问：我在 A 项目里执行过一次 `apc login`，换到 B 项目后还需要再登录一次吗？**
-
-**答：默认不需要。**
-
-- 当你只执行过：
-
-  ```bash
-  apc login
-  ```
-
-- 登录信息已经写进了全局配置：
-  - 换到 B 项目时，`apc resource` / `apc list` / `apc set` 等命令会**先看本地 `.env`，如果没有，再回退用全局登录信息**；
-  - 只要 Token / UA 还有效，就可以直接使用，无需重复登录。
-
-> 换句话说：**一次全局登录，可以服务多个项目**。
-
-## 3. 本地 `.env` 和全局登录冲突时，用哪一个？
-
-**问：如果我既有全局登录，又在项目 `.env` 里手动（或通过 `apc login --env`）写了 Token / UA，到底用哪一个？**
-
-**答：优先级是「局部优先，全局兜底」。**
-
-CLI 在读取登录信息时的大致顺序是：
-
-1. **当前项目的 `.env[.mode]`** 中的 `VITE_DAO3_AUTH` / `VITE_DAO3_UA`；
-2. 如果本地 `.env` 系列都没有配置，再回退使用**全局配置**中的 Token / UA。
-
-这意味着：
-
-- 你可以在某个项目里，用 `apc login --env` 写入一套与全局不同的账号 / 权限；
-- 在这个项目中，所有需要登录态的操作都会优先使用这套「局部账号」。
-
-## 4. 团队协作时，推荐哪种登录方式？
-
-**问：团队多人协作时，大家应该怎么登录比较省心？**
-
-**建议：**
-
-- **每个开发者单独执行一次全局登录：**
-
-  ```bash
-  apc login
-  ```
-
-  - 各自用自己的账号授权，后续无论参与几个项目，都能直接复用这次登录态；
-  - 不需要在仓库里提交任何和个人 Token 相关的内容。
-
-- 对某些需要「专门测试账号」或「临时权限」的项目，可以在该项目中再执行一次：
-
-  ```bash
-  apc login --env
-  ```
-
-  这样只影响当前项目，不会改动其他项目的登录状态。
-
-## 5. 我需要把 Token / UA 写进 `.env.example` 吗？
-
-**问：`.env.example` 里要不要包含 `VITE_DAO3_AUTH` 和 `VITE_DAO3_UA`？**
-
-**答：不要写真实值，可以只保留字段名当「提示」。**
-
-常见做法是：
-
-```env
-# 账号相关（示例字段名，不要提交真实值）
-VITE_DAO3_AUTH=YOUR_TOKEN_HERE
-VITE_DAO3_UA=YOUR_UA_HERE
+```bash
+export BOX_CREATOR_TOKEN='bxc_...'
+apc profile add local --endpoint 127.0.0.1:3127 --token "$BOX_CREATOR_TOKEN"
+apc profile test local
 ```
 
-然后在团队文档里说明：
+`apc profile add` 会保存名为 `local` 的 Profile，并将 Token 存入 APC 的本机私密凭据。`apc profile test` 用于检查地址是否可连接，并显示服务器身份和 Token 是否已配置。
 
-- 新同学拉仓库后，可以：
-  - 直接执行 `apc login`，让 CLI 帮你写入全局配置（推荐）；
-  - 或者在当前项目中执行 `apc login --env`，让 CLI 自动写入 `.env`；
-- 无论哪种方式，都**不需要**把真实 Token 写进 `.env.example` 并提交。
+## 2. 一台电脑可以使用多个 Creator 吗？
+
+可以。为每台 Creator 使用不同的 Profile 名称：
+
+```bash
+apc profile add staging --endpoint creator-staging.example:3127 --token "$BOX_CREATOR_TOKEN"
+apc profile add production --endpoint creator.example:3127 --token "$BOX_CREATOR_TOKEN"
+apc profile list
+```
+
+项目通过 `.env` 中的 `VITE_BOX_CREATOR_PROFILE` 选择默认 Profile。也可以在单条命令中使用 `--profile <name>` 临时选择，不会修改工程配置。
+
+## 3. Token 从哪里读取？
+
+需要授权的命令按以下顺序读取 Token：
+
+1. `apc script upload` 明确传入的 `--token`；
+2. 当前终端的 `BOX_CREATOR_TOKEN`；
+3. 选中 Profile 的本机私密凭据。
+
+`apc map resource --type dts` 只同步公开 DTS，不需要 Profile 或 Token。读取地图、资源、脚本、数据空间和运行控制均需要目标 Creator 的有效 Token 及相应权限。
+
+## 4. Token 可以写进 `.env.example` 吗？
+
+不可以。`VITE_` 变量会暴露给客户端代码，工程 `.env`、`.env.example`、Git、日志和截图中都不能出现 Token、endpoint 或密码。
+
+`.env.example` 只保留公开的工程模板：
+
+```env
+VITE_CURRENT_FILE=
+VITE_BOX_CREATOR_PROFILE=local
+VITE_BOX_CREATOR_PROJECT_ID=
+VITE_UPDATE_FILE=false
+VITE_BOX_CREATOR_VERSION=false
+VITE_UI_INDEX_PREFIX=
+```
+
+## 5. 如何更换或删除本机凭据？
+
+使用相同名称再次执行 `apc profile add` 可以更新 Profile 地址和 Token。确认不再使用某台 Creator 后执行：
+
+```bash
+apc profile remove local
+```
+
+此命令会同时删除该 Profile 和它保存在本机的 CLI Token，不会影响其他 Profile 或工程 `.env`。

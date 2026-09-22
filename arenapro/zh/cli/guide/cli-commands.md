@@ -1,264 +1,532 @@
-# ArenaPro Vite CLI 命令一览
+# APC 命令一览
 
-> 本文只讲「命令做什么、常用怎么写」，方便你查表使用。
+当前 APC 使用分组命令。运行 `apc <分组> <命令> --help` 可以查看当前安装版本支持的选项。
 
-## 地图相关命令
+## 命令总览
 
-### `apc list`
-
-查看当前账号的扩展地图（UGC）列表（最近 30 条）：
-
-```bash
-apc list                      # 使用 .env 作为本地凭据
-apc list --env dev            # 使用 .env.dev 作为本地凭据
-apc list --env prod           # 使用 .env.prod 作为本地凭据
-apc list --keyword 迷宫       # 仅显示名称中包含“迷宫”的地图
-apc list --audit-status 1     # 只看审核通过的作品
-apc list --content-status 1   # 只看已发布的作品
-apc list --ownership 0        # 只看自己创建的作品
-apc list --order-by 2         # 按发布时间排序
-apc list --order-by 3 --order-desc false  # 按创建时间正序
+```text
+apc project create|bind|info
+apc map list|resource
+apc profile add|list|test|remove
+apc script get|upload
+apc storage list|get|set|delete
+apc runtime status|start|restart|stop|logs
+apc scene capture
+apc package list
+apc docs
 ```
 
-**功能：**
+除项目创建外，自动化场景建议加 `--json`，并只解析标准输出中的 JSON 结果。
 
-- **从神岛接口拉取当前账号下的扩展地图列表**（最近预览过的前 30 条）
-- **名称支持在支持 OSC 8 的终端中点击**，直接打开对应编辑链接 `https://dao3.fun/edit/<Hash>`
-- 显示每张地图的：名称、ID、发布时间 / 更新时间、是否已发布、是否有协作者等信息
-- **自动将结果缓存到本地全局配置**，方便后续使用 `apc set` 写入 env
+## 使用约定
 
-> 注意：需要先通过 `apc login` 完成登录授权，`apc list` 会优先读取当前工程 `.env[.mode]` 中的 `VITE_DAO3_AUTH` / `VITE_DAO3_UA`，若本地未配置，则回退到全局配置中的登录信息。
+- `<...>` 表示必填参数，实际执行时用真实值替换；`[...]` 表示可选参数。
+- 大部分访问 Creator 的命令需要有效 Profile、CLI Token 与相应权限。工程命令默认从当前目录的 `.env` 读取 `VITE_BOX_CREATOR_PROFILE` 和 `VITE_BOX_CREATOR_PROJECT_ID`。
+- `--profile <name>` 临时选择 Creator Profile；`--project <id>` 临时选择永久地图 ID。它们不会改写 `.env`。
+- `--env [mode]` 读取或写入 `.env.<mode>`；不传时使用 `.env`。例如 `--env staging` 对应 `.env.staging`。
+- 需要脚本化调用时在命令后增加 `--json`。正常输出面向人阅读；JSON 输出面向程序解析。
+- 删除数据、停止预览和覆盖脚本会改变 Creator 状态。先用读取命令确认目标，再执行写操作。
 
-**参数：**
-
-- `-e, --env [mode]`：可选，指定使用的 env 文件后缀：
-  - 不带参数：使用 `.env`
-  - 带普通后缀：使用 `.env.<mode>`，例如 `--env dev` -> `.env.dev`
-- `-k, --keyword [kw]`：按地图名称关键字过滤列表，例如 `--keyword 迷宫`
-- `--audit-status [status]`：审核状态过滤，`0` pending、`1` approved、`2` denied
-- `--content-status [status]`：作品发布状态过滤，`0` notPublish、`1` published
-- `--order-by [field]`：排序字段，`1` updatedAt（更新时间）、`2` publishedAt（发布时间）、`3` createdAt（创建时间），默认 `1`
-- `--order-desc [flag]`：是否倒序，`true | false`，默认 `true`
-- `--ownership [owner]`：创作者身份过滤，`0` owner、`1` collaborator
-
-### `apc set [keyword]`
-
-根据关键字搜索一张地图，并将其信息写入当前工程的 env 文件：
+## Profile：连接 Creator 服务
 
 ```bash
-apc set 100005475                # 按地图 ID 写入 .env
-apc set 100005475 --env dev      # 按地图 ID 写入 .env.dev
-apc set 超时空                # 按标题 / 名称关键字搜索
-apc set 9181e2f0fe4c31f7fc     # 按 playHash / editHash 搜索
-apc set 455          # 按作者 ID 搜索
-apc set 沙漠                     # 可命中子图名称，最终仍写入主地图
+apc profile add local --endpoint 127.0.0.1:3127 --token "$BOX_CREATOR_TOKEN"
+apc profile list
+apc profile test local --json
+apc profile remove local
 ```
 
-**参数：**
+- `add <name>`：新增或更新一台 Creator 服务。局域网地址可省略协议；公网地址必须使用 `https://`。
+- `list`：列出已保存的 Profile。
+- `test [profile]`：检查连接，并记录 Creator 的服务实例身份。
+- `remove <name>`：删除 Profile 和保存在本机的 CLI Token。
 
-- `keyword`：用于搜索的关键字，可以是：
-  - 地图 ID（主图 ID 或子图 ID）
-  - `playHash` / `editHash`（主图或子图）
-  - 地图标题 / 名称
-  - 地图简介 `describe`
-  - 作者 ID
-- `-e, --env [mode]`：目标 env 文件：
-  - 不带参数：`.env`
-  - 例如 `--env dev` → `.env.dev`
+CLI Token 可通过 `--token` 或 `BOX_CREATOR_TOKEN` 提供。不要把 Token 写入工程 `.env` 或提交到 Git。
 
-**行为：**
+### `apc profile add <name>`
 
-- 从本地全局地图缓存（由 `apc list` 写入）中搜索匹配的地图：
-  - 先按 **主图 ID / 子图 ID** 精确匹配；
-  - 再按 **主图 / 子图的 playHash / editHash** 精确匹配；
-  - 若仍未命中，则在 **主图 + 所有子图** 的多个字段上做模糊搜索：
-    - 主图：`id / mapId / contentId / playHash / editHash / name / title / describe / authorId`
-    - 子图：`id / playHash / editHash / name / authorId`
-- 若模糊搜索只命中 **一条主图**，则直接使用该主图；
-- 若模糊搜索命中 **多条主图**，会列出候选清单并提示你缩小关键字范围，此时不会写入 env；
-- 如果命中来源是 **subMaps（子地图）**，最终仍以其所属的 **主地图** 作为写入目标：
-  - `VITE_DAO3_MAP_ID` 始终为主地图 ID；
-  - `VITE_DAO3_PLAY_HASH` / `VITE_DAO3_EDIT_HASH` / `VITE_DAO3_MAP_NAME` 也都来自主地图。
-- 最终在指定 env 中写入 / 更新：
-  - `VITE_DAO3_MAP_ID`（主地图 ID）
-  - `VITE_DAO3_PLAY_HASH`（主地图游玩 Hash）
-  - `VITE_DAO3_EDIT_HASH`（主地图创作 Hash）
-  - `VITE_DAO3_MAP_NAME`（主地图名称，作为元数据参考）
-
-### `apc preview [mode]`
-
-别名：`apc p`
-
-在浏览器中预览当前工程绑定的地图（基于 env 中的 Hash）：
+新增或更新一个 Creator Profile。必须传入 `--endpoint`；`--token` 可传入 CLI Token，也可先设置 `BOX_CREATOR_TOKEN`。
 
 ```bash
-apc preview                # 打开当前地图的创作页（使用 VITE_DAO3_EDIT_HASH）
-apc preview play           # 打开当前地图的游玩页（使用 VITE_DAO3_PLAY_HASH）
-apc preview --env dev      # 使用 .env.dev 中的 Hash 打开创作页
-apc preview play --env dev # 使用 .env.dev 中的 Hash 打开游玩页
+apc profile add local --endpoint 127.0.0.1:3127 --token "$BOX_CREATOR_TOKEN"
+apc profile add production --endpoint https://creator.example --token "$BOX_CREATOR_TOKEN"
 ```
 
-**参数：**
+| 参数 | 说明 | 效果 |
+| --- | --- | --- |
+| `<name>` | Profile 名称，例如 `local`、`staging` | 用于工程 `.env` 和 `--profile` 选择服务器。 |
+| `--endpoint <url>` | Creator 服务地址 | 保存到 APC 本机 Profile。局域网地址可省略协议；公网地址使用 `https://`。 |
+| `--token <token>` | CLI Token | 保存到该 Profile 的本机私密凭据，不写入工程目录。 |
 
-- `mode`：不填为创作页，填任意值（如 `play`）为游玩页。
-- `-e, --env [mode]`：选择使用的 env 文件后缀，规则同上。
+同名 Profile 会更新地址；传入 Token 时会同时更新本机凭据。
 
-`apc preview` 会从指定的 `.env[.mode]` 中读取：
+### `apc profile list`
 
-- `VITE_DAO3_MAP_ID`
-- `VITE_DAO3_MAP_NAME`
-- `VITE_DAO3_PLAY_HASH`
-- `VITE_DAO3_EDIT_HASH`
-
-并打开对应的 `https://dao3.fun/edit/<Hash>` 或 `https://dao3.fun/play/<Hash>` 链接。
-
-## NPM 包管理命令
-
-### `apc npmlist`
-
-别名：`apc nl`
-
-查看神岛组织下的 npm 包列表（当前为 `@dao3fun` ）：
+列出当前电脑保存的所有 Profile、地址和默认标记。不会连接服务器，也不会显示 Token 内容。
 
 ```bash
-apc npmlist
+apc profile list
+apc profile list --json
 ```
 
-**功能：**
+### `apc profile test [profile]`
 
-- 从 npm registry 搜索 `@dao3fun` 组织下的所有包。
-- 按发布时间倒序排序，展示：包名、版本、简介、发布时间、发布者。
-- 包名支持在支持 OSC 8 的终端中点击，跳转至对应 npm 包页面。
-
-在当前工程中安装 / 卸载某个包（手动执行 npm 命令）：
+检查指定 Profile 的 Creator 服务是否可访问，并记录服务器实例身份。
 
 ```bash
-npm install <包名>            # 安装到 dependencies
-npm install <包名> -D        # 安装到 devDependencies
-npm uninstall <包名>        # 卸载包
+apc profile test local
+apc profile test production --json
 ```
 
-## 资源同步与脚本上传
+省略 `profile` 时，CLI 按当前工程 `.env` 选择 Profile。输出会说明连接是否成功及 Token 是否已配置，但不会验证每一项业务权限。
 
-### `apc resource`
+### `apc profile remove <name>`
 
-别名：`apc r`
-
-从神岛地图内同步资源（共享资源）：
+删除本机保存的 Profile 与它对应的本机 CLI Token：
 
 ```bash
-apc resource               # 使用 .env 同步全部资源
-apc resource --env dev     # 使用 .env.dev 同步
-apc resource --env prod    # 使用 .env.prod 同步
-apc resource -s assets     # 仅同步静态资源
-apc resource -s api        # 仅同步 API 定义
+apc profile remove staging
 ```
 
-**参数：**
+不会删除 Creator 服务器、地图或工程 `.env`。重新使用该名称时需要再次 `profile add`。
 
-- `-e, --env [mode]`：选择 `.env` 文件后缀，例如 `dev` 对应 `.env.dev`。
-- `-s, --scope`：`all | api | assets`，默认 `all`。
-
-在 scope 为 `assets | all` 时，会检查以下环境变量是否齐全：
-
-- `VITE_DAO3_MAP_ID`
-- `VITE_DAO3_AUTH`
-- `VITE_DAO3_UA`
-
-缺少时会提示先执行 `apc login` 完成授权，或在本地 env 中补全配置。
-
-### `apc upload [target]`
-
-别名：`apc u`
-
-如果你使用的是 Vite 架构，推荐直接搭配 `vite-plugin-arenapro-script` 在构建后自动上传脚本，会比手动执行命令更方便。
-
-将 JS 脚本上传到神岛 Arena 编辑器。会从当前工程的构建输出目录中读取脚本文件并逐个上传：
+## 工程与地图
 
 ```bash
-apc upload                          # 依次上传 server + client 两端脚本
-apc upload server                   # 只上传 server 端脚本（默认 dist/server，也可配合 --dir）
-apc upload client                   # 只上传 client 端脚本（默认 dist/client，也可配合 --dir）
-apc upload --env dev                # 使用 .env.dev 选择凭据 / 地图配置
-apc upload server --dir dist/custom # 从自定义目录上传 server 端脚本
+apc project create my-map
+cd my-map
+apc map list --profile local --keyword "测试"
+apc project bind <permanentMapId> --profile local
+apc project info --json
 ```
 
-**参数：**
+- `project create <name>`：创建 Creator Vite 工程。
+- `map list`：查看所选 Creator 服务中的地图，可用 `--keyword` 按地图名、描述或永久地图 ID 过滤。
+- `project bind <permanentMapId>`：绑定地图，并默认验证该 ID 是否属于所选 Creator 服务。
+- `project info`：查看工程 `.env`、Profile、Token 是否已配置以及 Creator 健康状态。
 
-- `target`：`server | client`，不填时依次处理 `server + client`。
-- `-e, --env [mode]`：选择 env 文件后缀。
-- `-d, --dir [dir]`：自定义上传目录（默认根据 target 使用 `dist/server` 或 `dist/client`）。
+`project bind` 会写入：
 
-**行为：**
+```env
+VITE_BOX_CREATOR_PROFILE=local
+VITE_BOX_CREATOR_PROJECT_ID=<permanentMapId>
+```
 
-- 只上传 `.js/.cjs/.mjs` 文件，上传时统一改为 `.js` 后缀。
-- 每个目标（server/client）内部按文件顺序串行上传。
-- 任何文件上传失败或接口返回非 200，会立刻终止并退出非 0。
-- 登录信息和地图 ID 从当前工程 env 和全局配置中读取（优先本地 `VITE_DAO3_AUTH` / `VITE_DAO3_UA` / `VITE_DAO3_MAP_ID`，否则使用全局 `authToken` / `userAgent`）。
+仅在已确认地图 ID 且 Creator 暂时不可访问时使用 `--skip-verify`。`--profile` 和 `--project` 可以临时覆盖工程配置，不会修改 `.env`。
 
-## 工程创建
+### `apc project create <name>`
 
-### `apc create <name>`
-
-别名：`apc c`
-
-在当前目录下创建 ArenaPro Vite 基础工程：
+创建一个新的 BOX Creator Vite 工程。该命令会复制脚手架模板并生成工程 `package.json`，不会创建远程地图或自动申请权限。
 
 ```bash
-apc create my-project
+apc project create my-map
+cd my-map
+npm install
 ```
 
-**参数：**
+创建后继续执行 `profile add`、`project bind` 和 `map resource`，再开始开发。
 
-- `name`：必填，新工程目录名。
+### `apc project bind <permanentMapId>`
 
-## 登录与环境
-
-### `apc login`
-
-别名：`apc l`
-
-从神岛授权账户信息，可写入全局配置或当前工程 `.env` ：
+把 Creator 永久地图 ID 写入工程环境文件，并在默认情况下实时验证该地图属于所选 Profile。
 
 ```bash
-apc login              # 写入全局配置（推荐，一次登录，全局复用）
-apc login --env        # 仅写入当前工程的 .env（不写全局）
-apc login --env dev    # 仅写入当前工程的 .env.dev（不写全局）
+apc project bind map-abc123 --profile local
+apc project bind map-staging --profile staging --env staging
+apc project bind map-known-id --profile local --skip-verify
 ```
 
-**参数：**
+| 参数或选项 | 说明 | 效果 |
+| --- | --- | --- |
+| `<permanentMapId>` | Creator 分配的永久地图 ID | 不能用地图名称、临时 hash 或展示 ID 代替。 |
+| `--profile <name>` | 指定 Profile | 写入对应的 `VITE_BOX_CREATOR_PROFILE`。 |
+| `--env [mode]` | 指定环境文件 | 将 Profile 和 ID 写入 `.env` 或 `.env.<mode>`。 |
+| `--skip-verify` | 跳过服务器验证 | 仅用于 Creator 暂时不可用且 ID 已确认的场景。 |
 
-- `-e, --env [mode]`：可选，改为只写入当前工程的 env 文件，不写入全局配置：
-  - 不带参数：写入 `.env`
-  - 带普通后缀：写入 `.env.<mode>`，例如 `--env dev` -> `.env.dev`
+成功后会写入 `VITE_BOX_CREATOR_PROFILE` 和 `VITE_BOX_CREATOR_PROJECT_ID`，不会写入 endpoint 或 Token。
 
-### `apc info`
+### `apc project info`
 
-别名：`apc i`
+检查当前工程绑定状态、Profile、CLI Token 是否配置、Creator 健康状态和 Node.js 版本：
 
-查看神岛登录状态（本地 + 全局）、当前工程的地图配置与运行环境，以及 CLI 运行环境信息：
+```bash
+apc project info
+apc project info --env production
+apc project info --profile staging --json
+```
 
-**功能包括：**
+它只读取工程配置并检查连通性，不上传脚本、不启动预览。发布前建议先执行一次。
 
-- 显示当前工作目录。
-- 显示神岛登录配置，并注明实际使用优先级：本地 env > 全局配置：
-  - 全局 Token / User-Agent 是否已配置。
-  - 本地 `.env` 中的 Token / User-Agent 是否已配置。
-- 显示当前地图配置（从当前工程的 `.env` 中读取）：
-  - `VITE_DAO3_MAP_ID`（地图 ID）
-  - `VITE_DAO3_MAP_NAME`（地图名称）
-  - `VITE_DAO3_PLAY_HASH`（游玩 Hash）
-  - `VITE_DAO3_EDIT_HASH`（创作 Hash）
-- 显示运行时环境信息：
-  - Node.js 版本
-  - npm 版本（如果命令可用）
-  - git 版本（如果命令可用）
-- 显示 Git 仓库状态：
-  - 当前分支（如果是 git 仓库）
-  - 远程仓库地址 `remote.origin.url`（如果有配置）
-- 显示全局配置：
-  - 全局配置目录
-  - `auth.json` / `ugc-maps.json` 是否存在
-- 显示当前工程目录下存在的所有 `.env` / `.env.*` 文件（自动过滤 `.env.example` 等模版文件）。
-- 显示终端 / Shell 相关环境变量（`SHELL` / `COMSPEC` / `TERM`）。
-- 显示当前 `apc` 调用参数（`process.argv`）。
+### `apc map list`
+
+读取一个 Creator Profile 下可访问的地图列表。可以按地图名称、描述或永久地图 ID 过滤：
+
+```bash
+apc map list --profile local
+apc map list --profile local --keyword "测试"
+apc map list --env staging --json
+```
+
+结果包含地图名称、永久地图 ID、状态、地图角色和更新时间。该命令不会写本地缓存，也不会修改工程绑定。
+
+## 资源与类型定义
+
+```bash
+apc map resource --type dts
+apc map resource --type assets --project <permanentMapId>
+apc map resource --type all --ui-prefix HUD
+```
+
+`--type dts` 同步 TypeScript 类型定义；`--type assets` 同步模型、图片、音频和 UI 索引；`--type all` 依次执行两者。资源索引由 Creator 生成，不要手动修改生成文件。
+
+### `apc map resource`
+
+将资源索引或 TypeScript DTS 同步到当前工程：
+
+```bash
+# 只同步公开 DTS，不需要 Profile 或 Token
+apc map resource --type dts
+
+# 使用工程绑定同步地图资源索引
+apc map resource --type assets
+
+# 同步 DTS 和资源索引
+apc map resource --type all
+
+# 临时同步另一张地图，并只索引 HUD 开头的 UI 节点
+apc map resource --type assets --profile staging --project map-staging --ui-prefix HUD
+```
+
+| 选项 | 说明 | 效果 |
+| --- | --- | --- |
+| `--type assets` | 默认类型 | 从 Creator 拉取模型、图片、音频和 UI 索引。需要资源读取权限。 |
+| `--type dts` | DTS 类型定义 | 从公开源同步客户端与服务端 DTS，不需要 Profile 或 Token。 |
+| `--type all` | 完整同步 | 先同步 DTS，再同步地图资源索引。 |
+| `--ui-prefix <prefix>` | UI 节点前缀 | 只影响生成的 UI 索引，不会删除或修改 Creator 中的 UI。 |
+| `--profile` / `--project` / `--env` | 临时目标或环境文件 | 覆盖本次读取的工程配置，不写回 `.env`。 |
+
+资源和 UI 在 Creator 中变化后，重新执行该命令。生成文件是派生输出，手动编辑会在下次同步时被覆盖。
+
+## 脚本
+
+```bash
+apc script get --json
+apc script get bootstrap.js --side server --out ./bootstrap.js
+apc script upload <permanentMapId> server bootstrap.js --file ./dist/server/bootstrap.server.js
+```
+
+`script get` 不带入口时列出共享脚本；读取指定脚本时必须提供 `--side server|client`。`script upload` 上传或覆盖一个脚本，内容最大 20 MiB。
+
+日常 Vite 工程使用 `npm run dev` 或 `npm run build` 构建。仅当 `VITE_UPDATE_FILE=true` 时，构建完成后会按工程配置上传脚本。
+
+### `apc script get [entry]`
+
+读取当前地图的共享脚本；不传入口时列出脚本清单：
+
+```bash
+# 列出当前地图所有共享脚本
+apc script get
+
+# 输出服务端脚本内容到终端
+apc script get bootstrap.js --side server
+
+# 保存客户端脚本到本地文件
+apc script get hud.js --side client --out ./backup/hud.js
+```
+
+| 参数或选项 | 说明 |
+| --- | --- |
+| `[entry]` | 可选脚本文件名；省略时只列出脚本清单。 |
+| `--side server\|client` | 读取具体脚本时必填，用于区分同名客户端与服务端脚本。 |
+| `--out <path>` | 将脚本内容保存到本地文件；省略时写入标准输出。 |
+| `--profile` / `--project` | 临时指定 Profile 或永久地图 ID。 |
+
+该命令为只读操作，不会改动远程脚本。
+
+### `apc script upload <projectId> <side> <entry>`
+
+上传或覆盖一份 JavaScript 脚本。它直接修改 Creator 地图中的目标脚本，适合紧急修复或自动化；日常 TypeScript 开发优先使用 `npm run dev` 或 `npm run build`。
+
+```bash
+apc script upload map-abc123 server bootstrap.js \
+  --file ./dist/server/bootstrap.server.js
+
+apc script upload map-abc123 client hud.js \
+  --file ./dist/client/hud.client.js \
+  --profile production --token "$BOX_CREATOR_TOKEN"
+```
+
+| 参数或选项 | 说明 |
+| --- | --- |
+| `<projectId>` | 必填永久地图 ID。 |
+| `<side>` | 必须为 `server` 或 `client`。 |
+| `<entry>` | 远程脚本文件名。存在时会被覆盖。 |
+| `--file <path>` | 必填，本地 UTF-8 JavaScript 文件。 |
+| `--profile <name>` | 指定 Creator Profile。 |
+| `--token <token>` | 仅本次上传使用的 Token，优先级最高。 |
+
+成功时会返回脚本 side、entry 和 revision。上传前确认地图 ID、side 和文件路径；覆盖操作不会自动保留旧版本。
+
+## 数据空间
+
+```bash
+apc storage list player --page 0 --limit 50
+apc storage get player user_123
+apc storage set player user_123 --value '{"coins":100}'
+apc storage set player user_123 --file ./user_123.json
+apc storage delete player user_123 --yes
+apc storage list leaderboard --scope group
+```
+
+默认访问地图的项目数据空间；使用 `--scope group` 访问同地图组共享的数据空间。`delete` 必须带 `--yes`，写入值必须是标准 JSON。
+
+### 数据空间通用选项
+
+`storage` 的四个子命令都支持以下选项：
+
+| 选项 | 说明 |
+| --- | --- |
+| `--scope project\|group` | 数据范围；`project` 为当前地图独立数据，`group` 为同地图组共享数据。默认 `project`。 |
+| `--profile <name>` | 临时指定 Creator Profile。 |
+| `--project <id>` | 临时指定永久地图 ID。 |
+
+`<space>` 是数据空间名称，`<key>` 是记录键。所有写入值都必须是合法 JSON。
+
+### `apc storage list <space>`
+
+分页读取一个数据空间中的记录：
+
+```bash
+apc storage list player
+apc storage list player --page 0 --limit 100
+apc storage list leaderboard --scope group --json
+```
+
+`--page` 从 `0` 开始，默认 `0`；`--limit` 取值为 `1` 到 `100`，默认 `50`。输出包含键、截断后的值摘要、更新时间和版本号，不会修改数据。
+
+### `apc storage get <space> <key>`
+
+读取一条记录：
+
+```bash
+apc storage get player user_123
+apc storage get config season-1 --scope group --json
+```
+
+未找到键时会明确返回空结果，不会创建空记录。
+
+### `apc storage set <space> <key>`
+
+新增或覆盖一条 JSON 记录。必须且只能选择 `--value` 或 `--file` 之一：
+
+```bash
+apc storage set player user_123 --value '{"coins":100,"items":["sword"]}'
+apc storage set config season-1 --file ./configs/season-1.json --scope group
+```
+
+| 选项 | 说明 |
+| --- | --- |
+| `--value <json>` | 直接传入 JSON 字面量；shell 引号必须完整保留。 |
+| `--file <path>` | 读取本地 JSON 文件。 |
+
+该命令会覆盖相同空间和键的已有值。建议先用 `storage get` 备份重要记录。
+
+### `apc storage delete <space> <key>`
+
+删除一条记录：
+
+```bash
+apc storage delete player user_123 --yes
+apc storage delete config season-1 --scope group --yes
+```
+
+必须显式添加 `--yes` 才会执行。删除不可通过 CLI 自动撤销；找不到目标键时会返回“无需删除”，不会报成删除成功。
+
+## 预览运行与日志
+
+```bash
+apc runtime status
+apc runtime start
+apc runtime restart
+apc runtime stop
+apc runtime logs --follow --side server --level error
+```
+
+这些命令控制 Creator 编辑器中同一地图的预览运行，不会打开浏览器、发布游玩地图或新建游玩容器。`runtime logs` 订阅实时 SSE 控制台；`--follow` 会在短暂断线后重连。
+
+### `apc runtime status`
+
+查看当前地图在 Creator 编辑器中的 Preview Run 状态：
+
+```bash
+apc runtime status
+apc runtime status --profile staging --project map-staging --json
+```
+
+只读取运行状态，不启动、停止或重启地图。
+
+### `apc runtime start`
+
+启动当前 Creator 编辑器已经打开地图的 Preview Run：
+
+```bash
+apc runtime start
+```
+
+不会上传脚本、创建容器或发布游玩端。需要运行控制权限。
+
+### `apc runtime stop`
+
+停止当前地图的 Preview Run：
+
+```bash
+apc runtime stop
+```
+
+这会结束当前预览运行；地图配置、脚本和游玩端容器不受影响。
+
+### `apc runtime restart`
+
+按顺序停止再启动 Preview Run：
+
+```bash
+apc runtime restart
+```
+
+适合在脚本已上传后重新加载运行状态。若停止或启动任一步失败，命令会返回错误。
+
+### `apc runtime logs`
+
+订阅 Preview Run 控制台日志：
+
+```bash
+# 一次读取连接期间的日志
+apc runtime logs
+
+# 持续重连并跟随全部日志
+apc runtime logs --follow
+
+# 只查看服务端错误，且显示完整堆栈
+apc runtime logs --follow --side server --level error --verbose
+
+# 查找包含 spawn 的原始日志行
+apc runtime logs --follow --grep spawn --raw
+```
+
+| 选项 | 说明 |
+| --- | --- |
+| `--follow` | 日志流断线后每秒尝试重连。 |
+| `--side client\|server` | 只显示某一侧日志。 |
+| `--level error\|warn\|info\|debug` | 按日志级别过滤。 |
+| `--grep <text>` | 只显示包含文本的日志。 |
+| `--verbose` | 显示完整异常调用栈。 |
+| `--raw` | 保留逐行原始输出，而不是按时间分组显示。 |
+
+CLI 会尝试用本地 `dist/` 中的 sourcemap 将部分异常堆栈映射回 TypeScript；开发调试时保留匹配的构建输出可得到更好的定位结果。
+
+## 场景截图与扩展包
+
+```bash
+apc scene capture --out ./artifacts/player-view.png
+apc scene capture --view 3d --out ./artifacts/world.png
+apc package list
+apc docs
+```
+
+`scene capture` 需要目标地图已在 Creator 编辑器中打开，并要求 `--out` 保存 PNG。`package list` 只查询可用 npm 扩展包，不会安装任何依赖。`apc docs` 输出 CLI 随包提供的完整 Markdown 说明。
+
+### `apc scene capture`
+
+截取 Creator 编辑器当前地图的画面并保存为本地 PNG。该命令只读，不会启动预览、不连接游戏引擎，也不会改动地图数据。
+
+```bash
+# 截取完整玩家画面
+apc scene capture --out ./artifacts/player-view.png
+
+# 只截取 3D 或 2D 视图
+apc scene capture --view 3d --out ./artifacts/world.png
+apc scene capture --view 2d --out ./artifacts/ui.png
+
+# 临时指定目标地图和 Profile
+apc scene capture --profile staging --project map-staging --out ./artifacts/staging.png
+```
+
+| 选项 | 说明 |
+| --- | --- |
+| `--out <path>` | 必填，本地 PNG 输出路径；父目录不存在时会自动创建。 |
+| `--view 3d\|2d` | 可选；省略时截取完整玩家画面。 |
+| `--profile` / `--project` | 临时指定 Creator Profile 与永久地图 ID。 |
+
+Creator 编辑器必须已打开目标地图，并且当前 Token 具备读取场景的权限。
+
+### `apc package list`
+
+查询 npm 上 `@dao3fun` 组织下的可用扩展包：
+
+```bash
+apc package list
+apc package list --json
+```
+
+结果按发布时间倒序列出包名、版本、说明、发布者和日期。此命令只查询 npm registry，不会安装、升级或修改工程依赖。安装包请使用包管理器：
+
+```bash
+npm install <包名>
+npm install <包名> -D
+npm uninstall <包名>
+```
+
+网络不可访问 npm registry 时，命令会返回网络错误。
+
+### `apc docs`
+
+输出当前安装版本随包发布的完整 APC Markdown 文档：
+
+```bash
+# 输出完整文档到终端
+apc docs
+
+# 只输出随包文档入口文件路径
+apc docs --file
+
+# 以 JSON 输出文档路径和内容，适合自动化读取
+apc docs --json
+```
+
+`--file` 不读取文档内容，只返回入口路径和参考文件路径。该命令只读取本机已安装的 APC 文件，不会连接 Creator 或修改工程。
+
+## 常见流程
+
+### 新建并接入一张地图
+
+```bash
+apc profile add local --endpoint 127.0.0.1:3127 --token "$BOX_CREATOR_TOKEN"
+apc profile test local
+apc project create my-map
+cd my-map
+apc map list --profile local
+apc project bind <permanentMapId> --profile local
+apc map resource --type all
+npm install
+npm run dev
+```
+
+### 发布前检查
+
+```bash
+npm run build
+apc project info --json
+apc runtime status --json
+```
+
+确认 Profile、永久地图 ID、Creator 连通性、脚本上传开关和预览运行状态均符合预期后，再进行测试或发布。
+
+### 自动化调用
+
+```bash
+apc map list --profile production --json
+apc project info --json
+apc storage list player --page 0 --limit 100 --json
+```
+
+自动化应只解析 JSON 标准输出，保留非零退出码作为失败信号。Token 通过 CI Secret 注入 `BOX_CREATOR_TOKEN` 或在任务中执行 `apc profile add` 配置，绝不能写入工程 `.env`。

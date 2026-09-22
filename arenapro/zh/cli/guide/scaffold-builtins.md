@@ -9,7 +9,7 @@
 - **`vite`**
 
   - 作为项目的前端构建工具，负责 `dev` / `build`。
-  - 提供快速热更新（HMR）和生产构建能力，是整个脚手架的“发动机”。
+  - `dev` 会监听源码变更并重新构建；`build` 用于一次正式构建。
 
 - **`vite-tsconfig-paths`**
 
@@ -18,13 +18,8 @@
 
 - **`vite-plugin-arenapro-script`**
 
-  - 专门为 ArenaPro 集成的 Vite 插件。
-  - 负责在构建时实现脚本自动上传至神岛地图中。
-
-- **`vite-plugin-checker`**
-
-  - 一个在 Vite 中跑类型检查 / Lint 的插件。
-  - 开启后可以构建前看到 TypeScript 错误或 ESLint 报错。
+  - 为 Creator Vite 工程提供脚本构建与上传能力。
+  - 当 `VITE_UPDATE_FILE=true` 时，在构建完成后上传脚本到绑定地图。
 
 - **`typescript`**
 
@@ -59,10 +54,9 @@
   - 代码格式化工具，用于统一团队代码风格。
   - 脚手架会预置基础配置，让你可以通过编辑器快速统一格式，避免「谁格式化了整个文件」这种 diff 污染。
 
-- **`husky`**
-  - Git hooks 管理工具。
-  - 常用于在 `git commit` / `git push` 前自动执行检查（如 lint、typecheck），避免明显错误进入仓库。
-  - 脚手架会预留好接入点，你可以按团队需要决定是否开启、具体要在钩子里跑哪些命令。
+- **Git hooks（按需添加）**
+  - 新工程默认不安装 Husky 或其他 Git hooks 工具。
+  - 团队需要在提交前运行 lint、测试或类型检查时，可按自己的流程安装并配置。
 
 ## 3. 业务辅助相关
 

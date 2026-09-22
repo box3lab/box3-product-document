@@ -37,9 +37,7 @@ vite
 │        └─ translation.json
 ├─ .vscode
 │  ├─ settings.json
-│  ├─ extensions.json
-│  ├─ launch.json
-│  └─ tasks.json
+│  └─ extensions.json
 └─ server
    ├─ tsconfig.json
    ├─ src
@@ -102,8 +100,6 @@ vite
 
 - `settings.json`：项目级 VS Code 设置，例如缩进、保存自动格式化等；
 - `extensions.json`：推荐安装的插件列表；
-- `launch.json`：调试配置；
-- `tasks.json`：预定义的任务（如一键运行脚本）。
 
 这些文件不是运行时必须的，但能帮助团队在同一套工程配置下协作开发。
 
@@ -112,11 +108,11 @@ vite
 在项目根目录下，还有一批与你日常开发高度相关的配置文件：
 
 - `dao3.config.ts`：
-  - ArenaPro 的核心配置文件；
+  - Creator Vite 工程的核心配置文件；
   - 定义 bundles、client/server 入口信息；
-  - 配合 `.env` 一起控制脚本如何被部署到神岛 Arena。
+  - 配合 `.env` 一起控制脚本的构建和上传目标。
 - `vite.config.ts`：Vite 配置入口。
-- `.env` / `.env.example`：环境变量文件，配置神岛账户、UA、当前 bundle 以及地图相关变量等信息。
+- `.env` / `.env.example`：环境变量文件，只配置当前 bundle、Creator Profile、永久地图 ID、上传开关、版本化上传和 UI 索引前缀；不保存 endpoint、Token 或密码。
 - `package.json`：脚本命令与依赖列表。
 - `tsconfig.base.json`：基础 TypeScript 配置，被 client/server 各自的 tsconfig 继承。
 

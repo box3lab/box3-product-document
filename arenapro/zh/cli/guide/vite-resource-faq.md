@@ -1,104 +1,62 @@
-# 资源同步 Q&A：安全使用 `apc resource`
+# 资源同步 Q&A
 
-> 本文补充说明 `apc resource` 的行为：会改哪些目录、`-s` 参数的含义，以及同步失败时应该先排查什么。
+资源同步使用 `apc map resource`。它只会写入 CLI 生成的资源索引和 DTS，不会修改 `client/src`、`server/src`、`shares` 中的业务代码。
 
-## 1. `apc resource` 会覆盖我本地写的代码吗？
+## 1. 有哪些同步类型？
 
-**问：执行 `apc resource` 会不会把我自己手写的代码覆盖掉？**
+```bash
+# 同步 Creator 地图的模型、图片、音频和 UI 索引（默认）
+apc map resource --type assets
 
-**答：不会覆盖你自己维护的业务代码，但会更新「由神岛生成的资源文件」。**
+# 仅同步公开的服务端和客户端 DTS
+apc map resource --type dts
 
-- `apc resource` 主要用于**从神岛地图中拉取共享资源**，例如：
-  - UI 配置 / UI 索引文件；
-  - 静态资源清单；
-  - API 定义、类型定义等。
-- 这些同步产物会落在脚手架约定的目录下（例如 `client/`、`server/`、`types/` 下的对应生成文件），并**按约定的路径覆盖同名的已生成文件**。
-- **你自己手写的业务逻辑文件（例如 `client/src/...` / `server/src/...`）不会被 `apc resource` 覆盖。**
+# 依次同步 DTS 与地图资源索引
+apc map resource --type all
 
-> 建议：
->
-> - 把「生成文件」和「手写业务代码」放在清晰分隔的目录内；
-> - 不要手改生成文件的内容，如需修改，请在神岛编辑器中调整配置，然后重新执行 `apc resource`。
+# 只为 HUD 开头的 UI 节点生成索引
+apc map resource --type assets --ui-prefix HUD
+```
 
-## 2. `-s assets` / `-s ui` / `-s api` 分别代表什么？
+`assets` 需要读取绑定地图的权限，会使用 `.env` 的 `VITE_BOX_CREATOR_PROFILE` 和 `VITE_BOX_CREATOR_PROJECT_ID`。`dts` 从公开源同步，不需要 Profile、地图 ID 或 Token。
 
-**问：`apc resource` 的 `-s, --scope` 有哪些可选值？分别会同步什么内容？**
+## 2. 会生成什么？
 
-**答：常见的几种 scope 如下（具体以 CLI 文档为准）：**
+资源索引包含模型、图片、音频、UI 屏幕和 UI 节点路径的 TypeScript 类型。它们是派生文件：不要手动编辑；Creator 中的资源或 UI 变更后，重新执行 `apc map resource --type assets`。
 
-- `apc resource`（不带 `-s`）
+可用 `--project <永久地图ID>` 和 `--profile <名称>` 临时指定目标，不会改动工程 `.env`：
 
-  - 等价于 `-s all`，会同步所有支持的资源类型。
+```bash
+apc map resource --type assets --profile staging --project <permanentMapId>
+```
 
-- `apc resource -s assets`
+## 3. 同步失败如何排查？
 
-  - 只同步静态资源相关内容（例如：资源清单、路径映射等）。
+按以下顺序检查：
 
-- `apc resource -s ui`
+1. 检查 Profile 和服务器连接：
 
-  - 只同步 UI 相关内容（例如：UI 索引、布局配置等）。
+   ```bash
+   apc profile test local
+   ```
 
-- `apc resource -s api`
-  - 只同步与 API / 类型定义相关的内容（例如：接口声明、类型声明等）。
+2. 确认地图 ID 存在且当前 Token 有资源读取权限：
 
-> 实际推荐用法：
->
-> - 日常开发中，如果你不确定需要哪一类，直接用 `apc resource` 即可；
-> - 如果你非常清楚只改了 UI 或只改了接口，可以用 `-s ui` / `-s api` 精准同步，节省时间。
+   ```bash
+   apc map list --profile local
+   apc project info
+   ```
 
-## 3. 为什么同步会失败？常见原因有哪些？
+3. 检查工程 `.env` 中是否已配置 `VITE_BOX_CREATOR_PROFILE` 与 `VITE_BOX_CREATOR_PROJECT_ID`；缺失时重新绑定：
 
-**问：执行 `apc resource` 时报错，应该先检查什么？**
+   ```bash
+   apc project bind <permanentMapId> --profile local
+   ```
 
-可以优先检查以下几类问题：
+4. 只在 DTS 同步失败时，检查本机是否能访问其公开下载源；该操作与 Creator Token 无关。
 
-### 3.1 登录信息缺失或已过期
+## 4. 什么时候执行？
 
-- 是否正确执行过 `apc login`？
-- 当前项目的 `.env[.mode]` 或全局配置中，是否存在有效的：
-  - `VITE_DAO3_AUTH`
-  - `VITE_DAO3_UA`
-- 如果是团队新同学，建议先按《登录与授权 Q&A》完成登录后再尝试同步。
-
-### 3.2 地图绑定信息缺失 / 不正确
-
-- `.env[.mode]` 中是否已经配置：
-  - `VITE_DAO3_MAP_ID`
-  - （必要时）`VITE_DAO3_PLAY_HASH`、`VITE_DAO3_EDIT_HASH`
-- 是否已经按推荐流程执行：
-
-  ```bash
-  apc list
-  apc set <地图ID>
-  ```
-
-- 目标地图是否为**扩展地图**，而不是普通地图。
-
-### 3.3 网络 / 权限问题
-
-- 本地网络是否可以正常访问神岛接口域名；
-- 当前账号是否对目标地图拥有足够的权限（例如协作权限）。
-
-## 4. 日常开发中，推荐怎么使用 `apc resource`？
-
-**问：我在一个正常的开发周期里，应该什么时候跑 `apc resource`？**
-
-**答：可以参考下面的几个时机：**
-
-- **项目初始化后**：
-
-  - 第一次完成登录 + 地图绑定后，执行一次：
-
-    ```bash
-    apc resource
-    ```
-
-  - 拉取完整的初始资源到本地。
-
-- **在神岛编辑器中改了 UI / 配置 / 资源之后**：
-
-  - 每次修改完地图侧资源，建议在本地重新执行 `apc resource`，保持本地与线上配置一致。
-
-- **切换地图 / 切换 env 模式之后**：
-
-  - 当你用 `apc set <地图ID> --env dev` 切到另一张地图，或切换到不同的 `.env.<mode>` 时，记得重新同步一次对应环境下的资源。
+- 新工程绑定地图后执行一次 `apc map resource --type all`；
+- 在 Creator 中更改模型、图片、音频或 UI 后执行 `apc map resource --type assets`；
+- 切换 Profile 或永久地图 ID 后，再同步该目标的资源索引。

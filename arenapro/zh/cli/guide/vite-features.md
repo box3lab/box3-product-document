@@ -4,7 +4,7 @@
 
 - `import.meta` / `import.meta.env`：在代码里读取构建时环境变量；
 - `import.meta.glob`：按通配符批量导入模块；
-- `import.meta.hot`：热更新相关接口（一般只需要知道有它即可）。
+- `import.meta.hot`：Vite 的热模块替换接口；Creator 脚本开发通常不需要直接使用它。
 
 下面的内容都假设你已经通过 CLI 创建好了项目，并按前一章配置了 `.env` / `dao3.config.ts`。
 
@@ -25,7 +25,11 @@ Vite 约定：只有 **`VITE_` 前缀的变量** 才会被暴露到 `import.meta
 
 ```env
 VITE_CURRENT_FILE=bundle
+VITE_BOX_CREATOR_PROFILE=local
+VITE_BOX_CREATOR_PROJECT_ID=<permanentMapId>
 VITE_UPDATE_FILE=true
+VITE_BOX_CREATOR_VERSION=false
+VITE_UI_INDEX_PREFIX=
 ```
 
 在脚本中可以这样使用：
@@ -35,30 +39,32 @@ const currentBundle = import.meta.env.VITE_CURRENT_FILE;
 const shouldAutoUpload = import.meta.env.VITE_UPDATE_FILE === "true";
 ```
 
-推荐做法：
-
-- 把和部署行为相关的开关（是否上传、当前 bundle 名等）放在 `.env`；
-- 在代码里通过 `import.meta.env` 读取，只做轻量分支判断；
-- 真正敏感的值尽量只在构建脚本 / 服务端使用，避免下发到运行时代码中。
+这些字段会进入 `import.meta.env`，因此只能保存公开的构建选择和地图标识。Creator endpoint、CLI Token、密码等机密不属于工程环境变量，也不能通过 `VITE_` 变量传递。
 
 ### 1.2 `env.d.ts` 中的类型声明
 
 项目里通常会有一个 `env.d.ts`（或类似文件）对 `import.meta.env` 进行类型声明，例如：
 
 ```ts
+/// <reference types="vite/client" />
+
 interface ImportMetaEnv {
   readonly VITE_CURRENT_FILE: string;
+  readonly VITE_BOX_CREATOR_PROFILE: string;
+  readonly VITE_BOX_CREATOR_PROJECT_ID: string;
   readonly VITE_UPDATE_FILE: string;
+  readonly VITE_BOX_CREATOR_VERSION: string;
+  readonly VITE_UI_INDEX_PREFIX: string;
 }
 ```
 
-当你新增 `VITE_*` 变量时，记得同步更新这里，这样 IDE 才会给出正确的补全和类型检查。
+Creator 工程已有的公开变量以《[环境变量一览](./cli-env-vars)》为准。不要为 Creator endpoint、CLI Token 或密码新增 `VITE_*` 声明；如业务代码确实需要新的公开构建开关，再同时更新自己的类型声明。
 
 ## 2. 与 `.env` / `dao3.config.ts` 的关系
 
 简单可以理解为：
 
-- `.env`：提供「账号 + 行为」类配置，比如谁在部署、当前 bundle 名、是否自动上传；
+- `.env`：提供公开的构建选择、Profile 名称、永久地图 ID 与资源索引过滤条件；
 - `dao3.config.ts`：描述项目结构，包括 bundle 列表以及每个 bundle 的 client / server 入口。
 
 构建时，CLI 会读取这两份配置决定「这一轮要构建和上传什么」。
@@ -101,10 +107,4 @@ for (const mod of Object.values(modules)) {
 
 ## 4. `import.meta.hot`：知道有它就够了
 
-`import.meta.hot` 是 Vite 的热模块替换（HMR）接口，可以用来定制模块更新时的行为。但在 ArenaPro CLI 的常规使用场景里：
-
-- 脚手架已经帮你接好了常见的热更新流程；
-- 绝大多数情况下**不需要**直接操作 `import.meta.hot`；
-- 正常保存文件，让 Vite 和 Arena 完成刷新即可。
-
-只有当你在做非常高级的自定义（例如自己编写 UI 层的热更新逻辑）时，才建议参考 Vite 官方文档深入了解 `import.meta.hot` 的用法。
+`import.meta.hot` 是 Vite 的热模块替换（HMR）接口。APC 的 `npm run dev` 会监听并重新构建脚本，按 `VITE_UPDATE_FILE` 的设置上传到 Creator；它不是浏览器 HMR。绝大多数 Creator 脚本不需要直接操作 `import.meta.hot`。

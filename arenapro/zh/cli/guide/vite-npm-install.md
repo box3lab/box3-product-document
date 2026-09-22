@@ -15,12 +15,12 @@ ArenaPro 及社区会在 npm 上发布一批官方 / 社区维护的包，例如
 - 使用**统一维护的类型定义**和工具函数；
 - 和 ArenaPro 生态保持一致的目录与运行时约定。
 
-## 2. 用 `apc npmlist` 浏览可用包
+## 2. 用 `apc package list` 浏览可用包
 
 在脚手架项目根目录执行：
 
 ```bash
-apc npmlist
+apc package list
 ```
 
 该命令会：
@@ -31,7 +31,7 @@ apc npmlist
 
 > 建议：
 >
-> - 开发前先跑一次 `apc npmlist`，了解当前生态里有哪些现成轮子；
+> - 开发前先跑一次 `apc package list`，了解当前可用的扩展包；
 > - 选用官方 / 社区推荐的包，而不是自己手写一套重复逻辑。
 
 ## 3. 安装社区包

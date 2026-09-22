@@ -1,31 +1,38 @@
 # 环境变量与地图绑定 Q&A
 
-> 本文补充说明：为什么推荐先执行 `apc list` 拉取地图列表，再用 `apc set` 绑定到当前项目。
+## 为什么先列出地图再绑定？
 
-## 1. 为什么要先 `apc list`，再 `apc set`？
+使用 `apc map list` 查看选中 Creator 服务器中的地图，再使用 `apc project bind` 将永久地图 ID 写入当前工程：
 
-**问：为什么不能直接 `apc set 100005475`，而是推荐先跑一遍 `apc list`？**
+```bash
+apc map list --profile local
+apc project bind <permanentMapId> --profile local
+```
 
-**答：可以理解为两个命令分工不同：**
+`apc project bind` 会实时连接 Creator 验证地图 ID，不依赖本地地图缓存。验证通过后，它写入当前 `.env` 的：
 
-- `apc list` 负责「从神岛拉取最新的扩展地图列表，并写入本地全局缓存」。
-- `apc set` 负责「从本地全局缓存中按 ID 取出一张地图，并把它的信息写入当前项目的 `.env`」。
+```env
+VITE_BOX_CREATOR_PROFILE=local
+VITE_BOX_CREATOR_PROJECT_ID=<permanentMapId>
+```
 
-因此推荐先 `apc list` 再 `apc set`，主要有几点原因：
+## 可以直接绑定吗？
 
-### 1.1 给 `apc set` 提供数据来源
+可以。已经确认永久地图 ID 且 Profile 正确时，直接执行：
 
-- `apc set` 不会自己再去请求接口，而是直接读本地的「地图缓存」。
-- 这个缓存由 `apc list` 写入；如果从未执行过 `apc list`，本地没有数据，`apc set` 就不知道这个 ID 对应哪张地图，会提示你先刷新列表。
+```bash
+apc project bind <permanentMapId> --profile local
+```
 
-### 1.2 避免手输 ID 选错地图
+仅在 Creator 暂时无法访问、且地图 ID 已经由可靠渠道确认时，才使用 `--skip-verify`。该选项会跳过服务器验证，错误的 ID 会在之后同步资源或上传脚本时失败。
 
-- `apc list` 会展示最近的扩展地图列表：名称、ID、发布时间 / 更新时间、发布状态、是否有协作等。
-- 你可以先在列表里确认是哪一张地图，再复制它的 ID 去执行 `apc set <ID>`，比凭记忆手输更安全。
+## 如何绑定不同环境？
 
-### 1.3 适配多模式 / 多人协作场景
+`--env` 选择要写入的环境文件：
 
-- 一次 `apc list` 拉回来的数据会写入全局缓存，后续可以在不同工程、不同 `.env` 模式下复用：
-  - `apc set 100005475` 写入 `.env`
-  - `apc set 100005475 --env dev` 写入 `.env.dev`
-- 团队协作时，每个人可以先各自执行 `apc list`，确认自己账号下的地图列表，再统一用约定的 ID 做 `apc set`，避免把项目误绑定到错误的地图上。
+```bash
+apc project bind <permanentMapId> --profile staging --env staging
+apc project bind <permanentMapId> --profile production --env production
+```
+
+命令分别写入 `.env.staging` 和 `.env.production`。日常执行构建前，确认当前 Vite 模式会读取对应的环境文件，并使用 `apc project info` 检查实际的 Profile、地图 ID 与连通性。
