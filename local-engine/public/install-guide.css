@@ -1,0 +1,179 @@
+.install-overview {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 24px 0 32px;
+}
+
+.install-overview-card,
+.install-step,
+.install-platform-card {
+  border: 1px solid var(--vp-c-divider);
+  background: var(--vp-c-bg-soft);
+}
+
+.install-overview-card {
+  padding: 18px;
+  border-radius: 12px;
+}
+
+.install-overview-card span {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--vp-c-text-2);
+  font-size: 13px;
+}
+
+.install-overview-card strong {
+  display: block;
+  color: var(--vp-c-text-1);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.install-flow {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin: 20px 0 38px;
+}
+
+.install-step {
+  position: relative;
+  min-height: 142px;
+  padding: 18px 16px 16px;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.install-step::before {
+  position: absolute;
+  top: 0;
+  right: 16px;
+  left: 16px;
+  height: 1px;
+  content: "";
+  background: linear-gradient(90deg, transparent, rgba(255, 111, 31, 0.72), transparent);
+}
+
+.install-step-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 24px;
+  margin-bottom: 13px;
+  border-radius: 7px;
+  color: #ff7925;
+  background: rgba(255, 121, 37, 0.1);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.install-step strong {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--vp-c-text-1);
+  font-size: 15px;
+}
+
+.install-step p {
+  margin: 0;
+  color: var(--vp-c-text-2);
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.install-platforms {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 18px 0 28px;
+}
+
+.install-platform-card {
+  padding: 18px 20px;
+  border-radius: 12px;
+}
+
+.install-platform-card strong {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--vp-c-text-1);
+  font-size: 16px;
+}
+
+.install-platform-card p {
+  margin: 0;
+  color: var(--vp-c-text-2);
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+.setup-flow {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  margin: 20px 0 38px;
+}
+
+.setup-flow .install-step {
+  min-height: 156px;
+}
+
+.setup-options {
+  display: grid;
+  gap: 12px;
+  margin: 18px 0 22px;
+}
+
+.setup-options-three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.setup-option {
+  padding: 17px 18px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 12px;
+  background: var(--vp-c-bg-soft);
+}
+
+.setup-option strong {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--vp-c-text-1);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.setup-option p {
+  margin: 0;
+  color: var(--vp-c-text-2);
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+@media (max-width: 900px) {
+  .install-flow,
+  .setup-flow {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .setup-options-three {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .install-overview,
+  .install-flow,
+  .install-platforms,
+  .setup-flow {
+    grid-template-columns: 1fr;
+  }
+
+  .install-step,
+  .setup-flow .install-step {
+    min-height: auto;
+  }
+}

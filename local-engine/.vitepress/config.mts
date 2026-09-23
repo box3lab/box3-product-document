@@ -4,7 +4,10 @@ export default defineConfig({
   lang: "zh-cn",
   title: "BOX3 本地引擎",
   description: "BOX3 本地引擎安装、配置、使用与维护说明",
-  head: [["link", { rel: "icon", href: "/local-engine/logo.svg" }]],
+  head: [
+    ["link", { rel: "icon", href: "/local-engine/logo.svg" }],
+    ["link", { rel: "stylesheet", href: "/local-engine/install-guide.css" }],
+  ],
   base: "/local-engine/",
   outDir: "../dist/local-engine",
   cleanUrls: true,
@@ -24,7 +27,6 @@ export default defineConfig({
   themeConfig: {
     logo: "/logo.svg",
     nav: [
-      { text: "本地引擎", link: "/" },
       { text: "Arena 手册", link: "https://docs.dao3.fun/arena/" },
       { text: "Voxa 手册", link: "https://docs.dao3.fun/voxa/" },
       { text: "API 手册", link: "https://docs.dao3.fun/apapi/" },
@@ -40,29 +42,40 @@ export default defineConfig({
         text: "开始使用",
         collapsed: false,
         items: [
-          { text: "安装前准备", link: "/getting-started/requirements" },
-          { text: "桌面版安装", link: "/getting-started/desktop-installation" },
-          { text: "Linux 服务器安装", link: "/getting-started/linux-installation" },
+          { text: "本地引擎介绍", link: "/guide/introduction" },
+          {
+            text: "安装部署",
+            collapsed: false,
+            items: [
+              { text: "桌面版", link: "/getting-started/desktop-installation" },
+              { text: "服务器版", link: "/getting-started/linux-installation" },
+            ],
+          },
           { text: "首次启动", link: "/getting-started/first-start" },
         ],
       },
       {
-        text: "日常使用",
-        collapsed: false,
+        text: "作品与创作",
+        collapsed: true,
         items: [
-          { text: "使用启动器", link: "/guide/launcher" },
-          { text: "访问范围与端口", link: "/guide/network" },
-          { text: "创建并游玩地图", link: "/guide/create-and-play" },
-          { text: "玩家管理后台", link: "/guide/player-admin" },
-          { text: "地图与容器管理", link: "/guide/maps-and-containers" },
+          { text: "作品管理", link: "/guide/works" },
+          { text: "地图组与地图", link: "/guide/maps-and-groups" },
+          { text: "创作、预览与发布", link: "/guide/create-and-play" },
         ],
       },
       {
-        text: "维护与排障",
-        collapsed: false,
+        text: "游玩与管理",
+        collapsed: true,
         items: [
-          { text: "备份与恢复", link: "/operations/backup" },
-          { text: "升级本地引擎", link: "/operations/upgrade" },
+          { text: "游玩地图管理", link: "/guide/play-maps" },
+          { text: "玩家管理后台", link: "/guide/player-admin" },
+          { text: "容器与资源管理", link: "/guide/maps-and-containers" },
+        ],
+      },
+      {
+        text: "安全与排障",
+        collapsed: true,
+        items: [
           { text: "安全建议", link: "/operations/security" },
           { text: "常见问题", link: "/operations/troubleshooting" },
         ],

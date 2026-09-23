@@ -11,7 +11,7 @@ hero:
   actions:
     - theme: brand
       text: 开始安装
-      link: /getting-started/requirements
+      link: /getting-started/desktop-installation
     - theme: alt
       text: 首次启动
       link: /getting-started/first-start
