@@ -128,4 +128,3 @@ Linux Web 管理端默认使用 `3130`，它不属于业务服务端口。
 
 - 阅读[创建并游玩地图](/guide/create-and-play)。
 - 阅读[玩家管理后台](/guide/player-admin)。
-- 在正式导入数据前完成一次[备份与恢复](/operations/backup)演练。
