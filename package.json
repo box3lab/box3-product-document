@@ -6,7 +6,7 @@
   },
   "scripts": {
     "build": "npm run build:all",
-    "build:all": "npm run api:build && npm run arena:build && npm run voxa:build && npm run arenapro:build && npm run mc-mod:build",
+    "build:all": "npm run api:build && npm run arena:build && npm run voxa:build && npm run arenapro:build && npm run mc-mod:build && npm run local-engine:build",
     "start": "node server.js",
     "prod": "node server.js",
     "arena:dev": "vitepress dev arena",
@@ -19,6 +19,8 @@
     "arenapro:build": "vitepress build arenapro",
     "mc-mod:dev": "vitepress dev mc-mod",
     "mc-mod:build": "vitepress build mc-mod",
+    "local-engine:dev": "vitepress dev local-engine",
+    "local-engine:build": "vitepress build local-engine",
     "mc-api:dev": "vitepress dev mc-api",
     "mc-api:build": "vitepress build mc-api",
     "unity-package:dev": "vitepress dev unity-package",
