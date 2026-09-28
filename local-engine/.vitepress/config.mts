@@ -10,7 +10,9 @@ export default defineConfig({
   ],
   base: "/local-engine/",
   outDir: "../dist/local-engine",
-  cleanUrls: true,
+  // Keep the .html suffix so static nginx deployments can resolve deep links
+  // on a direct request, not only after client-side navigation.
+  cleanUrls: false,
   markdown: {
     lineNumbers: true,
     container: {
