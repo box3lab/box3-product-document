@@ -1,5 +1,10 @@
 # Linux 服务器安装
 
+
+::: tip 遇到问题？欢迎进群交流
+安装或使用过程中遇到困难，可以先加入 QQ 群「Box3Local秘密基地」提问交流：[1107448537](https://qm.qq.com/q/yV2NR8skec)
+:::
+
 无桌面的 Linux 服务器可以使用一条命令安装本地引擎。安装器会识别 CPU 架构、准备 Docker Engine 和 Compose v2、下载发行包、导入镜像，并启动 Web 管理端。
 
 
@@ -16,12 +21,8 @@
 
 推荐使用仍在安全支持期内的系统：
 
-- Ubuntu 22.04 或 24.04
-- Debian 12
-- Alibaba Cloud Linux 2 或 3
-
-
-建议至少准备 4 核 CPU、8 GB 内存和 30 GB 可用磁盘；同时运行创作端和多个地图时，建议使用 8 核、16 GB 内存和 50 GB 以上空间。
+- Ubuntu 26 或 24
+- Alibaba Cloud Linux 4 或 3
 
 ## 2. 一键安装
 
