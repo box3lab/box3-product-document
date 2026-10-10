@@ -45,6 +45,7 @@ export default defineConfig({
         collapsed: false,
         items: [
           { text: "本地引擎介绍", link: "/guide/introduction" },
+          { text: "桌面版安装准备", link: "/getting-started/requirements" },
           {
             text: "安装部署",
             collapsed: false,
@@ -58,7 +59,7 @@ export default defineConfig({
       },
       {
         text: "作品与创作",
-        collapsed: true,
+        collapsed: false,
         items: [
           { text: "作品管理", link: "/guide/works" },
           { text: "地图组与地图", link: "/guide/maps-and-groups" },
@@ -67,8 +68,9 @@ export default defineConfig({
       },
       {
         text: "游玩与管理",
-        collapsed: true,
+        collapsed: false,
         items: [
+          { text: "玩家启动器与下载", link: "/guide/player-launcher" },
           { text: "游玩地图管理", link: "/guide/play-maps" },
           { text: "玩家管理后台", link: "/guide/player-admin" },
           { text: "容器与资源管理", link: "/guide/maps-and-containers" },
@@ -76,7 +78,7 @@ export default defineConfig({
       },
       {
         text: "安全与排障",
-        collapsed: true,
+        collapsed: false,
         items: [
           { text: "安全建议", link: "/operations/security" },
           { text: "常见问题", link: "/operations/troubleshooting" },
