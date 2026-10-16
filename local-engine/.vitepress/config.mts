@@ -3,10 +3,9 @@ import { defineConfig } from "vitepress";
 export default defineConfig({
   lang: "zh-cn",
   title: "BOX3 本地引擎",
-  description: "BOX3 本地引擎安装、配置、使用与维护说明",
+  description: "安装 BOX3 本地引擎，完成首次启动、地图创作、服务器连接与备份更新",
   head: [
     ["link", { rel: "icon", href: "/local-engine/logo.svg" }],
-    ["link", { rel: "stylesheet", href: "/local-engine/install-guide.css" }],
   ],
   base: "/local-engine/",
   outDir: "../dist/local-engine",
@@ -29,10 +28,10 @@ export default defineConfig({
   themeConfig: {
     logo: "/logo.svg",
     nav: [
-      { text: "Arena 手册", link: "https://docs.dao3.fun/arena/" },
-      { text: "Voxa 手册", link: "https://docs.dao3.fun/voxa/" },
-      { text: "API 手册", link: "https://docs.dao3.fun/apapi/" },
-      { text: "CLI 手册", link: "https://docs.dao3.fun/arenapro/zh/cli/" },
+      { text: "ARENA 手册", link: "https://docs.box3lab.com/arena/" },
+      { text: "VOXA 手册", link: "https://docs.box3lab.com/voxa/" },
+      { text: "创作 CLI", link: "https://docs.box3lab.com/arenapro/zh/cli/" },
+      { text: "脚本 API", link: "https://docs.box3lab.com/api/" },
     ],
     footer: {
       message: "深圳奇梦岛科技有限公司",
@@ -45,7 +44,7 @@ export default defineConfig({
         collapsed: false,
         items: [
           { text: "本地引擎介绍", link: "/guide/introduction" },
-          { text: "桌面版安装准备", link: "/getting-started/requirements" },
+          { text: "安装前准备", link: "/getting-started/requirements" },
           {
             text: "安装部署",
             collapsed: false,
@@ -55,15 +54,16 @@ export default defineConfig({
             ],
           },
           { text: "首次启动", link: "/getting-started/first-start" },
+          { text: "局域网与公网访问", link: "/guide/network-access" },
         ],
       },
       {
         text: "作品与创作",
         collapsed: false,
         items: [
+          { text: "创作、预览与发布", link: "/guide/create-and-play" },
           { text: "作品管理", link: "/guide/works" },
           { text: "地图组与地图", link: "/guide/maps-and-groups" },
-          { text: "创作、预览与发布", link: "/guide/create-and-play" },
         ],
       },
       {
@@ -73,14 +73,16 @@ export default defineConfig({
           { text: "玩家启动器与下载", link: "/guide/player-launcher" },
           { text: "游玩地图管理", link: "/guide/play-maps" },
           { text: "玩家管理后台", link: "/guide/player-admin" },
-          { text: "容器与资源管理", link: "/guide/maps-and-containers" },
+          { text: "登录门户与模板", link: "/guide/login-portal" },
+          { text: "地图运行与资源管理", link: "/guide/maps-and-containers" },
         ],
       },
       {
-        text: "安全与排障",
+        text: "日常维护",
         collapsed: false,
         items: [
-          { text: "安全建议", link: "/operations/security" },
+          { text: "备份与更新", link: "/operations/backup-and-update" },
+          { text: "账号与访问安全", link: "/operations/security" },
           { text: "常见问题", link: "/operations/troubleshooting" },
         ],
       },

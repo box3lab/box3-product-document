@@ -1,41 +1,44 @@
-# BOX3 玩家启动器
+# 玩家启动器
 
-BOX3 Player Launcher 是供玩家使用的桌面应用。添加服主提供的游玩服务器后，即可登录账号、选择地图并开始游玩。玩家无需安装 Docker。
+**BOX3 Player Launcher** 用来连接服主的服务器、登录账号和进入地图。玩家不需要安装 Docker，也不需要部署引擎。
 
-启动器支持保存服务器、搜索地图、收藏与最近游玩记录，以及本机地图资源缓存管理。它需要连接正在运行的游玩服务器。
+如果你要制作地图或自己开服，请使用[部署管理器](/getting-started/desktop-installation)。
 
 ## 1. 下载安装
 
-根据系统和处理器架构选择安装包：
+打开[正式发布页](https://github.com/box3lab/box3-local-engine/releases)，找到玩家启动器版本（标签以 `player-v` 开头），下载 **BOX3-Player-Launcher** 文件。
 
-| 系统与处理器 | 下载 |
+| 你的设备 | 选择 |
 | --- | --- |
-| Windows x64 | [下载安装程序](https://assets.box3.fun/box-player-launcher/player-v0.1.0/BOX3-Player-Launcher-0.1.0-windows-amd64.exe) |
-| Windows ARM64 | [下载安装程序](https://assets.box3.fun/box-player-launcher/player-v0.1.0/BOX3-Player-Launcher-0.1.0-windows-arm64.exe) |
-| macOS Apple 芯片（ARM64） | [下载 DMG](https://assets.box3.fun/box-player-launcher/player-v0.1.0/BOX3-Player-Launcher-0.1.0-macos-arm64.dmg) |
-| Linux x64 | [下载 AppImage](https://assets.box3.fun/box-player-launcher/player-v0.1.0/BOX3-Player-Launcher-0.1.0-linux-amd64.AppImage) |
-| Linux ARM64 | [下载 AppImage](https://assets.box3.fun/box-player-launcher/player-v0.1.0/BOX3-Player-Launcher-0.1.0-linux-arm64.AppImage) |
+| 常见 Intel / AMD Windows 电脑 | Windows x64 的 `.exe` |
+| Windows ARM 电脑 | Windows ARM64 的 `.exe` |
+| Apple M 系列 Mac | macOS ARM64 的 `.dmg` |
+| Intel / AMD Linux 电脑 | Linux x64 的 `.AppImage` |
+| ARM Linux 电脑 | Linux ARM64 的 `.AppImage` |
 
-- **Windows**：打开 `.exe`，按提示完成安装。
-- **macOS**：打开 `.dmg`，将应用拖入“应用程序”后打开。
-- **Linux**：为 `.AppImage` 添加执行权限，再打开文件：
+Windows 按安装程序提示操作；Mac 打开 DMG，将应用拖入“应用程序”。Linux 在文件属性中允许作为程序执行后打开。
 
-  ```bash
-  chmod +x BOX3-Player-Launcher-0.1.0-linux-*.AppImage
-  ```
+普通玩家选择正式版。预发布版用于测试，开发版不用于日常自动更新。
 
+## 2. 添加服务器
 
-## 2. 添加服务器并游玩
+1. 向服主获取 **Play 游玩端的首页地址**。
+2. 打开启动器，选择“**添加服务器**”，填写完整地址。
+3. 例如服主提供的是 `https://engine.example.com/play`，就保留 `/play`，不要只填域名。
+4. 连接成功后，使用该服务器的玩家账号登录；允许注册时，可先创建账号。
 
-1. 打开启动器，选择“添加服务器”。
-2. 输入服主提供的 **Play 游玩地址**。
-3. 使用该服务器的玩家账号登录。
-4. 搜索或选择地图，点击开始游玩。
+不要填写部署管理器的 `3130` 地址、玩家后台地址，或某张地图的 `/p/…` 游玩链接。
 
-不同服务器的账号与登录状态分别保存。地址或账号有问题时，请联系对应服务器的服主。
+## 3. 选择地图并游玩
 
-## 3. 管理本机缓存
+搜索或选择地图，点击开始游玩。第一次进入需要下载资源，保持网络连接并等待完成；之后会复用已校验的缓存。
 
-打开“本机存储”，选择服务器和地图，可查看或清理已缓存资源。清理后，下次游玩会重新下载所需资源；地图运行时需先退出游玩再清理。
+不同服务器各自管理玩家账号。地图列表为空时，先确认连接的是正确服务器，再请服主检查是否已经导入并开放地图。
 
-地图缓存只用于加快加载，游玩仍需连接服务器。服主部署服务请阅读[首次启动](/getting-started/first-start)，管理玩家请阅读[玩家管理后台](/guide/player-admin)。
+## 4. 查看或清理缓存
+
+在“**本机存储**”中选择服务器和地图，查看已缓存资源。需要清理时先退出该地图，清理后下次会重新下载。
+
+缓存用于加快加载，**不代表可以离线运行游戏**。HTTPS 服务器支持地图资源预下载；普通公网 HTTP 地址按需在线加载。
+
+长时间停在某个进度、校验失败或无法登录时，先关闭当前游戏窗口并重新进入一次；仍然失败请按[常见问题](/operations/troubleshooting)记录信息，交给服主排查。清理本机缓存不能修复服务器上的错误资源。

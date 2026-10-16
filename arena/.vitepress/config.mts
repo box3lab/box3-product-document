@@ -25,7 +25,7 @@ export default defineConfig({
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     logo: "/arena.svg",
-    nav: [{ text: "VOXA 用户手册", link: "https://docs.dao3.fun/voxa/" }],
+    nav: [{ text: "VOXA 用户手册", link: "https://docs.box3lab.com/voxa/" }],
     search: {
       provider: "local",
     },

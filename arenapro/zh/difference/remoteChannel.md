@@ -1,9 +1,9 @@
 # 数据跨端通讯
 
 :::warning
-服务端 API 文档：[ServerRemoteChannel](https://docs.dao3.fun/api/RemoteChannel/Server/)
+服务端 API 文档：[ServerRemoteChannel](https://docs.box3lab.com/api/RemoteChannel/Server/)
 
-客户端 API 文档：[ClientRemoteChannel](https://docs.dao3.fun/api/RemoteChannel/Client/)
+客户端 API 文档：[ClientRemoteChannel](https://docs.box3lab.com/api/RemoteChannel/Client/)
 :::
 
 ## 改进说明

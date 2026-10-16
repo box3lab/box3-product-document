@@ -1,22 +1,38 @@
-# 桌面版安装准备
+# 安装前准备
 
-适用于 Windows、macOS 和带桌面环境的 Linux。无桌面或需要长期公网运行时，请使用[Linux 服务器安装](/getting-started/linux-installation)。
+如果你只是连接别人的服务器游玩，直接安装[玩家启动器](/guide/player-launcher)，不需要 Docker。只有创作或自己开服，才需要下面的环境。
 
-## 安装前按步骤检查
+## 选择安装方式
 
-1. **确认电脑资源。** 建议至少 4 核 CPU、8 GB 内存和 30 GB 可用磁盘；保存较多地图或同时运行多个地图时，建议 50 GB 以上。
-2. **安装 Docker。** Windows 和 macOS 安装 Docker Desktop；Linux 安装 Docker Engine 与 Compose v2。
-3. **确认 Docker 已启动。** 在终端运行：
+| 你要做什么 | 使用方式 |
+| --- | --- |
+| 在自己的电脑上制作地图、试运行 | [桌面部署管理器](/getting-started/desktop-installation) |
+| 在云服务器上长期运行 | [Linux 服务器安装](/getting-started/linux-installation) |
+| 连接服主提供的服务器玩游戏 | [玩家启动器](/guide/player-launcher) |
 
-   ```bash
-   docker info
-   docker compose version
-   ```
+部署管理器和玩家启动器是两个应用，下载时请认准名称。
 
-   两条命令都应正常输出。Compose v2 使用 `docker compose` 命令。
+## 电脑或服务器配置
 
-4. **确认网络可下载镜像。** 首次启动需要访问 `https://assets.box3.fun`。启动器会按需下载当前版本和架构对应的镜像，并在导入前校验 SHA-256。下载中断后可重试；验证通过的缓存会保留供后续复用。
-5. **决定数据和访问方式。** PostgreSQL 可使用内置或外部服务；Redis 可使用内置、外部或关闭。首次使用建议选择本机访问，确认服务正常后再开放局域网或公网。
-6. **下载匹配系统和 CPU 架构的安装包。** 前往[桌面启动器安装](/getting-started/desktop-installation)选择下载链接。
+| 使用场景 | 建议 CPU | 建议内存 | 可用磁盘 |
+| --- | --- | --- | --- |
+| 小规模游玩服务器 | 4 核 | 8 GB | 30 GB 起 |
+| 同时运行创作、模型编辑和游玩 | 8 核以上 | 16 GB 以上 | 50 GB 起 |
 
-PostgreSQL 保存玩家、权限、审计记录和地图脚本等永久数据。不要通过删除数据库卷来解决连接问题；先检查配置并备份数据。
+这些是起步建议，复杂地图和较多在线玩家需要更多资源。镜像、地图、备份会持续占用磁盘。
+
+## 安装 Docker
+
+- **Windows、macOS**：安装 [Docker Desktop](https://www.docker.com/products/docker-desktop/)，并等待它显示正在运行。Windows 需要启用虚拟化和 WSL 2。
+- **Linux 桌面**：准备 Docker Engine 和 Compose v2。
+- **Linux 服务器**：一键安装器会检查并准备 Docker，按[服务器安装指南](/getting-started/linux-installation)操作即可。
+
+普通安装不需要下载源码，也不用安装 Node.js 或 Rust。
+
+## 网络和数据
+
+首次安装需要联网下载组件。开始前留出足够空间，避免关闭 Docker 或让电脑休眠。
+
+首次使用建议选内置 PostgreSQL，Redis 可以关闭。数据库保存玩家账号和部分游戏数据；以后更换设备或升级前，记得[单独备份数据库](/operations/backup-and-update)。
+
+下一步：[桌面安装](/getting-started/desktop-installation) · [服务器安装](/getting-started/linux-installation)。

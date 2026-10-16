@@ -1,7 +1,7 @@
 # 方块
 
 :::warning
-该 API 文档：[GameVoxels](https://docs.dao3.fun/api/GameVoxels/operate.html)
+该 API 文档：[GameVoxels](https://docs.box3lab.com/api/GameVoxels/operate.html)
 :::
 
 ## 改进说明

@@ -1,7 +1,7 @@
 # findChildByName API 文档
 
 :::warning
-该 API 文档：[findChildByName](https://docs.dao3.fun/api/ClientUI/UiNode.html#findChildByName)
+该 API 文档：[findChildByName](https://docs.box3lab.com/api/ClientUI/UiNode.html#findChildByName)
 :::
 
 :::tip

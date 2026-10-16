@@ -2,7 +2,7 @@
 
 该文档描述了 `GameDataStorage` API 的数据空间功能，详细介绍了其优化背景和使用示例。
 
-API 文档：[GameDataStorage](https://docs.dao3.fun/api/GameDataStorage/getSpace.html)
+API 文档：[GameDataStorage](https://docs.box3lab.com/api/GameDataStorage/getSpace.html)
 
 ## 优化背景
 

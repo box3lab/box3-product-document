@@ -9,7 +9,7 @@ const apiOutDir = path.resolve(__dirname, "../dist/api");
 const docsDir = path.resolve(__dirname, "../api");
 const docsUrl = process.argv.includes("--dev")
   ? "http://localhost:4173"
-  : "https://docs.dao3.fun";
+  : "https://docs.box3lab.com";
 
 const sliceExt = (file: string) => {
   return file.split(".").slice(0, -1).join(".");

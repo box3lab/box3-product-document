@@ -32,10 +32,10 @@ export default defineConfig({
         text: "本地部署神岛版AI",
         link: "/localAI",
       },
-      { text: "Arena用户手册", link: "https://docs.dao3.fun/arena/" },
+      { text: "Arena用户手册", link: "https://docs.box3lab.com/arena/" },
       {
         text: "ArenaPro Creator用户手册",
-        link: "https://docs.dao3.fun/arenapro/",
+        link: "https://docs.box3lab.com/arenapro/",
       },
     ],
     logo: "/arena.svg",
